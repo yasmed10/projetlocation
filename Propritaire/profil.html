@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Titre statique -->
+    <title>Profil de Atelier Bois & Design | MeubleCuisine</title>
+    <!-- Lien vers votre fichier CSS externe principal -->
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Styles SPÉCIFIQUES pour la page de profil, utilisant les variables de style.css */
+
+        .profile-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start; /* Align items at the top */
+            gap: 30px;
+            margin-bottom: 40px;
+            padding: 25px;
+            background-color: white; /* Fond blanc pour cette section */
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .profile-avatar {
+            flex-shrink: 0; /* Prevent avatar from shrinking */
+        }
+
+        .profile-avatar img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%; /* Avatar rond */
+            object-fit: cover;
+            border: 3px solid var(--secondary-color); /* Bordure avec couleur secondaire */
+        }
+
+        .profile-info {
+            flex-grow: 1; /* Take remaining space */
+        }
+
+        .profile-info h1 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .profile-meta {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .profile-meta span {
+            display: block; /* Each meta on a new line */
+            margin-bottom: 5px;
+        }
+        .profile-meta strong {
+            color: var(--text-color);
+        }
+
+        .seller-rating-section {
+            margin-bottom: 15px;
+        }
+        .seller-rating-section .rating {
+            font-size: 1.3rem; /* Rating plus grand */
+            color: var(--warning);
+            font-weight: bold;
+        }
+        .seller-rating-section .rating-details {
+            font-size: 0.9rem;
+            color: #777;
+            margin-left: 10px;
+        }
+        .profile-description {
+            margin-top:10px;
+            line-height: 1.6;
+        }
+
+        .profile-section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+         .profile-section h2, .profile-section h3 {
+             color: var(--primary-color);
+             margin-bottom: 20px;
+             padding-bottom: 10px;
+             border-bottom: 1px solid #eee;
+         }
+
+        .sympathy-reviews .review-item,
+        .product-item-reviews .review-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .sympathy-reviews .review-item:last-child,
+        .product-item-reviews .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        .reviewer-name {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        .review-date {
+            color: #777;
+        }
+        .review-comment {
+            color: #444;
+            line-height: 1.5;
+        }
+        .review-rating.rating { /* Pour les avis produits */
+             font-size: 1rem;
+             color: var(--warning);
+             margin-bottom: 5px;
+        }
+
+        /* Style pour les produits publiés */
+        .published-products-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Une colonne par défaut */
+            gap: 30px;
+        }
+
+        .product-profile-item {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            background-color: var(--light-bg); /* Fond légèrement différent pour les items */
+        }
+
+        .product-item-image {
+            flex-basis: 150px; /* Largeur fixe pour l'image */
+            flex-shrink: 0;
+        }
+        .product-item-image img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1; /* Image carrée */
+            object-fit: cover;
+            border-radius: var(--border-radius);
+        }
+
+        .product-item-details {
+            flex: 1; /* Prend le reste de la largeur */
+            display: flex;
+            flex-direction: column;
+        }
+         .product-item-details h4 {
+             margin-bottom: 10px;
+             font-size: 1.3rem;
+         }
+          .product-item-details h4 a {
+              color: var(--primary-color);
+              text-decoration: none;
+              transition: color 0.3s;
+          }
+         .product-item-details h4 a:hover {
+              color: var(--accent-color);
+         }
+
+        .product-item-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+         .product-item-meta .price {
+              font-weight: bold;
+              color: var(--primary-color);
+              font-size: 1.1rem;
+         }
+         .product-item-meta .rating {
+              color: var(--warning);
+         }
+
+        .product-item-reviews {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #ccc; /* Séparateur pour les avis du produit */
+        }
+         .product-item-reviews h5 {
+             margin-bottom: 10px;
+             font-size: 1rem;
+             color: var(--secondary-color);
+         }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column; /* Stack avatar and info */
+                align-items: center; /* Center items */
+                text-align: center;
+            }
+            .profile-meta span {
+                 display: inline-block; /* Meta side-by-side if space allows */
+                 margin-right: 10px;
+                 margin-bottom: 5px;
+            }
+            .profile-info h1 {
+                font-size: 1.8rem;
+            }
+             .product-profile-item {
+                 flex-direction: column; /* Stack image and details */
+                 align-items: center;
+             }
+            .product-item-image {
+                 flex-basis: auto; /* Reset basis */
+                 width: 200px; /* Fixed width for image on mobile */
+             }
+            .product-item-details {
+                 align-items: center; /* Center details text */
+                 text-align: center;
+            }
+            .product-item-meta {
+                 justify-content: center;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header (Utilise le style de style.css) -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">MeubleCuisine</a>
+                <div class="nav-links">
+                    <a href="index.html">Accueil</a>
+                    <a href="collections.html">Collections</a>
+                    <a href="a-propos.html">À propos</a>
+                    <a href="contact.html">Contact</a>
+                    <!-- Peut-être ajouter un lien vers "Mon Profil" si l'utilisateur est connecté -->
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" id="login-btn">Connexion</button>
+                    <button class="btn btn-primary" id="register-btn">Créer un compte</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
+
+            <!-- Section Header du Profil -->
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <!-- Image statique -->
+                    <img src="/api/placeholder/150/150?text=Vendeur+1" alt="Avatar de Atelier Bois & Design">
+                </div>
+                <div class="profile-info">
+                     <!-- Nom statique -->
+                    <h1>Atelier Bois & Design</h1>
+                    <div class="profile-meta">
+                         <!-- Date et localisation statiques -->
+                        <span>Membre depuis: <strong>15/05/2023</strong></span>
+                        <span>Localisation: <strong>Casablanca, Maroc</strong></span>
+                    </div>
+                    <div class="seller-rating-section">
+                         <!-- Note et étoiles statiques -->
+                        <span class="rating">★★★★★</span> <!-- 4.8 arrondi -->
+                        <span class="rating-details">4.8/5 (Basé sur 127 avis)</span>
+                    </div>
+                    <!-- Description statique -->
+                     <p class="profile-description">Artisan passionné spécialisé dans la création de meubles de cuisine uniques et durables en bois massif.</p>
+                    <!-- <button class="btn btn-primary mt-20">Contacter le vendeur</button> -->
+                </div>
+            </div>
+
+            <!-- Section Avis sur la Sympathie -->
+            <div class="profile-section sympathy-reviews">
+                <h2>Avis sur la sympathie et le service</h2>
+                <!-- Avis statiques -->
+                <div class="review-item">
+                    <div class="review-header">
+                        <span class="reviewer-name">Fatima Z.</span>
+                        <span class="review-date">10 Jul 2024</span>
+                    </div>
+                    <p class="review-comment">Vendeur très à l'écoute et disponible pour répondre à toutes mes questions. Service impeccable !</p>
+                </div>
+                <div class="review-item">
+                    <div class="review-header">
+                        <span class="reviewer-name">Youssef K.</span>
+                        <span class="review-date">22 Jun 2024</span>
+                    </div>
+                    <p class="review-comment">Contact très agréable, livraison rapide et soignée. Je recommande vivement.</p>
+                </div>
+                <div class="review-item">
+                    <div class="review-header">
+                        <span class="reviewer-name">Amina B.</span>
+                        <span class="review-date">30 May 2024</span>
+                    </div>
+                    <p class="review-comment">Professionnel et sympathique, a su me conseiller parfaitement.</p>
+                </div>
+                 <!-- Ajouter un lien pour voir tous les avis si nécessaire -->
+            </div>
+
+
+            <!-- Section Produits Publiés -->
+            <div class="profile-section published-products">
+                 <!-- Nom vendeur statique -->
+                <h2>Produits publiés par Atelier Bois & Design</h2>
+
+                <div class="published-products-grid">
+                    <!-- Produit 1 statique -->
+                    <article class="product-profile-item">
+                        <div class="product-item-image">
+                             <!-- Lien placeholder -->
+                            <a href="produit-101.html">
+                                <img src="/api/placeholder/280/200?text=Ilot+Chene" alt="Îlot Central Chêne Massif">
+                            </a>
+                        </div>
+                        <div class="product-item-details">
+                             <!-- Lien placeholder -->
+                            <h4><a href="produit-101.html">Îlot Central Chêne Massif</a></h4>
+                            <div class="product-item-meta">
+                                <span class="price">14500 DH</span>
+                                <span class="rating" title="4.9/5 étoiles">★★★★★</span>
+                                <span class="review-count">(2 avis)</span>
+                            </div>
+                            <div class="product-item-reviews">
+                                <h5>Avis récents sur ce produit :</h5>
+                                <div class="review-item">
+                                    <div class="review-header">
+                                        <span class="reviewer-name">Ahmed T.</span>
+                                        <span class="review-date">05 Jul 2024</span>
+                                    </div>
+                                    <div class="review-rating rating">★★★★★</div>
+                                    <p class="review-comment">Qualité exceptionnelle, finition parfaite. Très solide.</p>
+                                </div>
+                                <div class="review-item">
+                                    <div class="review-header">
+                                        <span class="reviewer-name">Leila S.</span>
+                                        <span class="review-date">15 Jun 2024</span>
+                                    </div>
+                                    <div class="review-rating rating">★★★★★</div>
+                                    <p class="review-comment">Magnifique îlot, exactement ce que je cherchais. Vendeur au top.</p>
+                                </div>
+                                <!-- Pas de bouton "Voir tous" car seulement 2 avis ici -->
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Produit 2 statique -->
+                    <article class="product-profile-item">
+                        <div class="product-item-image">
+                             <!-- Lien placeholder -->
+                            <a href="produit-102.html">
+                                <img src="/api/placeholder/280/200?text=Etagere+Noyer" alt="Étagère Murale Noyer">
+                            </a>
+                        </div>
+                        <div class="product-item-details">
+                            <!-- Lien placeholder -->
+                            <h4><a href="produit-102.html">Étagère Murale Noyer</a></h4>
+                            <div class="product-item-meta">
+                                <span class="price">2800 DH</span>
+                                <span class="rating" title="4.7/5 étoiles">★★★★☆</span> <!-- 4.7 -->
+                                <span class="review-count">(3 avis)</span>
+                            </div>
+                             <div class="product-item-reviews">
+                                <h5>Avis récents sur ce produit :</h5>
+                                <div class="review-item">
+                                    <div class="review-header">
+                                        <span class="reviewer-name">Samir R.</span>
+                                        <span class="review-date">12 Jul 2024</span>
+                                    </div>
+                                    <div class="review-rating rating">★★★★☆</div>
+                                    <p class="review-comment">Très belle étagère, facile à monter. Un peu cher peut-être.</p>
+                                </div>
+                                <div class="review-item">
+                                    <div class="review-header">
+                                        <span class="reviewer-name">Nadia F.</span>
+                                        <span class="review-date">28 Jun 2024</span>
+                                    </div>
+                                    <div class="review-rating rating">★★★★★</div>
+                                    <p class="review-comment">Rendu superbe dans ma cuisine, bois de qualité.</p>
+                                </div>
+                                <!-- Affichage du bouton car 3 avis > 2 -->
+                                <div style="margin-top: 10px; text-align: right;">
+                                    <a href="produit-102.html#tab-reviews" class="btn btn-sm btn-outline">Voir tous les avis</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Produit 3 statique -->
+                     <article class="product-profile-item">
+                        <div class="product-item-image">
+                            <a href="produit-103.html">
+                                <img src="/api/placeholder/280/200?text=Tabouret+Indus" alt="Tabouret de Bar Industriel">
+                            </a>
+                        </div>
+                        <div class="product-item-details">
+                            <h4><a href="produit-103.html">Tabouret de Bar Industriel</a></h4>
+                            <div class="product-item-meta">
+                                <span class="price">1100 DH</span>
+                                <span class="rating" title="4.6/5 étoiles">★★★★☆</span> <!-- 4.6 -->
+                                <span class="review-count">(1 avis)</span>
+                            </div>
+                             <div class="product-item-reviews">
+                                <h5>Avis récents sur ce produit :</h5>
+                                <div class="review-item">
+                                    <div class="review-header">
+                                        <span class="reviewer-name">Ismail B.</span>
+                                        <span class="review-date">01 Jul 2024</span>
+                                    </div>
+                                    <div class="review-rating rating">★★★★★</div>
+                                    <p class="review-comment">Design sympa et très robuste.</p>
+                                </div>
+                                <!-- Pas de bouton "Voir tous" -->
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+                 <!-- Ajouter une pagination si le nombre de produits est élevé -->
+                 <!-- <div class="pagination" style="text-align: center; margin-top: 30px;"> ... </div> -->
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer (Utilise le style de style.css) -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                 <div class="footer-column"><h3>MeubleCuisine</h3><p>Solutions sur mesure pour la cuisine de vos rêves...</p></div>
+                <div class="footer-column"><h3>Navigation</h3><ul class="footer-links"><li><a href="index.html">Accueil</a></li><li><a href="collections.html">Collections</a></li><li><a href="a-propos.html">À propos</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+                <div class="footer-column"><h3>Informations</h3><ul class="footer-links"><li><a href="#">FAQ</a></li><li><a href="#">Livraison</a></li><li><a href="#">Confidentialité</a></li><li><a href="#">CGV</a></li><li><a href="#">Garantie</a></li></ul></div>
+                <div class="footer-column"><h3>Contactez-nous</h3><p>Showroom: 123 Boulevard Anfa,<br>Casablanca, Maroc</p><p>Email: contact@meublecuisine.ma<br>Téléphone: +212 5 00 00 00 00</p></div>
+            </div>
+            <div class="footer-bottom">© <span id="current-year"></span> MeubleCuisine. Tous droits réservés.</div>
+        </div>
+    </footer>
+
+    <!-- Modals (Utilisent les styles de style.css) -->
+    <div class="modal-overlay" id="login-modal">
+        <div class="modal"> <div class="modal-header"><h3>Connexion</h3><button class="modal-close">×</button></div> <div class="modal-body"><form id="login-form"><div class="form-group"><label>Email</label><input type="email" class="form-control" required></div><div class="form-group"><label>Mot de passe</label><input type="password" class="form-control" required></div><div class="form-check"><input type="checkbox"><label>Se souvenir</label></div></form></div> <div class="modal-footer"><button type="button" class="btn btn-outline modal-close">Annuler</button><button type="submit" form="login-form" class="btn btn-primary">Se connecter</button></div> </div>
+    </div>
+    <div class="modal-overlay" id="register-modal">
+        <div class="modal"> <div class="modal-header"><h3>Créer un compte</h3><button class="modal-close">×</button></div> <div class="modal-body"><form id="register-form"><div class="form-group"><label>Nom</label><input type="text" class="form-control" required></div><div class="form-group"><label>Email</label><input type="email" class="form-control" required></div><div class="form-group"><label>Mot de passe</label><input type="password" class="form-control" required></div></form></div> <div class="modal-footer"><button type="button" class="btn btn-outline modal-close">Annuler</button><button type="submit" form="register-form" class="btn btn-primary">S'inscrire</button></div> </div>
+    </div>
+
+    <!-- Script pour les interactions (modales, etc.) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginBtn = document.getElementById('login-btn');
+            const registerBtn = document.getElementById('register-btn');
+            const loginModal = document.getElementById('login-modal');
+            const registerModal = document.getElementById('register-modal');
+            const closeButtons = document.querySelectorAll('.modal-close');
+            const modalOverlays = document.querySelectorAll('.modal-overlay');
+            function openModal(modal) { if (modal) modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+            function closeModal(modal) { if (modal) modal.classList.remove('active'); if (!document.querySelector('.modal-overlay.active')) { document.body.style.overflow = ''; } }
+            loginBtn?.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
+            registerBtn?.addEventListener('click', (e) => { e.preventDefault(); openModal(registerModal); });
+            closeButtons.forEach(button => { button.addEventListener('click', () => { closeModal(button.closest('.modal-overlay')); }); });
+            modalOverlays.forEach(overlay => { overlay.addEventListener('click', (event) => { if (event.target === overlay) { closeModal(overlay); } }); });
+            document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { const activeModal = document.querySelector('.modal-overlay.active'); if (activeModal) { closeModal(activeModal); } } });
+            const currentYearSpan = document.getElementById('current-year');
+            if(currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
+        });
+    </script>
+</body>
+</html>

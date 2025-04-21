@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramètres | Admin MeubleCuisine</title>
+     <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        /* Styles ADMIN (copiés) */
+        body { background-color: #f8f9fa; }
+        .admin-header { background-color: var(--dark-bg); color: white; }
+        .admin-header nav { padding: 10px 0; }
+        .admin-header .logo { color: white; }
+        .admin-header .nav-links a { color: #eee; padding: 10px 15px; border-bottom: none; }
+        .admin-header .nav-links a::after { content: none; }
+        .admin-header .nav-links a:hover, .admin-header .nav-links a.active { color: white; background-color: rgba(255,255,255,0.1); border-radius: var(--border-radius); }
+        .admin-header .notification-link { position: relative; }
+        .notification-badge { position: absolute; top: 5px; right: 5px; background-color: var(--danger); color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .admin-subnav { background-color: white; padding: 0; border-bottom: 1px solid #eee; margin-bottom: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .admin-subnav .container { display: flex; gap: 25px; align-items: center; }
+        .admin-subnav a { text-decoration: none; color: var(--text-color); font-weight: 500; padding: 15px 10px; transition: color 0.3s; position: relative; border-bottom: 3px solid transparent; }
+        .admin-subnav a:hover, .admin-subnav a.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+        .admin-content-wrapper { max-width: 900px; /* Limite largeur pour paramètres */ margin: 0 auto; padding: 0 20px; } /* Centré */
+        .admin-section { background-color: white; padding: 25px 30px; border-radius: var(--border-radius); box-shadow: var(--box-shadow); margin-bottom: 30px; }
+        .admin-section h1, .admin-section h2 { color: var(--primary-color); margin-top: 0; margin-bottom: 25px; font-size: 1.5rem; border-bottom: 1px solid #eee; padding-bottom: 10px;}
+        .admin-section .form-group { margin-bottom: 25px; }
+        .admin-section label { margin-bottom: 8px; font-weight: 500; display: block; }
+        .admin-section small { font-size: 0.85rem; color: #777; display: block; margin-top: 5px; }
+        .admin-section .form-control[type="number"] { max-width: 150px; } /* Limite largeur input numérique */
+        .admin-section .form-control[readonly] { background-color: #e9ecef; cursor: not-allowed; }
+
+        .category-management { margin-top: 20px; }
+        .category-list { list-style: none; padding: 0; }
+        .category-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
+        .category-item:last-child { border-bottom: none; }
+        .category-item span { flex-grow: 1; margin-right: 15px; }
+        .category-item button { padding: 3px 8px; font-size: 0.8rem; }
+        .add-category-form { display: flex; gap: 10px; margin-top: 15px; }
+        .add-category-form input { flex-grow: 1; }
+    </style>
+</head>
+<body>
+     <!-- Header Admin -->
+    <header class="admin-header">
+        <div class="container">
+            <nav>
+                <a href="admin_dashboard.html" class="logo">MeubleCuisine - Admin</a>
+                <div class="nav-links">
+                    <a href="admin_dashboard.html">Dashboard</a>
+                    <a href="admin_users.html">Utilisateurs</a>
+                    <a href="admin_stats.html">Statistiques</a>
+                    <a href="#notifications" class="notification-link" title="Notifications">  <span class="notification-badge">3</span> </a>
+                    <a href="index.html" target="_blank" title="Voir le site public">↗ Site Public</a>
+                    <a href="logout.php">Déconnexion</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sous-Navigation Admin -->
+     <div class="admin-subnav">
+        <div class="container">
+            <a href="admin_dashboard.html">Vue d'ensemble</a>
+            <a href="admin_users.html">Gestion Utilisateurs</a>
+            <a href="admin_stats.html">Rapports & Stats</a>
+            <a href="admin_annonces.html">Gestion Annonces</a>
+            <a href="admin_parametres.html" class="active">Paramètres</a>
+        </div>
+    </div>
+
+    <main>
+        <div class="admin-content-wrapper">
+            <h1>Paramètres du Site</h1>
+
+            <form action="save_settings.php" method="POST">
+
+                <section class="admin-section">
+                    <h2>Paramètres Généraux</h2>
+                    <div class="form-group">
+                        <label for="site-name">Nom du Site</label>
+                        <input type="text" id="site-name" name="settings[site_name]" class="form-control" value="MeubleCuisine">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-email">Email de Contact Principal</label>
+                        <input type="email" id="contact-email" name="settings[contact_email]" class="form-control" value="contact@meublecuisine.ma">
+                    </div>
+                     <div class="form-group">
+                         <label for="contact-phone">Téléphone Principal</label>
+                         <input type="tel" id="contact-phone" name="settings[contact_phone]" class="form-control" value="+212 5 00 00 00 00">
+                    </div>
+                    <div class="form-group">
+                        <label for="main-address">Adresse Principale (Showroom)</label>
+                        <textarea id="main-address" name="settings[main_address]" class="form-control" rows="3">Showroom: 123 Boulevard Anfa,\nCasablanca, Maroc</textarea>
+                    </div>
+                     <button type="submit" name="save_general" class="btn btn-primary">Sauvegarder Généraux</button>
+                </section>
+
+                <section class="admin-section">
+                    <h2>Paramètres de Vente</h2>
+                     <div class="form-group">
+                        <label for="commission-rate">Taux de Commission (%)</label>
+                        <input type="number" id="commission-rate" name="settings[commission_rate]" class="form-control" value="15" step="0.1" min="0" max="100">
+                        <small>Pourcentage prélevé sur chaque vente réalisée par les propriétaires.</small>
+                    </div>
+                     <div class="form-group">
+                         <label for="max-reservation-days">Durée Maximale de Réservation (jours)</label>
+                         <input type="number" id="max-reservation-days" name="settings[max_reservation_days]" class="form-control" value="7" step="1" min="1">
+                         <small>Nombre maximum de jours pendant lesquels un article peut être réservé.</small>
+                     </div>
+                     <div class="form-group">
+                         <label for="pending-listing-approval">Approbation manuelle des annonces</label>
+                         <select id="pending-listing-approval" name="settings[listing_approval]" class="form-control">
+                             <option value="1" selected>Oui (Requis)</option>
+                             <option value="0">Non (Publication immédiate)</option>
+                         </select>
+                         <small>Si 'Oui', les nouvelles annonces devront être approuvées par un admin avant d'être visibles.</small>
+                     </div>
+                      <button type="submit" name="save_sales" class="btn btn-primary">Sauvegarder Ventes</button>
+                </section>
+
+                <section class="admin-section">
+                    <h2>Gestion des Catégories</h2>
+                    <div class="category-management">
+                        <label>Catégories Actuelles :</label>
+                        <ul class="category-list" id="category-list-ul">
+                            <!-- Exemples statiques -->
+                            <li class="category-item"><span>Meubles bas</span> <button type="button" class="btn btn-danger btn-sm">Supprimer</button></li>
+                            <li class="category-item"><span>Meubles hauts</span> <button type="button" class="btn btn-danger btn-sm">Supprimer</button></li>
+                            <li class="category-item"><span>Îlots centraux</span> <button type="button" class="btn btn-danger btn-sm">Supprimer</button></li>
+                            <li class="category-item"><span>Colonnes de rangement</span> <button type="button" class="btn btn-danger btn-sm">Supprimer</button></li>
+                            <li class="category-item"><span>Tables & Chaises</span> <button type="button" class="btn btn-danger btn-sm">Supprimer</button></li>
+                            <li class="category-item"><span>Accessoires</span> <button type="button" class="btn btn-danger btn-sm">Supprimer</button></li>
+                            <li class="category-item"><span>Autre</span> <button type="button" class="btn btn-danger btn-sm">Supprimer</button></li>
+                        </ul>
+                         <div class="add-category-form">
+                            <input type="text" id="new-category-name" class="form-control" placeholder="Nom de la nouvelle catégorie">
+                            <button type="button" id="add-category-btn" class="btn btn-success">Ajouter</button>
+                        </div>
+                    </div>
+                     <!-- Note: La sauvegarde des catégories nécessiterait une logique JS/AJAX ou une soumission séparée -->
+                </section>
+
+                 <!-- Un bouton global pourrait être utilisé si le formulaire englobe tout -->
+                 <!--
+                 <div style="text-align: right; margin-top: 20px;">
+                     <button type="submit" class="btn btn-primary btn-lg">Sauvegarder Tous les Paramètres</button>
+                 </div>
+                 -->
+
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+             <div class="footer-bottom" style="color: #aaa;"> © <span id="current-year"></span> MeubleCuisine Admin Panel. </div>
+        </div>
+    </footer>
+
+    <!-- Script standard -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentYearSpan = document.getElementById('current-year');
+            if(currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
+
+            // --- Gestion Ajout/Suppression Catégories (Simulation Client-Side) ---
+            const addCategoryBtn = document.getElementById('add-category-btn');
+            const newCategoryInput = document.getElementById('new-category-name');
+            const categoryListUl = document.getElementById('category-list-ul');
+
+            function addCategoryItem(categoryName) {
+                if (!categoryName.trim()) return; // Ignore si vide
+
+                const li = document.createElement('li');
+                li.classList.add('category-item');
+
+                const span = document.createElement('span');
+                span.textContent = categoryName;
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.type = 'button';
+                deleteBtn.classList.add('btn', 'btn-danger', 'btn-sm');
+                deleteBtn.textContent = 'Supprimer';
+                deleteBtn.addEventListener('click', () => {
+                     if (confirm(`Supprimer la catégorie "${categoryName}" ?`)) {
+                        li.remove();
+                        // Ici, ajouter un appel AJAX pour supprimer côté serveur
+                        console.log(`Suppression demandée pour : ${categoryName}`);
+                     }
+                });
+
+                li.appendChild(span);
+                li.appendChild(deleteBtn);
+                categoryListUl.appendChild(li);
+
+                newCategoryInput.value = ''; // Vide l'input
+                 // Ici, ajouter un appel AJAX pour ajouter côté serveur
+                 console.log(`Ajout demandé pour : ${categoryName}`);
+            }
+
+            addCategoryBtn?.addEventListener('click', () => {
+                addCategoryItem(newCategoryInput.value);
+            });
+
+            newCategoryInput?.addEventListener('keypress', (e) => {
+                 if (e.key === 'Enter') {
+                     e.preventDefault(); // Empêche soumission formulaire si enter
+                     addCategoryItem(newCategoryInput.value);
+                 }
+            });
+
+            // Ajouter les écouteurs pour les boutons supprimer existants
+            categoryListUl?.querySelectorAll('.category-item button').forEach(button => {
+                 button.addEventListener('click', () => {
+                    const li = button.closest('.category-item');
+                    const categoryName = li.querySelector('span').textContent;
+                     if (confirm(`Supprimer la catégorie "${categoryName}" ?`)) {
+                        li.remove();
+                         console.log(`Suppression demandée pour : ${categoryName}`);
+                         // Appel AJAX suppression serveur
+                     }
+                 });
+            });
+
+        });
+    </script>
+</body>
+</html>

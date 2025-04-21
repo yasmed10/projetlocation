@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation - Pureté Blanche | MeubleCuisine</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Styles SPÉCIFIQUES pour la page de réservation, utilisant les variables de style.css */
+        /* (Les styles internes de la réponse précédente sont conservés ici) */
+        .reservation-container { max-width: 800px; margin: 40px auto; padding: 30px; background-color: white; border-radius: var(--border-radius); box-shadow: var(--box-shadow); }
+        .page-title-reserv { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 25px; text-align: center; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .product-summary-reserv { display: flex; gap: 20px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee; align-items: flex-start; }
+        .summary-image-reserv img { width: 100px; height: 80px; object-fit: cover; border-radius: var(--border-radius); border: 1px solid #ddd; }
+        .summary-details-reserv { flex-grow: 1; }
+        .summary-details-reserv h3 { margin: 0 0 5px 0; font-size: 1.2rem; color: var(--text-color); }
+        .summary-details-reserv .owner-info { font-size: 0.9rem; color: #666; margin-bottom: 10px; }
+        .summary-details-reserv .owner-info a { color: var(--primary-color); text-decoration: none; }
+        .summary-details-reserv .owner-info a:hover { text-decoration: underline; }
+        .summary-details-reserv .price-info { font-size: 1.1rem; font-weight: bold; color: var(--primary-color); }
+        .summary-details-reserv .quantity-info { font-size: 0.9rem; color: #555; margin-top: 5px; }
+        .reservation-form label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-color); }
+        .form-section-reserv { margin-bottom: 25px; }
+        .form-section-reserv h4 { font-size: 1.1rem; color: var(--secondary-color); margin-bottom: 15px; }
+        .date-inputs { display: flex; gap: 15px; flex-wrap: wrap; }
+        .date-inputs .form-group { flex: 1; min-width: 200px; }
+        .date-inputs input[type="date"].form-control { appearance: none; padding: 10px; background-color: #fff; position: relative; }
+        input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; transition: opacity 0.2s; }
+        input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+        .availability-info { font-size: 0.85rem; color: #666; background-color: var(--light-bg); padding: 10px; border-radius: var(--border-radius); margin-top: 10px; border: 1px solid #eee; }
+        .availability-info strong { color: var(--accent-color); }
+        .error-message { color: var(--danger); font-size: 0.85rem; margin-top: 5px; display: none; }
+        .delivery-option { display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid #ddd; border-radius: var(--border-radius); margin-bottom: 10px; cursor: pointer; transition: border-color 0.3s, background-color 0.3s; }
+        .delivery-option:hover { border-color: var(--secondary-color); }
+        .delivery-option input[type="radio"] { flex-shrink: 0; }
+        .delivery-option label { margin-bottom: 0; font-weight: normal; flex-grow: 1; cursor: pointer; }
+        .delivery-option .option-details { font-size: 0.85rem; color: #666; margin-left: 25px; display: block; }
+        .delivery-option .option-cost { font-weight: 500; color: var(--primary-color); flex-shrink: 0; }
+        .delivery-option.selected { border-color: var(--primary-color); background-color: #f0f8ff; }
+        .price-summary-reserv { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; background-color: var(--light-bg); padding: 15px; border-radius: var(--border-radius); }
+        .price-summary-reserv h4 { margin-bottom: 15px; color: var(--secondary-color); }
+        .price-line { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; color: #444; }
+        .price-line.total { font-size: 1.2rem; font-weight: bold; color: var(--primary-color); margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ccc; }
+        .price-line .label { color: #555; }
+        .price-line .value { font-weight: 500; }
+        .submit-button-container { text-align: center; margin-top: 30px; }
+        .submit-button-container .btn-primary { padding: 12px 30px; font-size: 1.1rem; }
+        @media (max-width: 768px) {
+            .reservation-container { margin: 20px auto; padding: 20px; }
+            .product-summary-reserv { flex-direction: column; align-items: center; text-align: center; }
+            .summary-image-reserv img { width: 150px; height: 120px; margin-bottom: 15px; }
+            .date-inputs .form-group { min-width: 100%; }
+            .delivery-option { padding: 10px; }
+            .delivery-option .option-cost { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>...</header> <!-- Header identique -->
+
+    <main>
+        <div class="reservation-container">
+            <h1 class="page-title-reserv">Finaliser votre réservation</h1>
+
+            <!-- Récapitulatif du produit -->
+            <div class="product-summary-reserv">
+                <div class="summary-image-reserv">
+                    <img src="/api/placeholder/100/80?text=Purete+Blanche" alt="Pureté Blanche">
+                </div>
+                <div class="summary-details-reserv">
+                    <h3>Pureté Blanche</h3>
+                    <div class="owner-info"> Vendu par : <a href="profil.html?id=1">MeubleCuisine Design</a> </div>
+                    <!-- Prix unitaire stocké dans data-price -->
+                    <div class="price-info" id="product-price" data-price="7830">7 830 DH</div>
+                     <!-- Quantité sera mise à jour par JS -->
+                    <div class="quantity-info">Quantité : <strong id="reserved-quantity">1</strong></div>
+                </div>
+            </div>
+
+            <form class="reservation-form" id="reservation-form" action="confirmation-reservation.html" method="POST">
+                <!-- Section Dates -->
+                <div class="form-section-reserv">
+                    <h4>Choisissez la période de réservation</h4>
+                    <div class="availability-info"> Cet article peut être réservé pour une durée maximale de <strong>7 jours</strong>. </div>
+                    <div class="date-inputs">
+                        <div class="form-group"> <label for="start-date">Date de début</label> <input type="date" id="start-date" name="start_date" class="form-control" required> <span class="error-message" id="start-date-error"></span> </div>
+                        <div class="form-group"> <label for="end-date">Date de fin</label> <input type="date" id="end-date" name="end_date" class="form-control" required> <span class="error-message" id="end-date-error"></span> </div>
+                    </div>
+                    <div class="error-message" id="duration-error"></div>
+                </div>
+
+                <!-- Section Livraison -->
+                <div class="form-section-reserv">
+                    <h4>Choisissez votre option de livraison</h4>
+                    <div class="delivery-options">
+                        <div class="delivery-option" id="option-pickup"> <input type="radio" id="pickup" name="delivery_option" value="pickup" data-cost="0" required checked> <label for="pickup"> Retrait sur place <span class="option-details">Venez chercher l'article directement chez le vendeur (Casablanca). Gratuit.</span> </label> <span class="option-cost">0 DH</span> </div>
+                        <div class="delivery-option" id="option-delivery"> <input type="radio" id="delivery" name="delivery_option" value="delivery" data-cost="150" required> <label for="delivery"> Livraison à domicile <span class="option-details">Livraison standard à Casablanca. Délai 2-3 jours ouvrables.</span> </label> <span class="option-cost" id="delivery-cost-display">150 DH</span> </div>
+                    </div>
+                </div>
+
+                 <!-- Section Récap Prix -->
+                 <div class="price-summary-reserv">
+                    <h4>Récapitulatif du coût</h4>
+                    <div class="price-line">
+                         <!-- Quantité sera mise à jour par JS -->
+                        <span class="label">Prix de l'article (x<span id="summary-quantity">1</span>) :</span>
+                        <span class="value" id="summary-item-price">7 830 DH</span>
+                    </div>
+                    <div class="price-line"> <span class="label">Frais de réservation :</span> <span class="value" id="summary-reservation-fee">0 DH</span> </div>
+                    <div class="price-line"> <span class="label">Frais de livraison :</span> <span class="value" id="summary-delivery-cost">0 DH</span> </div>
+                    <div class="price-line total"> <span class="label">Total à payer :</span> <span class="value" id="summary-total-price">7 830 DH</span> </div>
+                 </div>
+
+                 <!-- Bouton Soumission -->
+                 <div class="submit-button-container"> <button type="submit" class="btn btn-primary">Confirmer la réservation</button> </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>...</footer> <!-- Footer identique -->
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="login-modal">...</div> <!-- Modal identique -->
+    <div class="modal-overlay" id="register-modal">...</div> <!-- Modal identique -->
+
+    <!-- Script pour les interactions (MODIFIÉ) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Code Modal & Footer Year ---
+            // (Coller le code correspondant ici)
+
+            // --- Reservation Page Specific JS (MODIFIÉ) ---
+            const urlParams = new URLSearchParams(window.location.search);
+            const quantityParam = urlParams.get('qte');
+            let reservedQuantity = parseInt(quantityParam, 10);
+            if (isNaN(reservedQuantity) || reservedQuantity < 1) {
+                reservedQuantity = 1;
+            }
+
+            const reservedQuantityElement = document.getElementById('reserved-quantity');
+            const summaryQuantityElement = document.getElementById('summary-quantity');
+            if (reservedQuantityElement) reservedQuantityElement.textContent = reservedQuantity;
+            if (summaryQuantityElement) summaryQuantityElement.textContent = reservedQuantity;
+
+            const startDateInput = document.getElementById('start-date');
+            const endDateInput = document.getElementById('end-date');
+            const deliveryOptions = document.querySelectorAll('input[name="delivery_option"]');
+            const deliveryOptionDivs = document.querySelectorAll('.delivery-option');
+            const summaryDeliveryCost = document.getElementById('summary-delivery-cost');
+            const summaryTotalPrice = document.getElementById('summary-total-price');
+            const summaryItemPriceElement = document.getElementById('summary-item-price');
+            const productPriceElement = document.getElementById('product-price');
+            const reservationForm = document.getElementById('reservation-form');
+            const startDateError = document.getElementById('start-date-error');
+            const endDateError = document.getElementById('end-date-error');
+            const durationError = document.getElementById('duration-error');
+
+            const maxReservationDays = 7;
+            const unitPrice = parseFloat(productPriceElement?.dataset?.price || '0');
+            const itemPriceTotal = unitPrice * reservedQuantity; // Calcul basé sur qté
+            const reservationFee = 0;
+
+            function getTodayDateString() { /* ... code getTodayDateString ... */ }
+            if (startDateInput) startDateInput.min = getTodayDateString();
+            if (endDateInput) endDateInput.min = getTodayDateString();
+
+            function showError(element, message) { if (element) { element.textContent = message; element.style.display = 'block'; } }
+            function clearError(element) { if (element) { element.textContent = ''; element.style.display = 'none'; } }
+            function clearDateErrors(){ clearError(startDateError); clearError(endDateError); clearError(durationError); }
+
+            function validateDates() {
+                clearDateErrors();
+                let isValid = true;
+                const startDate = startDateInput.value ? new Date(startDateInput.value + 'T00:00:00') : null;
+                const endDate = endDateInput.value ? new Date(endDateInput.value + 'T00:00:00') : null;
+                const today = new Date(getTodayDateString() + 'T00:00:00');
+
+                if (!startDate) { showError(startDateError, "Date de début requise."); isValid = false; }
+                else if (startDate < today) { showError(startDateError, "Date de début passée."); isValid = false; }
+                if (!endDate) { showError(endDateError, "Date de fin requise."); isValid = false; }
+
+                if (startDate && endDate) {
+                   if (endDate < startDate) { showError(endDateError, "Date de fin avant date de début."); isValid = false; }
+                   else {
+                       const diffTime = Math.abs(endDate - startDate);
+                       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                       if (diffDays > maxReservationDays) { showError(durationError, `Durée max dépassée (${maxReservationDays}j). Sélectionné: ${diffDays}j.`); isValid = false; }
+                   }
+                }
+                return isValid;
+            }
+
+            function updateEndDateConstraints() {
+                if (startDateInput.value) {
+                    endDateInput.min = startDateInput.value;
+                    const startDate = new Date(startDateInput.value + 'T00:00:00');
+                    const maxEndDate = new Date(startDate);
+                    maxEndDate.setDate(startDate.getDate() + maxReservationDays -1);
+                    const year = maxEndDate.getFullYear();
+                    const month = String(maxEndDate.getMonth() + 1).padStart(2, '0');
+                    const day = String(maxEndDate.getDate()).padStart(2, '0');
+                    endDateInput.max = `${year}-${month}-${day}`;
+                    if (endDateInput.value && new Date(endDateInput.value + 'T00:00:00') > maxEndDate) {
+                       showError(durationError, `Durée maximale (${maxReservationDays} jours) dépassée.`);
+                    } else {
+                         clearError(durationError);
+                    }
+                } else {
+                    endDateInput.min = getTodayDateString();
+                    endDateInput.removeAttribute('max');
+                }
+                 validateDates();
+            }
+
+            startDateInput?.addEventListener('change', updateEndDateConstraints);
+            endDateInput?.addEventListener('change', validateDates);
+
+            function updatePriceSummary() {
+                let deliveryCost = 0;
+                const selectedOption = document.querySelector('input[name="delivery_option"]:checked');
+                if (selectedOption) {
+                    deliveryCost = parseFloat(selectedOption.dataset.cost || '0');
+                    deliveryOptionDivs.forEach(div => div.classList.remove('selected'));
+                    selectedOption.closest('.delivery-option')?.classList.add('selected');
+                }
+                const total = itemPriceTotal + reservationFee + deliveryCost; // Utilise itemPriceTotal
+
+                const formatMAD = (value) => value.toLocaleString('fr-MA', { style: 'currency', currency: 'MAD' });
+
+                summaryItemPriceElement.textContent = formatMAD(itemPriceTotal);
+                document.getElementById('summary-reservation-fee').textContent = formatMAD(reservationFee);
+                summaryDeliveryCost.textContent = formatMAD(deliveryCost);
+                summaryTotalPrice.textContent = formatMAD(total);
+                productPriceElement.textContent = formatMAD(unitPrice) + (reservedQuantity > 1 ? ' / unité' : '');
+            }
+
+            updatePriceSummary(); // Appel initial
+
+            deliveryOptions.forEach(option => { option.addEventListener('change', updatePriceSummary); });
+
+            reservationForm?.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const areDatesValid = validateDates();
+                const selectedDelivery = document.querySelector('input[name="delivery_option"]:checked');
+                if (!selectedDelivery) { alert("Veuillez choisir une option de livraison."); return; }
+
+                if (areDatesValid && selectedDelivery) {
+                    console.log('Formulaire prêt à être soumis :');
+                    console.log('Produit ID:', urlParams.get('produit_id'));
+                    console.log('Quantité:', reservedQuantity);
+                    console.log('Date début:', startDateInput.value);
+                    console.log('Date fin:', endDateInput.value);
+                    console.log('Option livraison:', selectedDelivery.value);
+                    console.log('Prix total:', summaryTotalPrice.textContent);
+                    alert("Réservation confirmée (simulation) !");
+                    // window.location.href = reservationForm.action;
+                } else {
+                    alert("Veuillez corriger les erreurs dans le formulaire.");
+                }
+            });
+
+        }); // Fin DOMContentLoaded
+    </script>
+</body>
+</html>

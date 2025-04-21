@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gérer les Annonces | MeubleCuisine</title>
+    <!-- Lien CSS externe -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- Optionnel: Ajouter Font Awesome pour les icônes -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
+    <style>
+        /* Styles SPÉCIFIQUES pour la page Gérer les Annonces */
+
+        /* Sous-navigation dashboard (identique à creer-produit) */
+        .dashboard-nav { background-color: white; padding: 0; border-bottom: 1px solid #eee; margin-bottom: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .dashboard-nav .container { display: flex; gap: 25px; align-items: center; }
+        .dashboard-nav a { text-decoration: none; color: var(--text-color); font-weight: 500; padding: 15px 5px; transition: color 0.3s; position: relative; }
+        .dashboard-nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -1px; left: 50%; background-color: var(--primary-color); transition: all 0.3s ease-in-out; }
+        .dashboard-nav a:hover::after, .dashboard-nav a.active::after { width: 100%; left: 0; }
+        .dashboard-nav a:hover, .dashboard-nav a.active { color: var(--primary-color); }
+
+        /* Conteneur principal de la gestion */
+        .manage-container {
+            background-color: white;
+            padding: 25px 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 40px;
+        }
+
+        /* Onglets (Produits / Designs - simplifié) */
+        .manage-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        .manage-tabs a {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #777;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -1px; /* Pour aligner avec la bordure */
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .manage-tabs a.active, .manage-tabs a:hover {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        /* Barre de filtres */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .filter-bar .form-group {
+            margin-bottom: 0; /* Annule marge de base */
+        }
+        .filter-bar select.form-control,
+        .filter-bar input[type="search"].form-control {
+            padding: 8px 12px; /* Padding plus petit pour filtres */
+            min-width: 150px; /* Largeur minimale */
+            height: 38px; /* Hauteur alignée avec bouton */
+        }
+        .filter-bar .search-group {
+            display: flex;
+            margin-left: auto; /* Pousse la recherche à droite */
+        }
+         .filter-bar .search-group input {
+             border-top-right-radius: 0;
+             border-bottom-right-radius: 0;
+         }
+        .filter-bar .search-group button {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            padding: 8px 15px;
+        }
+        /* Icône loupe (si Font Awesome est utilisé) */
+        .filter-bar .search-group button i { margin-right: 5px; }
+
+        /* Info pagination */
+        .pagination-info {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        /* Tableau des produits */
+        .manage-products-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .manage-products-table th,
+        .manage-products-table td {
+            padding: 12px 8px; /* Plus d'espace vertical */
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle; /* Alignement vertical */
+        }
+        .manage-products-table thead th {
+            color: #555;
+            font-weight: 600; /* Titres de colonnes plus gras */
+            background-color: var(--light-bg); /* Léger fond pour header */
+            white-space: nowrap; /* Empêche retour à la ligne */
+        }
+        /* Icônes de tri (exemple simple) */
+        .manage-products-table th i {
+            margin-left: 5px;
+            color: #aaa;
+            font-size: 0.8em;
+        }
+        .manage-products-table th.sortable:hover {
+             cursor: pointer;
+             color: var(--primary-color);
+        }
+
+        .manage-products-table tbody tr:hover {
+            background-color: #f9f9f9; /* Survol ligne */
+        }
+
+        .manage-products-table td.product-thumb img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            vertical-align: middle;
+            margin-right: 10px;
+            border: 1px solid #eee;
+        }
+        .manage-products-table td.product-title {
+        }
+         .manage-products-table td.product-title a {
+              color: var(--primary-color); /* Titre en couleur primaire */
+              text-decoration: none;
+              font-weight: 500;
+         }
+        .manage-products-table td.product-title a:hover {
+             text-decoration: underline;
+        }
+        .manage-products-table td.product-status span {
+            padding: 4px 10px;
+            border-radius: 15px; /* Pastilles arrondies */
+            font-size: 0.8rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+         .manage-products-table td.product-status span.live { background-color: #e7f7ef; color: #0d6b3f; border: 1px solid #a7e0c2;}
+         .manage-products-table td.product-status span.draft { background-color: #fef3e2; color: #a0670d; border: 1px solid #f7dcb0;}
+         .manage-products-table td.product-status span.rejected { background-color: #fdecea; color: #a61d24; border: 1px solid #f8b4b8;}
+
+        /* Actions (Bouton et Menu) */
+        .action-cell {
+            text-align: center; /* Centre le bouton */
+            width: 50px; /* Largeur fixe pour la cellule */
+        }
+        .action-button-wrapper {
+            position: relative; /* Contexte pour le menu */
+            display: inline-block;
+        }
+        .action-button {
+            background: none;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            color: #888;
+            font-size: 1.2rem; /* Taille icône crayon */
+        }
+        .action-button:hover {
+            color: var(--primary-color);
+        }
+         /* Icône Crayon (si Font Awesome ou autre) */
+         /* .action-button i { pointer-events: none; } */
+
+        .action-menu {
+            display: none; /* Caché par défaut */
+            position: absolute;
+            right: 0;
+            top: 100%; /* Juste en dessous du bouton */
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            z-index: 10;
+            min-width: 120px;
+            padding: 5px 0;
+            border: 1px solid #eee;
+        }
+        .action-menu.active {
+            display: block; /* Affiché via JS */
+        }
+        .action-menu a {
+            display: block;
+            padding: 8px 15px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .action-menu a:hover {
+            background-color: var(--light-bg);
+        }
+         .action-menu a.delete { /* Style spécifique pour supprimer */
+             color: var(--danger);
+         }
+        .action-menu a.delete:hover {
+             background-color: #fdecea;
+         }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch; /* Prend toute la largeur */
+            }
+            .filter-bar .search-group {
+                 margin-left: 0;
+            }
+            .manage-products-table {
+                display: block; /* Force le tableau en mode bloc */
+                overflow-x: auto; /* Ajoute le défilement horizontal */
+                white-space: nowrap; /* Empêche le retour à la ligne des cellules */
+                -webkit-overflow-scrolling: touch; /* Pour iOS */
+            }
+            .manage-products-table thead,
+            .manage-products-table tbody,
+            .manage-products-table tr,
+            .manage-products-table th,
+            .manage-products-table td {
+                display: inline-block; /* Ou block selon le rendu souhaité */
+                white-space: normal; /* Rétablit le retour à la ligne interne */
+            }
+             .manage-products-table thead { display: none; } /* Cache les headers */
+             .manage-products-table tr { border-bottom: 2px solid var(--primary-color); margin-bottom: 15px; padding-bottom: 10px; }
+             .manage-products-table td { border-bottom: none; width: 100% !important; padding-left: 10px; padding-right: 10px; }
+             .manage-products-table td::before { /* Ajoute le label avant la donnée */
+                 content: attr(data-label);
+                 font-weight: bold;
+                 display: block;
+                 margin-bottom: 5px;
+                 color: var(--secondary-color);
+                 font-size: 0.8rem;
+                 text-transform: uppercase;
+             }
+             .manage-products-table td.product-thumb { text-align: center; }
+             .manage-products-table td.action-cell { text-align: right; padding-top: 15px; } /* Place les actions à droite */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">MeubleCuisine</a>
+                <div class="nav-links">
+                    <a href="dashboard.html">Tableau de bord</a>
+                    <a href="create.html">Créer</a>
+                    <a href="manage.html" class="active">Gérer</a>
+                    <a href="analyse.html">Analyser</a>
+                    <a href="logout.php">Déconnexion</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+     <!-- Sous-Navigation Dashboard -->
+     <div class="dashboard-nav">
+        <div class="container">
+            <a href="dashboard.html">Tableau de bord</a>
+            <a href="creer-produit.html">Créer</a>
+            <a href="manage.html" class="active">Gérer</a>
+            <a href="analyse.html">Analyser</a>
+        </div>
+    </div>
+
+    <main>
+        <div class="container">
+            <div class="manage-container">
+                <!-- Onglets -->
+                <div class="manage-tabs">
+                    <a href="manage.html" class="active">Annonces</a>
+                    <a href="#">Modèles</a> <!-- Exemple pour l'onglet "Designs" -->
+                </div>
+
+                <!-- Barre de filtres -->
+                <div class="filter-bar">
+                    <div class="form-group">
+                        <select id="filter-statut-annonce" class="form-control">
+                             <option value="all">Statut Annonce : Tous</option>
+                             <option value="live">En ligne</option>
+                             <option value="draft">Brouillon</option>
+                             <option value="pending">En attente</option>
+                             <option value="rejected">Rejeté</option>
+                        </select>
+                    </div>
+                     <div class="form-group">
+                        <select id="filter-category" class="form-control">
+                             <option value="all">Catégorie : Toutes</option>
+                              <option value="meubles_bas">Meubles bas</option>
+                              <option value="meubles_hauts">Meubles hauts</option>
+                              <option value="ilots_centraux">Îlots centraux</option>
+                              <option value="colonnes_rangement">Colonnes</option>
+                              <option value="tables_chaises">Tables & Chaises</option>
+                              <option value="accessoires">Accessoires</option>
+                              <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                         <select id="filter-availability" class="form-control">
+                             <option value="all">Disponibilité : Toutes</option>
+                             <option value="in_stock">En stock</option>
+                             <option value="out_of_stock">Épuisé</option>
+                         </select>
+                    </div>
+                    <!-- Recherche -->
+                    <div class="search-group">
+                        <input type="search" id="search-product" class="form-control" placeholder="Rechercher par titre...">
+                        <button class="btn btn-primary">
+                             <!-- <i class="fas fa-search"></i> --> <!-- Si Font Awesome est utilisé -->
+                              <!-- Alternative Emoji Loupe -->
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Info Pagination -->
+                <div class="pagination-info">
+                    1 - 50 sur 123 annonces
+                    <!-- Ajouter liens de pagination réels ici -->
+                </div>
+
+                <!-- Tableau des Produits -->
+                <table class="manage-products-table">
+                    <thead>
+                        <tr>
+                            <!-- <th>Mkt</th> -->
+                            <th colspan="2">Titre</th> <!-- Combine Image et Titre -->
+                            <th>Catégorie</th>
+                            <th>État</th>
+                            <th class="sortable">Modifié le <i >↕</i></th> <!-- icône tri -->
+                            <th class="sortable">Prix <i >↕</i></th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Lignes de produits (générées dynamiquement normalement) -->
+                        <tr>
+                            <td data-label="Image" class="product-thumb"><img src="/api/placeholder/50/50?text=P1" alt="Produit 1"></td>
+                            <td data-label="Titre" class="product-title"><a href="edit-produit.html?id=101">Îlot Central Chêne Massif</a></td>
+                            <td data-label="Catégorie">Îlots centraux</td>
+                            <td data-label="État">Excellent état</td>
+                            <td data-label="Modifié le">01/08/2024</td>
+                            <td data-label="Prix">14500 DH</td>
+                            <td data-label="Statut" class="product-status"><span class="live">En ligne</span></td>
+                            <td data-label="Actions" class="action-cell">
+                                <div class="action-button-wrapper">
+                                    <button class="action-button" aria-label="Actions">✏️</button> <!-- Emoji Crayon -->
+                                    <div class="action-menu">
+                                        <a href="edit-produit.html?id=101">Modifier</a>
+                                        <a href="#" class="delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette annonce ?');">Supprimer</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td data-label="Image" class="product-thumb"><img src="/api/placeholder/50/50?text=P2" alt="Produit 2"></td>
+                            <td data-label="Titre" class="product-title"><a href="edit-produit.html?id=102">Étagère Murale Noyer Rustique</a></td>
+                            <td data-label="Catégorie">Meubles hauts</td>
+                            <td data-label="État">Bon état</td>
+                             <td data-label="Modifié le">28/07/2024</td>
+                            <td data-label="Prix">2800 DH</td>
+                            <td data-label="Statut" class="product-status"><span class="live">En ligne</span></td>
+                            <td data-label="Actions" class="action-cell">
+                                 <div class="action-button-wrapper">
+                                    <button class="action-button" aria-label="Actions">✏️</button>
+                                    <div class="action-menu">
+                                        <a href="edit-produit.html?id=102">Modifier</a>
+                                        <a href="#" class="delete" onclick="return confirm('Supprimer ?');">Supprimer</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                         <tr>
+                             <td data-label="Image" class="product-thumb"><img src="/api/placeholder/50/50?text=P3" alt="Produit 3"></td>
+                             <td data-label="Titre" class="product-title"><a href="edit-produit.html?id=103">Tabouret de Bar Industriel</a></td>
+                             <td data-label="Catégorie">Tables & Chaises</td>
+                             <td data-label="État">Neuf</td>
+                             <td data-label="Modifié le">25/07/2024</td>
+                             <td data-label="Prix">1100 DH</td>
+                             <td data-label="Statut" class="product-status"><span class="draft">Brouillon</span></td>
+                             <td data-label="Actions" class="action-cell">
+                                  <div class="action-button-wrapper">
+                                    <button class="action-button" aria-label="Actions">✏️</button>
+                                     <div class="action-menu">
+                                         <a href="edit-produit.html?id=103">Modifier</a>
+                                         <a href="#" class="delete" onclick="return confirm('Supprimer ?');">Supprimer</a>
+                                     </div>
+                                 </div>
+                             </td>
+                         </tr>
+                         <tr>
+                             <td data-label="Image" class="product-thumb"><img src="/api/placeholder/50/50?text=P4" alt="Produit 4"></td>
+                             <td data-label="Titre" class="product-title"><a href="edit-produit.html?id=104">Crédence Verre Trempé Motif Géo</a></td>
+                             <td data-label="Catégorie">Accessoires</td>
+                             <td data-label="État">Neuf</td>
+                             <td data-label="Modifié le">15/07/2024</td>
+                             <td data-label="Prix">4200 DH</td>
+                             <td data-label="Statut" class="product-status"><span class="rejected">Rejeté</span></td>
+                             <td data-label="Actions" class="action-cell">
+                                 <div class="action-button-wrapper">
+                                     <button class="action-button" aria-label="Actions">✏️</button>
+                                     <div class="action-menu">
+                                         <a href="edit-produit.html?id=104">Modifier</a>
+                                         <a href="#" class="delete" onclick="return confirm('Supprimer ?');">Supprimer</a>
+                                     </div>
+                                 </div>
+                             </td>
+                         </tr>
+                         <!-- Ajouter d'autres lignes -->
+                    </tbody>
+                </table>
+                 <!-- Ajouter une pagination ici si nécessaire -->
+                 <!-- <div class="pagination"> ... </div> -->
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column"> <h3>MeubleCuisine</h3> <p>Solutions sur mesure...</p> </div>
+                <div class="footer-column"> <h3>Navigation</h3> <ul class="footer-links"> <li><a href="index.html">Accueil</a></li> ... </ul> </div>
+                <div class="footer-column"> <h3>Aide & Support</h3> <ul class="footer-links"> <li><a href="#">FAQ Propriétaire</a></li> ... </ul> </div>
+                <div class="footer-column"> <h3>Contactez-nous</h3> <p>Showroom...</p> </div>
+            </div>
+            <div class="footer-bottom"> © <span id="current-year"></span> MeubleCuisine. Tous droits réservés. </div>
+        </div>
+    </footer>
+
+    <!-- Modals (probablement pas nécessaires ici) -->
+
+    <!-- Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Footer Year ---
+            const currentYearSpan = document.getElementById('current-year');
+            if(currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
+
+            // --- Manage Page Specific JS: Action Menu Toggle ---
+            const actionButtons = document.querySelectorAll('.action-button');
+
+            actionButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    event.stopPropagation(); // Empêche le clic de se propager au document
+                    const menu = button.nextElementSibling; // Le menu est juste après le bouton
+
+                    // Fermer tous les autres menus
+                    document.querySelectorAll('.action-menu.active').forEach(openMenu => {
+                        if (openMenu !== menu) {
+                            openMenu.classList.remove('active');
+                        }
+                    });
+
+                    // Ouvrir ou fermer le menu cliqué
+                    if (menu && menu.classList.contains('action-menu')) {
+                        menu.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Fermer les menus si on clique ailleurs sur la page
+            document.addEventListener('click', (event) => {
+                 // Vérifie si le clic n'est pas sur un bouton d'action ou dans un menu ouvert
+                 if (!event.target.closest('.action-button-wrapper')) {
+                     document.querySelectorAll('.action-menu.active').forEach(openMenu => {
+                         openMenu.classList.remove('active');
+                     });
+                 }
+            });
+
+        });
+    </script>
+</body>
+</html>

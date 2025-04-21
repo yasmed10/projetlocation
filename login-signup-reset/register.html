@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un compte | MeubleCuisine</title>
+    <!-- Lien vers votre fichier CSS externe principal -->
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Styles SPÉCIFIQUES pour la page d'inscription */
+        .register-form-wrapper {
+            max-width: 650px; /* Un peu plus large pour les CIN */
+            margin: 40px auto;
+            padding: 30px 40px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        .register-form-wrapper h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
+        /* Espacement amélioré pour les groupes de formulaires */
+        .register-form-wrapper .form-group {
+            margin-bottom: 20px;
+        }
+        /* Style pour les inputs de fichier */
+        .form-group input[type="file"] {
+            padding: 8px; /* Ajoute un peu de padding interne */
+            border: 1px solid #ddd; /* Bordure similaire aux autres inputs */
+            border-radius: var(--border-radius);
+            cursor: pointer;
+        }
+        /* Guide pour les fichiers */
+        .file-input-guide {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 5px;
+            display: block;
+        }
+         /* Pour aligner les champs nom/prénom côte à côte si souhaité */
+         .name-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+         }
+         .name-group .form-group {
+            flex: 1;
+            min-width: 200px; /* Empêche d'être trop petit */
+         }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">MeubleCuisine</a>
+                <div class="nav-links">
+                    <a href="index.html">Accueil</a>
+                    <a href="collections.html">Collections</a>
+                    <a href="a-propos.html">À propos</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="auth-buttons">
+                    <!-- Boutons Connexion/Inscription du header standard -->
+                    <button class="btn btn-outline" id="login-btn-header">Connexion</button>
+                    <button class="btn btn-primary" id="register-btn-header">Créer un compte</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="register-form-wrapper">
+                <h1>Créer votre compte MeubleCuisine</h1>
+
+                <!-- ATTENTION: Pour que l'upload fonctionne, le formulaire doit avoir method="POST" et enctype="multipart/form-data" -->
+                <form id="register-form-page" action="traitement_register.php" method="POST" enctype="multipart/form-data">
+
+                    <div class="name-group">
+                        <div class="form-group">
+                            <label for="register-firstname">Prénom</label>
+                            <input type="text" id="register-firstname" name="firstname" class="form-control" required placeholder="Votre prénom">
+                        </div>
+                        <div class="form-group">
+                            <label for="register-lastname">Nom</label>
+                            <input type="text" id="register-lastname" name="lastname" class="form-control" required placeholder="Votre nom de famille">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-email">Adresse e-mail</label>
+                        <input type="email" id="register-email" name="email" class="form-control" required placeholder="exemple@domaine.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-password">Mot de passe</label>
+                        <input type="password" id="register-password" name="password" class="form-control" required placeholder="Minimum 8 caractères">
+                        <!-- Ajouter une confirmation de mot de passe est fortement recommandé -->
+                        <!--
+                        <label for="register-password-confirm" style="margin-top: 10px;">Confirmer le mot de passe</label>
+                        <input type="password" id="register-password-confirm" name="password_confirm" class="form-control" required>
+                        -->
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-picture">Photo de profil (Optionnel)</label>
+                        <input type="file" id="register-picture" name="profile_picture" class="form-control" accept="image/png, image/jpeg, image/webp">
+                        <small class="file-input-guide">Formats acceptés : JPG, PNG, WEBP. Taille max : 2Mo.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-cin-recto">Carte d'identité (CIN) - Recto</label>
+                        <input type="file" id="register-cin-recto" name="cin_recto" class="form-control" accept="image/png, image/jpeg, image/webp, application/pdf" required>
+                         <small class="file-input-guide">Formats acceptés : JPG, PNG, WEBP, PDF. Requis pour la vérification.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-cin-verso">Carte d'identité (CIN) - Verso</label>
+                        <input type="file" id="register-cin-verso" name="cin_verso" class="form-control" accept="image/png, image/jpeg, image/webp, application/pdf" required>
+                         <small class="file-input-guide">Formats acceptés : JPG, PNG, WEBP, PDF. Requis pour la vérification.</small>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" id="register-terms-page" name="terms" required>
+                        <label for="register-terms-page">J'ai lu et j'accepte les <a href="conditions.html" target="_blank" style="color: var(--primary-color);">Conditions Générales d'Utilisation</a> et la <a href="confidentialite.html" target="_blank" style="color: var(--primary-color);">Politique de Confidentialité</a>.</label>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary" style="padding: 12px 40px; font-size: 1.1rem;">Créer mon compte</button>
+                    </div>
+
+                </form>
+
+                 <p style="text-align: center; margin-top: 25px; font-size: 0.9rem;">
+                    Déjà un compte ? <a href="login.html" style="color: var(--primary-color); font-weight: 500;">Connectez-vous ici</a>.
+                 </p>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column"> <h3>MeubleCuisine</h3> <p>Solutions sur mesure pour la cuisine de vos rêves. Qualité, design et fonctionnalité.</p> <div class="footer-social"></div> </div>
+                <div class="footer-column"> <h3>Navigation</h3> <ul class="footer-links"> <li><a href="index.html">Accueil</a></li> <li><a href="collections.html">Collections</a></li> <li><a href="a-propos.html">À propos</a></li> <li><a href="contact.html">Contact</a></li> <li><a href="#">Blog / Conseils</a></li> </ul> </div>
+                <div class="footer-column"> <h3>Informations</h3> <ul class="footer-links"> <li><a href="#">FAQ</a></li> <li><a href="#">Livraison & Installation</a></li> <li><a href="#">Politique de confidentialité</a></li> <li><a href="#">Conditions Générales de Vente</a></li> <li><a href="#">Notre Garantie</a></li> </ul> </div>
+                <div class="footer-column"> <h3>Contactez-nous</h3> <p>Showroom: 123 Boulevard Anfa,<br>Casablanca, Maroc</p> <p>Email: contact@meublecuisine.ma<br>Téléphone: +212 5 00 00 00 00</p> <p>Lun - Sam : 9h00 - 19h00</p> </div>
+            </div>
+            <div class="footer-bottom"> © <span id="current-year"></span> MeubleCuisine. Tous droits réservés. </div>
+        </div>
+    </footer>
+
+    <!-- Modals (pour les boutons du header) -->
+    <div class="modal-overlay" id="login-modal"> <div class="modal"> <div class="modal-header"> <h3>Connexion</h3> <button class="modal-close" aria-label="Fermer">×</button> </div> <div class="modal-body"> <form id="login-form-modal"> <div class="form-group"> <label for="login-email-modal">Email</label> <input type="email" class="form-control" id="login-email-modal" required> </div> <div class="form-group"> <label for="login-password-modal">Mot de passe</label> <input type="password" class="form-control" id="login-password-modal" required> </div> <div class="form-check"> <input type="checkbox" id="login-remember-modal"> <label for="login-remember-modal">Se souvenir de moi</label> </div> <a href="#" style="display: block; margin-top: 10px; text-align: right; font-size: 0.9rem; color: var(--primary-color);">Mot de passe oublié ?</a> </form> </div> <div class="modal-footer"> <button type="button" class="btn btn-outline modal-close">Annuler</button> <button type="submit" form="login-form-modal" class="btn btn-primary">Se connecter</button> </div> </div> </div>
+    <div class="modal-overlay" id="register-modal"> <div class="modal"> <div class="modal-header"> <h3>Créer un compte</h3> <button class="modal-close" aria-label="Fermer">×</button> </div> <div class="modal-body"> <form id="register-form-modal"> <div class="form-group"> <label for="register-name-modal">Nom complet</label> <input type="text" class="form-control" id="register-name-modal" required> </div> <div class="form-group"> <label for="register-email-modal">Email</label> <input type="email" class="form-control" id="register-email-modal" required> </div> <div class="form-group"> <label for="register-password-modal">Mot de passe</label> <input type="password" class="form-control" id="register-password-modal" required> </div> <div class="form-group"> <label for="register-password-confirm-modal">Confirmer</label> <input type="password" class="form-control" id="register-password-confirm-modal" required> </div> <div class="form-check"> <input type="checkbox" id="register-terms-modal-header" required> <label for="register-terms-modal-header">J'accepte les <a href="conditions.html" target="_blank" style="color: var(--primary-color);">CGU</a>.</label> </div> </form> </div> <div class="modal-footer"> <button type="button" class="btn btn-outline modal-close">Annuler</button> <button type="submit" form="register-form-modal" class="btn btn-primary">S'inscrire</button> </div> </div> </div>
+
+
+    <!-- Script standard -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Modal Functionality (pour les boutons du header) ---
+            const loginBtnHeader = document.getElementById('login-btn-header');
+            const registerBtnHeader = document.getElementById('register-btn-header');
+            const loginModal = document.getElementById('login-modal');
+            const registerModal = document.getElementById('register-modal');
+            const closeButtons = document.querySelectorAll('.modal-close');
+            const modalOverlays = document.querySelectorAll('.modal-overlay');
+            function openModal(modal) { if (modal) modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+            function closeModal(modal) { if (modal) modal.classList.remove('active'); if (!document.querySelector('.modal-overlay.active')) { document.body.style.overflow = ''; } }
+            loginBtnHeader?.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
+            registerBtnHeader?.addEventListener('click', (e) => { e.preventDefault(); openModal(registerModal); });
+            closeButtons.forEach(button => { button.addEventListener('click', () => { closeModal(button.closest('.modal-overlay')); }); });
+            modalOverlays.forEach(overlay => { overlay.addEventListener('click', (event) => { if (event.target === overlay) { closeModal(overlay); } }); });
+            document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { const activeModal = document.querySelector('.modal-overlay.active'); if (activeModal) { closeModal(activeModal); } } });
+
+            // --- Footer Year ---
+            const currentYearSpan = document.getElementById('current-year');
+            if(currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
+
+            // --- Optionnel: Validation de confirmation de mot de passe côté client ---
+            // const passwordInput = document.getElementById('register-password');
+            // const confirmPasswordInput = document.getElementById('register-password-confirm');
+            // const form = document.getElementById('register-form-page');
+            // if (passwordInput && confirmPasswordInput && form) {
+            //     form.addEventListener('submit', function(event) {
+            //         if (passwordInput.value !== confirmPasswordInput.value) {
+            //             alert("Les mots de passe ne correspondent pas !");
+            //             confirmPasswordInput.focus();
+            //             event.preventDefault(); // Empêche l'envoi du formulaire
+            //         }
+            //     });
+            // }
+        });
+    </script>
+
+</body>
+</html>

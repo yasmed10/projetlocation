@@ -1,0 +1,226 @@
+<!-- Start of Header -->
+<header>
+    <div class="container">
+        <nav>
+            <a href="index.html" class="logo">MeubleCuisine</a>
+            <div class="nav-links">
+                <a href="index.html">Accueil</a>
+                <a href="collections.html">Collections</a>
+                <a href="a-propos.html">À propos</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" id="login-btn">Connexion</button>
+                <button class="btn btn-primary" id="register-btn">Créer un compte</button>
+            </div>
+            <!-- Add a placeholder for a mobile menu button if needed -->
+            <!-- <button class="mobile-menu-button">☰</button> -->
+        </nav>
+    </div>
+</header>
+<!-- End of Header -->
+```
+
+**`_footer.html` (Partial for re-use)**
+*(Copy this into each main HTML file)*
+
+```html
+<!-- Start of Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>MeubleCuisine</h3>
+                <p>Solutions sur mesure pour la cuisine de vos rêves.</p>
+                 <div class="footer-social">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a> <!-- Requires FontAwesome -->
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Navigation</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="collections.html">Collections</a></li>
+                    <li><a href="a-propos.html">À propos</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Informations</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Livraison & Installation</a></li>
+                    <li><a href="#">Politique de confidentialité</a></li>
+                    <li><a href="#">Conditions d'utilisation</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contactez-nous</h3>
+                <p>123 Rue Exemple,<br>Casablanca, Maroc</p>
+                <p>Email: contact@meublecuisine.ma<br>Téléphone: +212 5 00 00 00 00</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; <span id="current-year"></span> MeubleCuisine. Tous droits réservés.
+        </div>
+    </div>
+</footer>
+<!-- End of Footer -->
+```
+
+**`_modals.html` (Partial for re-use)**
+*(Copy this into each main HTML file, usually just before the closing `</body>` tag)*
+
+```html
+<!-- Start of Modals -->
+<!-- Modal d'inscription -->
+<div class="modal-overlay" id="register-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Créer un compte</h3>
+            <button class="modal-close" aria-label="Fermer">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-name">Nom complet</label>
+                    <input type="text" class="form-control" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" class="form-control" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Mot de passe</label>
+                    <input type="password" class="form-control" id="register-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password-confirm">Confirmer le mot de passe</label>
+                    <input type="password" class="form-control" id="register-password-confirm" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-phone">Téléphone</label>
+                    <input type="tel" class="form-control" id="register-phone"> <!-- Optional -->
+                </div>
+                <div class="form-group">
+                    <label for="register-city">Ville</label>
+                    <input type="text" class="form-control" id="register-city"> <!-- Optional -->
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" id="register-newsletter">
+                    <label for="register-newsletter">Je souhaite recevoir les offres et nouveautés</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" id="register-terms" required>
+                    <label for="register-terms">J'accepte les <a href="#">conditions d'utilisation</a></label> <!-- Add link -->
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline modal-close">Annuler</button>
+            <button type="submit" form="register-form" class="btn btn-primary" id="register-submit">S'inscrire</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de connexion -->
+<div class="modal-overlay" id="login-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Connexion</h3>
+            <button class="modal-close" aria-label="Fermer">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" class="form-control" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Mot de passe</label>
+                    <input type="password" class="form-control" id="login-password" required>
+                </div>
+                 <div class="form-check">
+                    <input type="checkbox" id="login-remember">
+                    <label for="login-remember">Se souvenir de moi</label>
+                </div>
+                <a href="#" style="display: block; margin-top: 10px; text-align: right;">Mot de passe oublié ?</a>
+            </form>
+        </div>
+        <div class="modal-footer">
+             <button type="button" class="btn btn-outline modal-close">Annuler</button>
+            <button type="submit" form="login-form" class="btn btn-primary" id="login-submit">Se connecter</button>
+        </div>
+    </div>
+</div>
+<!-- End of Modals -->
+
+<!-- Basic Modal & Footer JS -->
+<script>
+    // Basic Modal Functionality
+    const loginBtn = document.getElementById('login-btn');
+    const registerBtn = document.getElementById('register-btn');
+    const loginModal = document.getElementById('login-modal');
+    const registerModal = document.getElementById('register-modal');
+    const closeButtons = document.querySelectorAll('.modal-close');
+    const modalOverlays = document.querySelectorAll('.modal-overlay');
+
+    function openModal(modal) {
+        if (modal) modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scroll
+    }
+
+    function closeModal(modal) {
+        if (modal) modal.classList.remove('active');
+         // Check if any other modal is active before restoring scroll
+        if (!document.querySelector('.modal-overlay.active')) {
+            document.body.style.overflow = '';
+        }
+    }
+
+    loginBtn?.addEventListener('click', () => openModal(loginModal));
+    registerBtn?.addEventListener('click', () => openModal(registerModal));
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const modal = button.closest('.modal-overlay');
+            closeModal(modal);
+        });
+    });
+
+    // Close modal if clicking on the overlay background
+    modalOverlays.forEach(overlay => {
+        overlay.addEventListener('click', (event) => {
+            if (event.target === overlay) {
+                closeModal(overlay);
+            }
+        });
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            const activeModal = document.querySelector('.modal-overlay.active');
+            if (activeModal) {
+                closeModal(activeModal);
+            }
+        }
+    });
+
+    // Set current year in footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Active Nav Link Highlighting
+    const currentLocation = window.location.pathname.split('/').pop() || 'index.html'; // Get current file name
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentLocation) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active'); // Ensure others are not active
+        }
+    });
+
+</script>
