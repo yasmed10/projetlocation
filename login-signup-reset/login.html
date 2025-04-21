@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion | MeubleCuisine</title>
+    <!-- Lien vers votre fichier CSS externe principal -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Styles SPÉCIFIQUES pour la page de connexion */
+        .login-form-wrapper {
+            max-width: 450px; /* Plus étroit que l'inscription */
+            margin: 60px auto; /* Plus de marge verticale */
+            padding: 30px 40px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        .login-form-wrapper h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
+        .login-form-wrapper .form-group {
+            margin-bottom: 20px;
+        }
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+        }
+        .login-options a {
+             color: var(--primary-color);
+             text-decoration: none;
+        }
+        .login-options a:hover {
+             text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">MeubleCuisine</a>
+                <div class="nav-links">
+                    <a href="index.html">Accueil</a>
+                    <a href="collections.html">Collections</a>
+                    <a href="a-propos.html">À propos</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="auth-buttons">
+                     <!-- Boutons Connexion/Inscription du header standard -->
+                    <button class="btn btn-outline" id="login-btn-header">Connexion</button>
+                    <button class="btn btn-primary" id="register-btn-header">Créer un compte</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="login-form-wrapper">
+                <h1>Connexion</h1>
+
+                <form id="login-form-page" action="traitement_login.php" method="POST">
+
+                    <div class="form-group">
+                        <label for="login-email">Adresse e-mail</label>
+                        <input type="email" id="login-email" name="email" class="form-control" required placeholder="Votre adresse e-mail">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">Mot de passe</label>
+                        <input type="password" id="login-password" name="password" class="form-control" required placeholder="Votre mot de passe">
+                    </div>
+
+                    <div class="login-options">
+                        <div class="form-check">
+                            <input type="checkbox" id="login-remember" name="remember">
+                            <label for="login-remember">Se souvenir de moi</label>
+                        </div>
+                        <a href="forgot-password.html">Mot de passe oublié ?</a>
+                    </div>
+
+
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary" style="padding: 10px 40px; font-size: 1.1rem;">Se connecter</button>
+                    </div>
+
+                </form>
+
+                 <p style="text-align: center; margin-top: 25px; font-size: 0.9rem;">
+                    Pas encore de compte ? <a href="register.html" style="color: var(--primary-color); font-weight: 500;">Inscrivez-vous maintenant</a>.
+                 </p>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column"> <h3>MeubleCuisine</h3> <p>Solutions sur mesure pour la cuisine de vos rêves. Qualité, design et fonctionnalité.</p> <div class="footer-social"></div> </div>
+                <div class="footer-column"> <h3>Navigation</h3> <ul class="footer-links"> <li><a href="index.html">Accueil</a></li> <li><a href="collections.html">Collections</a></li> <li><a href="a-propos.html">À propos</a></li> <li><a href="contact.html">Contact</a></li> <li><a href="#">Blog / Conseils</a></li> </ul> </div>
+                <div class="footer-column"> <h3>Informations</h3> <ul class="footer-links"> <li><a href="#">FAQ</a></li> <li><a href="#">Livraison & Installation</a></li> <li><a href="#">Politique de confidentialité</a></li> <li><a href="#">Conditions Générales de Vente</a></li> <li><a href="#">Notre Garantie</a></li> </ul> </div>
+                <div class="footer-column"> <h3>Contactez-nous</h3> <p>Showroom: 123 Boulevard Anfa,<br>Casablanca, Maroc</p> <p>Email: contact@meublecuisine.ma<br>Téléphone: +212 5 00 00 00 00</p> <p>Lun - Sam : 9h00 - 19h00</p> </div>
+            </div>
+            <div class="footer-bottom"> © <span id="current-year"></span> MeubleCuisine. Tous droits réservés. </div>
+        </div>
+    </footer>
+
+     <!-- Modals (pour les boutons du header) -->
+    <div class="modal-overlay" id="login-modal"> <div class="modal"> <div class="modal-header"> <h3>Connexion</h3> <button class="modal-close" aria-label="Fermer">×</button> </div> <div class="modal-body"> <form id="login-form-modal"> <div class="form-group"> <label for="login-email-modal">Email</label> <input type="email" class="form-control" id="login-email-modal" required> </div> <div class="form-group"> <label for="login-password-modal">Mot de passe</label> <input type="password" class="form-control" id="login-password-modal" required> </div> <div class="form-check"> <input type="checkbox" id="login-remember-modal"> <label for="login-remember-modal">Se souvenir de moi</label> </div> <a href="#" style="display: block; margin-top: 10px; text-align: right; font-size: 0.9rem; color: var(--primary-color);">Mot de passe oublié ?</a> </form> </div> <div class="modal-footer"> <button type="button" class="btn btn-outline modal-close">Annuler</button> <button type="submit" form="login-form-modal" class="btn btn-primary">Se connecter</button> </div> </div> </div>
+    <div class="modal-overlay" id="register-modal"> <div class="modal"> <div class="modal-header"> <h3>Créer un compte</h3> <button class="modal-close" aria-label="Fermer">×</button> </div> <div class="modal-body"> <form id="register-form-modal"> <div class="form-group"> <label for="register-name-modal">Nom complet</label> <input type="text" class="form-control" id="register-name-modal" required> </div> <div class="form-group"> <label for="register-email-modal">Email</label> <input type="email" class="form-control" id="register-email-modal" required> </div> <div class="form-group"> <label for="register-password-modal">Mot de passe</label> <input type="password" class="form-control" id="register-password-modal" required> </div> <div class="form-group"> <label for="register-password-confirm-modal">Confirmer</label> <input type="password" class="form-control" id="register-password-confirm-modal" required> </div> <div class="form-check"> <input type="checkbox" id="register-terms-modal-header" required> <label for="register-terms-modal-header">J'accepte les <a href="conditions.html" target="_blank" style="color: var(--primary-color);">CGU</a>.</label> </div> </form> </div> <div class="modal-footer"> <button type="button" class="btn btn-outline modal-close">Annuler</button> <button type="submit" form="register-form-modal" class="btn btn-primary">S'inscrire</button> </div> </div> </div>
+
+    <!-- Script standard -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Modal Functionality (pour les boutons du header) ---
+            const loginBtnHeader = document.getElementById('login-btn-header');
+            const registerBtnHeader = document.getElementById('register-btn-header');
+            const loginModal = document.getElementById('login-modal');
+            const registerModal = document.getElementById('register-modal');
+            const closeButtons = document.querySelectorAll('.modal-close');
+            const modalOverlays = document.querySelectorAll('.modal-overlay');
+            function openModal(modal) { if (modal) modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+            function closeModal(modal) { if (modal) modal.classList.remove('active'); if (!document.querySelector('.modal-overlay.active')) { document.body.style.overflow = ''; } }
+            loginBtnHeader?.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
+            registerBtnHeader?.addEventListener('click', (e) => { e.preventDefault(); openModal(registerModal); });
+            closeButtons.forEach(button => { button.addEventListener('click', () => { closeModal(button.closest('.modal-overlay')); }); });
+            modalOverlays.forEach(overlay => { overlay.addEventListener('click', (event) => { if (event.target === overlay) { closeModal(overlay); } }); });
+            document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { const activeModal = document.querySelector('.modal-overlay.active'); if (activeModal) { closeModal(activeModal); } } });
+
+            // --- Footer Year ---
+            const currentYearSpan = document.getElementById('current-year');
+            if(currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - MeubleCuisine</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">MeubleCuisine</a>
+                <div class="nav-links">
+                    <a href="index.html">Accueil</a>
+                    <a href="collections.html">Collections</a>
+                    <a href="a-propos.html">À propos</a>
+                    <a href="contact.html" class="active">Contact</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" id="login-btn">Devenir un Partenaire</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Bannière Contact -->
+        <section class="hero" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/api/placeholder/1200/400?text=Contactez-nous') center/cover; padding: 60px 0;">
+            <div class="container">
+                <h1>Contactez-nous</h1>
+                <p>Nous sommes à votre écoute pour répondre à vos questions et vous accompagner dans votre projet.</p>
+            </div>
+        </section>
+
+        <!-- Section Contact -->
+        <section>
+            <div class="container">
+                <div style="display: flex; flex-wrap: wrap; gap: 40px; margin-top: 20px;">
+                    <!-- Informations de contact -->
+                    <div style="flex: 1; min-width: 300px;">
+                        <h2 style="color: var(--primary-color); margin-bottom: 30px;">Nos coordonnées</h2>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h3 style="color: var(--primary-color); margin-bottom: 15px;">Showroom principal</h3>
+                            <p style="margin-bottom: 5px;"><strong>Adresse:</strong> 123 Rue Exemple, Quartier Moderne, Casablanca</p>
+                            <p style="margin-bottom: 5px;"><strong>Téléphone:</strong> +212 5 00 00 00 00</p>
+                            <p style="margin-bottom: 5px;"><strong>Email:</strong> contact@meublecuisine.ma</p>
+                            <p><strong>Horaires:</strong> Lun-Ven: 9h-18h, Sam: 9h-13h</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h3 style="color: var(--primary-color); margin-bottom: 15px;">Atelier & Usine</h3>
+                            <p style="margin-bottom: 5px;"><strong>Adresse:</strong> Zone Industrielle Sud, Lot 45, Casablanca</p>
+                            <p style="margin-bottom: 5px;"><strong>Téléphone:</strong> +212 5 00 00 00 01</p>
+                            <p><strong>Horaires:</strong> Lun-Ven: 8h-17h</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h3 style="color: var(--primary-color); margin-bottom: 15px;">Service client</h3>
+                            <p style="margin-bottom: 5px;"><strong>Téléphone:</strong> +212 5 00 00 00 02</p>
+                            <p style="margin-bottom: 5px;"><strong>Email:</strong> service@meublecuisine.ma</p>
+                            <p><strong>Horaires:</strong> Lun-Ven: 9h-17h</p>
+                        </div>
+                        
+                        <div>
+                            <h3 style="color: var(--primary-color); margin-bottom: 15px;">Réseaux sociaux</h3>
+                            <div style="display: flex; gap: 15px;">
+                                <a href="#" style="text-decoration: none; color: var(--primary-color); font-size: 1.2rem;">Facebook</a>
+                                <a href="#" style="text-decoration: none; color: var(--primary-color); font-size: 1.2rem;">Instagram</a>
+                                <a href="#" style="text-decoration: none; color: var(--primary-color); font-size: 1.2rem;">LinkedIn</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Formulaire de contact -->
+                    <div style="flex: 1; min-width: 300px;">
+                        <h2 style="color: var(--primary-color); margin-bottom: 30px;">Formulaire de contact</h2>
+                        <form class="form-container" style="max-width: 100%; padding: 25px;">
+                            <div class="form-group">
+                                <label for="contact-name">Nom complet *</label>
+                                <input type="text" class="form-control" id="contact-name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contact-email">Email *</label>
+                                <input type="email" class="form-control" id="contact-email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contact-phone">Téléphone</label>
+                                <input type="tel" class="form-control" id="contact-phone">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contact-subject">Sujet *</label>
+                                <select class="form-control" id="contact-subject" required>
+                                    <option value="">Choisissez un sujet</option>
+                                    <option value="devis">Demande de devis</option>
+                                    <option value="info">Renseignement sur les produits</option>
+                                    <option value="rdv">Prise de rendez-vous</option>
+                                    <option value="sav">Service après-vente</option>
+                                    <option value="autre">Autre</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contact-message">Message *</label>
+                                <textarea class="form-control" id="contact-message" rows="5" required></textarea>
+                            </div>
+                            
+                            <div class="form-check">
+                                <input type="checkbox" id="contact-newsletter">
+                                <label for="contact-newsletter">Je souhaite recevoir des informations et offres par email</label>
+                            </div>
+                            
+                            <div class="form-check">
+                                <input type="checkbox" id="contact-terms" required>
+                                <label for="contact-terms">J'accepte que mes données soient traitées conformément à la <a href="#">politique de confidentialité</a></label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Envoyer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Carte -->
+        <section style="background-color: var(--light-bg); padding: 60px 0;">
+            <div class="container">
+                <h2 class="section-title">Nous trouver</h2>
+                <div style="background-color: #ddd; height: 400px; display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius); box-shadow: var(--box-shadow);">
+                    <div style="text-align: center;">
+                        <p style="margin-bottom: 15px; font-size: 1.2rem;">Carte de localisation</p>
+                        <p style="color: #666;">(Intégration Google Maps ou autre service de cartographie)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section FAQ -->
+        <section>
+            <div class="container">
+                <h2 class="section-title">Questions fréquentes</h2>
+                
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <!-- Question 1 -->
+                    <div style="margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 10px;">Comment obtenir un devis pour ma cuisine ?</h3>
+                        <p>Vous pouvez obtenir un devis en remplissant notre formulaire de contact, en nous appelant directement ou en visitant notre showroom. Nous vous recommandons de prendre rendez-vous pour une consultation personnalisée afin que nos designers puissent comprendre vos besoins spécifiques.</p>
+                    </div>
+                    
+                    <!-- Question 2 -->
+                    <div style="margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 10px;">Quel est le délai de fabrication d'une cuisine sur mesure ?</h3>
+                        <p>Le délai moyen de fabrication varie entre 4 et 6 semaines selon la complexité du projet et les matériaux choisis. Ce délai comprend la conception, la validation du design, la fabrication et l'installation. Nous vous communiquerons un calendrier précis lors de la confirmation de votre commande.</p>
+                    </div>
+                    
+                    <!-- Question 3 -->
+                    <div style="margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 10px;">Proposez-vous un service d'installation ?</h3>
+                        <p>Oui, nous disposons de nos propres équipes d'installateurs professionnels qui assurent la pose de votre cuisine. L'installation est incluse dans nos devis et garantit une finition parfaite de votre projet.</p>
+                    </div>
+                    
+                    <!-- Question 4 -->
+                    <div style="margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 10px;">Quelle est la garantie sur vos produits ?</h3>
+                        <p>Tous nos meubles de cuisine bénéficient d'une garantie de 10 ans sur la structure et de 2 ans sur les mécanismes et accessoires. Cette garantie couvre les défauts de fabrication et les problèmes structurels, vous assurant une tranquillité d'esprit pour les années à venir.</p>
+                    </div>
+                    
+                    <!-- Question 5 -->
+                    <div>
+                        <h3 style="color: var(--primary-color); margin-bottom: 10px;">Travaillez-vous avec des professionnels (architectes, décorateurs) ?</h3>
+                        <p>Absolument ! Nous collaborons régulièrement avec des architectes, décorateurs d'intérieur et promoteurs immobiliers. Nous proposons un programme partenaire spécifique avec des conditions adaptées. N'hésitez pas à nous contacter pour plus d'informations sur notre programme de partenariat.</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 40px;">
+                    <p style="margin-bottom: 20px;">Vous avez d'autres questions ?</p>
+                    <a href="#" class="btn btn-outline">Consulter notre FAQ complète</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to action -->
+        <section style="background-color: var(--primary-color); color: white; text-align: center; padding: 60px 0;">
+            <div class="container">
+                <h2 style="margin-bottom: 20px;">Prenez rendez-vous pour une visite de notre showroom</h2>
+                <p style="max-width: 600px; margin: 0 auto 30px;">Nos experts vous accompagneront dans la découverte de nos collections et répondront à toutes vos questions.</p>
+                <a href="#" class="btn" style="background-color: white; color: var(--primary-color);">Réserver une visite</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>MeubleCuisine</h3>
+                    <p>Solutions sur mesure pour la cuisine de vos rêves.</p>
+                    <div class="footer-social">
+                        <!-- Add social icons here if needed -->
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Navigation</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="collections.html">Collections</a></li>
+                        <li><a href="a-propos.html">À propos</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Informations</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Livraison & Installation</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                        <li><a href="#">Conditions d'utilisation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contactez-nous</h3>
+                    <p>123 Rue Exemple,<br>Casablanca, Maroc</p>
+                    <p>Email: contact@meublecuisine.ma<br>Téléphone: +212 5 00 00 00 00</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="current-year"></span> MeubleCuisine. Tous droits réservés.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Active Nav Link Highlighting
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === 'contact.html') {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+        
+        // Modal functionality (from original page)
+        const loginBtn = document.getElementById('login-btn');
+        const loginModal = document.getElementById('login-modal');
+        
+        if (loginBtn && loginModal) {
+            loginBtn.addEventListener('click', () => {
+                loginModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            // Close modal functionality would be needed here but depends on if modals are included
+        }
+    </script>
+
+</body>
+</html>

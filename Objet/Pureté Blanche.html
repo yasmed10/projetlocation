@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pureté Blanche - Collection Moderne | MeubleCuisine</title>
+    <!-- Lien vers votre fichier CSS externe principal -->
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Styles SPÉCIFIQUES pour la page produit, utilisant les variables du style.css externe */
+        .product-container { display: flex; flex-wrap: wrap; gap: 30px; margin-bottom: 40px; margin-top: 20px; }
+        .product-images { flex: 1; min-width: 300px; }
+        .product-info { flex: 1.5; min-width: 300px; }
+        .main-image { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--border-radius); margin-bottom: 15px; border: 1px solid #eee; background-color: #f0f0f0; }
+        .thumbnail-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .thumbnail { width: 100%; height: 80px; object-fit: cover; border-radius: var(--border-radius); cursor: pointer; border: 2px solid transparent; transition: border-color 0.3s; background-color: #f0f0f0; }
+        .thumbnail:hover, .thumbnail.active { border-color: var(--primary-color); }
+        .product-title { font-size: 2.2rem; margin-bottom: 10px; color: var(--primary-color); font-weight: 600; }
+        .vendor-info { display: flex; align-items: center; margin-bottom: 5px; font-size: 0.9rem; color: #555; }
+        .vendor-name { font-weight: 500; color: var(--primary-color); margin-right: 10px; }
+        .vendor-rating.rating { color: var(--warning); }
+        .product-rating.rating { margin-bottom: 15px; font-size: 1.1rem; font-weight: bold; color: var(--warning); }
+        .price-box { margin: 20px 0; padding: 15px; background-color: var(--light-bg); border-radius: var(--border-radius); border: 1px solid #e0e0e0; }
+        .current-price { font-size: 1.8rem; font-weight: bold; color: var(--primary-color); }
+        .regular-price { text-decoration: line-through; color: #777; margin-left: 10px; font-size: 1.1rem; }
+        .discount { display: inline-block; background-color: var(--accent-color); color: white; padding: 3px 8px; border-radius: var(--border-radius); margin-left: 10px; font-size: 0.9rem; font-weight: bold; }
+        .product-meta { margin: 20px 0; font-size: 0.9rem; color: #555; }
+        .meta-item { margin-bottom: 8px; display: flex; gap: 5px; }
+        .meta-label { font-weight: 500; color: var(--text-color); flex-shrink: 0; }
+        .availability { display: flex; align-items: center; margin: 15px 0; font-weight: 500; }
+        .availability-indicator { width: 10px; height: 10px; border-radius: 50%; background-color: var(--success); margin-right: 8px; flex-shrink: 0; }
+        .availability-indicator.out-of-stock { background-color: var(--danger); }
+        .quantity-selector { display: flex; align-items: center; margin-bottom: 25px; }
+        .quantity-label { margin-right: 15px; font-weight: 500; }
+        .quantity-btn { width: 35px; height: 35px; border: 1px solid #ccc; background-color: #fff; cursor: pointer; font-size: 1.2rem; font-weight: bold; color: var(--primary-color); transition: background-color 0.2s; display: flex; align-items: center; justify-content: center; line-height: 1; border-radius: var(--border-radius); }
+        .quantity-btn:hover { background-color: #f0f0f0; }
+        .quantity-btn#quantity-minus { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+        .quantity-btn#quantity-plus { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+        .quantity-input { width: 50px; height: 35px; border: 1px solid #ccc; border-left: none; border-right: none; text-align: center; font-size: 1rem;  color: var(--text-color); background-color: white; }
+        .quantity-input::-webkit-outer-spin-button, .quantity-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .action-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin: 25px 0; }
+        .action-buttons .btn { padding: 10px 25px; font-size: 1rem; } /* Style de base bouton */
+        /* Style spécifique lien Réserver */
+        .action-buttons a.btn { padding: 12px 30px; font-size: 1.1rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;}
+        .product-description { margin: 30px 0; line-height: 1.7; }
+        .product-description h3 { margin-bottom: 15px; color: var(--primary-color); font-size: 1.3rem; }
+        .product-description h4 { margin-top: 20px; margin-bottom: 10px; color: var(--secondary-color); font-size: 1.1rem; }
+        .features-list { margin: 20px 0; padding-left: 0; list-style: none; }
+        .features-list li { margin-bottom: 8px; position: relative; padding-left: 25px; }
+        .features-list li::before { content: "✓"; color: var(--success); position: absolute; left: 0; top: 1px; font-weight: bold; font-size: 1.1rem; }
+        .tabs { margin-top: 50px; border: 1px solid #ddd; border-radius: var(--border-radius); overflow: hidden; background-color: white; }
+        .tab-headers { display: flex; background-color: var(--light-bg); border-bottom: 1px solid #ddd; flex-wrap: wrap; }
+        .tab-header { padding: 12px 25px; cursor: pointer; border-bottom: 3px solid transparent; font-weight: 500; color: #555; transition: all 0.3s; text-align: center; flex-grow: 1; }
+        .tab-header:hover { background-color: #e9e9e9; color: var(--primary-color); }
+        .tab-header.active { border-bottom-color: var(--primary-color); color: var(--primary-color); background-color: white; }
+        .tab-content { display: none; padding: 25px; border-top: none; }
+        .tab-content.active { display: block; }
+        .tab-content h3 { margin-top: 0; margin-bottom: 20px; color: var(--primary-color); font-size: 1.3rem; }
+        .reviews-summary { display: flex; flex-wrap: wrap; align-items: center; margin-bottom: 30px; background-color: var(--light-bg); padding: 20px; border-radius: var(--border-radius); gap: 20px; }
+        .average-rating { font-size: 2.5rem; font-weight: bold; color: var(--primary-color); flex-shrink: 0; line-height: 1; }
+        .rating-bars { flex: 1; min-width: 250px; }
+        .rating-bar { display: flex; align-items: center; margin-bottom: 5px; }
+        .rating-label { width: 30px; font-size: 0.9rem; font-weight: 500; color: var(--text-color); }
+        .rating-progress { flex: 1; height: 8px; background-color: #e0e0e0; border-radius: 4px; margin: 0 10px; overflow: hidden; }
+        .rating-progress-fill { height: 100%; background-color: var(--warning); border-radius: 4px; transition: width 0.5s ease-in-out; }
+        .rating-count { width: 40px; text-align: right; font-size: 0.9rem; color: #777; }
+        .reviews { margin-top: 20px; }
+        .review { padding: 20px 0; border-bottom: 1px solid #eee; }
+        .review:last-child { border-bottom: none; }
+        .review-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 10px; gap: 10px; }
+        .reviewer { font-weight: 500; color: var(--text-color); }
+        .review-date { color: #777; font-size: 0.85rem; }
+        .review-rating.rating { margin-bottom: 10px; font-size: 1rem; color: var(--warning); }
+        .review-content { line-height: 1.6; margin-bottom: 10px; color: #444; }
+        .review-helpful { margin-top: 10px; font-size: 0.85rem; color: #777; }
+        .review-helpful a { color: var(--primary-color); text-decoration: none; }
+        .review-helpful a:hover { text-decoration: underline; }
+        .tab-content table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.9rem; }
+        .tab-content table td, .tab-content table th { padding: 10px 8px; border-bottom: 1px solid #eee; text-align: left; vertical-align: top; }
+        .tab-content table tr:last-child td { border-bottom: none; }
+        .tab-content table td:first-child { font-weight: 500; color: var(--text-color); padding-right: 15px; }
+        .tab-content ul { margin-left: 20px; margin-bottom: 15px; list-style: disc; padding-left: 15px; }
+        .breadcrumb { margin-bottom: 20px; padding: 10px 0; font-size: 0.9rem; color: #555; border-bottom: 1px solid #eee; }
+        .breadcrumb a { color: var(--primary-color); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb span { color: var(--text-color); font-weight: 500; }
+        @media (max-width: 768px) {
+            .product-container { gap: 20px; }
+            .product-info { flex-basis: 100%; }
+            .product-title { font-size: 1.8rem; }
+            .current-price { font-size: 1.6rem; }
+            .tabs { margin-top: 30px; }
+            .tab-header { padding: 10px 15px; font-size: 0.9rem; }
+            .reviews-summary { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .average-rating { font-size: 2rem; }
+            /* Ajuster les boutons d'action sur mobile */
+            .action-buttons a.btn, .action-buttons button.btn { flex-grow: 1; text-align: center; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">MeubleCuisine</a>
+                <div class="nav-links">
+                    <a href="index.html">Accueil</a>
+                    <a href="collections.html" class="active">Collections</a>
+                    <a href="a-propos.html">À propos</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" id="login-btn">Connexion</button>
+                    <button class="btn btn-primary" id="register-btn">Créer un compte</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+             <!-- Fil d'Ariane -->
+            <div class="breadcrumb">
+                <a href="index.html">Accueil</a> >
+                <a href="collections.html">Collections</a> >
+                <a href="collection-moderne.html">Collection Moderne</a> >
+                <span>Pureté Blanche</span>
+            </div>
+
+            <!-- Détail du produit -->
+            <div class="product-container">
+                <!-- Images du produit -->
+                <div class="product-images">
+                    <img src="/api/placeholder/600/400?text=Purete+Blanche+1" alt="Pureté Blanche - Vue principale" class="main-image" id="mainProductImage">
+                    <div class="thumbnail-grid">
+                        <img src="/api/placeholder/100/80?text=Vue+1" alt="Vue 1" class="thumbnail active" data-image="/api/placeholder/600/400?text=Purete+Blanche+1">
+                        <img src="/api/placeholder/100/80?text=Vue+2" alt="Vue 2" class="thumbnail" data-image="/api/placeholder/600/400?text=Purete+Blanche+2">
+                        <img src="/api/placeholder/100/80?text=Vue+3" alt="Vue 3" class="thumbnail" data-image="/api/placeholder/600/400?text=Purete+Blanche+3">
+                        <img src="/api/placeholder/100/80?text=Vue+4" alt="Vue 4" class="thumbnail" data-image="/api/placeholder/600/400?text=Ambiance">
+                    </div>
+                </div>
+
+                <!-- Infos du produit -->
+                <div class="product-info">
+                    <h1 class="product-title">Pureté Blanche</h1>
+                    <div class="vendor-info">
+                        <span class="vendor-name">Par MeubleCuisine Design</span>
+                        <span class="vendor-rating rating">4.9 ★★★★★ <span style="color: #777; font-weight: normal;">(127 avis vendeur)</span></span>
+                    </div>
+                    <div class="product-rating rating">4.8 ★★★★★ <span style="color: #777; font-weight: normal; font-size: 0.9em;">(Basé sur 36 avis)</span></div>
+                    <div class="price-box">
+                        <span class="current-price">7 830 DH</span>
+                        <span class="regular-price">8 700 DH</span>
+                        <span class="discount">-10%</span>
+                        <div style="margin-top: 8px; font-size: 0.85rem; color: #555;"> Ou payez en 12 fois : <strong style="color: var(--primary-color);">654 DH/mois</strong> (0% d'intérêt) </div>
+                    </div>
+                    <div class="product-meta">
+                         <div class="meta-item"><span class="meta-label">Référence :</span> <span>MB-PB-001</span></div>
+                         <div class="meta-item"><span class="meta-label">Catégorie :</span> <span>Meubles bas, Collection Moderne</span></div>
+                         <div class="meta-item"><span class="meta-label">Disponibilité :</span> <span style="color: var(--success); font-weight: 500;">En stock</span></div>
+                         <div class="meta-item"><span class="meta-label">Livraison :</span> <span>Estimée sous 10-15 jours (Casablanca)</span></div>
+                    </div>
+                    <div class="availability">
+                        <span class="availability-indicator"></span>
+                        <span>En stock - <strong id="stock-count">12</strong> unités disponibles</span>
+                    </div>
+                    <div class="quantity-selector">
+                        <span class="quantity-label">Quantité:</span>
+                        <button class="quantity-btn" id="quantity-minus" aria-label="Diminuer la quantité">-</button>
+                        <input type="number" value="1" min="1" max="12" class="quantity-input" id="quantity-input" aria-label="Quantité">
+                        <button class="quantity-btn" id="quantity-plus" aria-label="Augmenter la quantité">+</button>
+                    </div>
+
+                    <!-- MODIFIÉ : Le bouton est maintenant un lien avec un ID -->
+                    <div class="action-buttons">
+                        <a href="reserverObjet.html" 
+                           class="btn btn-primary"
+                           role="button"
+                           id="reserve-link">Réserver maintenant</a>
+                        <button class="btn btn-outline" id="wishlist-btn">Ajouter aux favoris</button>
+                    </div>
+
+                    <div class="product-description">
+                        <h3>Description</h3>
+                        <p>Apportez une touche d'élégance minimaliste à votre cuisine avec le meuble bas "Pureté Blanche". Ses façades laquées d'un blanc éclatant et son système d'ouverture push-pull sans poignées créent des lignes fluides et contemporaines. Conçu pour maximiser l'espace de rangement tout en offrant une esthétique épurée, ce meuble allie fonctionnalité et design moderne.</p>
+                        <h4>Points forts :</h4>
+                        <ul class="features-list">
+                            <li>Façades en MDF laqué blanc haute brillance pour un look premium</li>
+                            <li>Système d'ouverture discret et pratique "push-pull" (sans poignées)</li>
+                            <li>Charnières avec amortisseurs pour une fermeture douce et silencieuse</li>
+                            <li>Structure robuste en panneaux de particules haute densité (norme E1)</li>
+                            <li>Intérieur facile à nettoyer en mélaminé blanc</li>
+                            <li>Pieds réglables pour une stabilité parfaite sur tous les sols</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onglets -->
+            <div class="tabs">
+                <div class="tab-headers">
+                    <div class="tab-header active" data-tab="details">Détails techniques</div>
+                    <div class="tab-header" data-tab="reviews">Avis clients (36)</div>
+                    <div class="tab-header" data-tab="delivery">Livraison & Installation</div>
+                    <div class="tab-header" data-tab="warranty">Garantie</div>
+                </div>
+
+                <div class="tab-content active" id="tab-details">
+                    <h3>Caractéristiques techniques</h3>
+                    <table>
+                        <tbody>
+                            <tr> <td><strong>Dimensions (L x P x H)</strong></td> <td>120 cm x 60 cm x 82 cm</td> </tr>
+                            <tr> <td><strong>Matériau Structure</strong></td> <td>Panneaux de particules mélaminés (PPM) - Épaisseur 18mm - Norme E1</td> </tr>
+                            <tr> <td><strong>Matériau Façades</strong></td> <td>MDF (Medium Density Fiberboard) - Épaisseur 19mm</td> </tr>
+                            <tr> <td><strong>Finition extérieure</strong></td> <td>Laqué polyuréthane blanc haute brillance (Multi-couches)</td> </tr>
+                            <tr> <td><strong>Finition intérieure</strong></td> <td>Mélaminé blanc mat lisse</td> </tr>
+                            <tr> <td><strong>Système d'ouverture</strong></td> <td>Mécanisme Push-to-open (pousser-lâcher)</td> </tr>
+                            <tr> <td><strong>Charnières</strong></td> <td>Métalliques avec système de fermeture amortie (Soft-close) intégré</td> </tr>
+                            <tr> <td><strong>Tablette intérieure</strong></td> <td>1 tablette réglable en hauteur</td> </tr>
+                            <tr> <td><strong>Pieds</strong></td> <td>4 pieds en PVC réglables en hauteur (plage de réglage +/- 15mm)</td> </tr>
+                            <tr> <td><strong>Vide sanitaire</strong></td> <td>Espace arrière prévu pour le passage des tuyauteries (env. 5 cm)</td> </tr>
+                            <tr> <td><strong>Poids net</strong></td> <td>Environ 42 kg</td> </tr>
+                            <tr> <td><strong>Montage</strong></td> <td>Livré monté (caisson assemblé), prêt à poser</td> </tr>
+                            <tr> <td><strong>Entretien</strong></td> <td>Nettoyer avec un chiffon doux et humide et un détergent non abrasif. Essuyer avec un chiffon sec. Éviter les produits solvants ou abrasifs.</td> </tr>
+                       </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-content" id="tab-reviews">
+                    <h3>Avis des clients</h3>
+                    <div class="reviews-summary">
+                        <div class="average-rating">4.8</div>
+                        <div class="rating-bars">
+                            <div class="rating-bar"> <span class="rating-label">5★</span> <div class="rating-progress"> <div class="rating-progress-fill" style="width: 85%;"></div> </div> <span class="rating-count">31</span> </div>
+                            <div class="rating-bar"> <span class="rating-label">4★</span> <div class="rating-progress"> <div class="rating-progress-fill" style="width: 10%;"></div> </div> <span class="rating-count">4</span> </div>
+                            <div class="rating-bar"> <span class="rating-label">3★</span> <div class="rating-progress"> <div class="rating-progress-fill" style="width: 3%;"></div> </div> <span class="rating-count">1</span> </div>
+                            <div class="rating-bar"> <span class="rating-label">2★</span> <div class="rating-progress"> <div class="rating-progress-fill" style="width: 0%;"></div> </div> <span class="rating-count">0</span> </div>
+                            <div class="rating-bar"> <span class="rating-label">1★</span> <div class="rating-progress"> <div class="rating-progress-fill" style="width: 0%;"></div> </div> <span class="rating-count">0</span> </div>
+                        </div>
+                    </div>
+                    <div class="reviews">
+                         <div style="margin-bottom: 25px; text-align: right;"> <button class="btn btn-outline">Écrire un avis</button> </div>
+                        <div class="review"> <div class="review-header"> <span class="reviewer">Ahmed M.</span> <span class="review-date">12 mars 2025</span> </div> <div class="review-rating rating">★★★★★</div> <div class="review-content"> <p>Très satisfait...</p> </div> <div class="review-helpful"> <span>Cet avis utile ? <a href="#">Oui</a> (3) / <a href="#">Non</a> (0)</span> </div> </div>
+                        <div class="review"> <div class="review-header"> <span class="reviewer">Sophie L. (Achat vérifié)</span> <span class="review-date">28 février 2025</span> </div> <div class="review-rating rating">★★★★★</div> <div class="review-content"> <p>Exactement comme sur les photos...</p> </div> <div class="review-helpful"> <span>Cet avis utile ? <a href="#">Oui</a> (5) / <a href="#">Non</a> (0)</span> </div> </div>
+                        <div class="review"> <div class="review-header"> <span class="reviewer">Karim B.</span> <span class="review-date">15 février 2025</span> </div> <div class="review-rating rating">★★★★☆</div> <div class="review-content"> <p>Bon rapport qualité-prix...</p> </div> <div class="review-helpful"> <span>Cet avis utile ? <a href="#">Oui</a> (2) / <a href="#">Non</a> (1)</span> </div> </div>
+                        <div class="review"> <div class="review-header"> <span class="reviewer">Nadia T. (Achat vérifié)</span> <span class="review-date">3 février 2025</span> </div> <div class="review-rating rating">★★★★★</div> <div class="review-content"> <p>Superbe meuble !...</p> </div> <div class="review-helpful"> <span>Cet avis utile ? <a href="#">Oui</a> (1) / <a href="#">Non</a> (0)</span> </div> </div>
+                        <div style="margin-top: 30px; text-align: center;"> <a href="#" class="btn btn-outline">Voir tous les 36 avis</a> </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-delivery">
+                    <h3>Livraison & Installation</h3>
+                    <div>
+                         <p><strong>Délais de livraison :</strong></p> <ul><li>Casablanca & Rabat : <strong>10-12 jours ouvrables</strong></li><li>Autres grandes villes... : <strong>12-15 jours ouvrables</strong></li><li>Autres localités : Nous contacter...</li></ul>
+                         <p><strong>Frais de livraison :</strong></p> <ul><li>Casablanca : <strong>150 DH</strong></li><li>Rabat, Marrakech... : <strong>250 DH</strong></li><li>Livraison <strong>gratuite</strong> pour commande > 15 000 DH.</li></ul>
+                         <p><strong>Service de livraison :</strong> Notre équipe assure...</p>
+                         <p><strong>Service d'installation (Optionnel) :</strong></p> <ul><li>Prix : <strong>350 DH</strong>...</li><li>Comprend : Déballage, mise en place...</li><li>Ne comprend pas : Raccordements...</li></ul>
+                         <p><strong>Récupération des emballages :</strong> Si installation...</p>
+                         <p><strong>Vérification à la livraison :</strong> Vérifier l'état...</p>
+                     </div>
+                </div>
+
+                <div class="tab-content" id="tab-warranty">
+                    <h3>Garantie MeubleCuisine</h3>
+                    <div>
+                        <p>Garantie constructeur de <strong>2 ans</strong>...</p>
+                        <p><strong>Ce que la garantie couvre :</strong></p> <ul><li>Défaut de fabrication...</li><li>Bon fonctionnement des mécanismes...</li><li>Défauts de la finition laquée...</li><li>Stabilité et solidité...</li></ul>
+                        <p><strong>Ce que la garantie ne couvre pas :</strong></p> <ul><li>Usure normale...</li><li>Dommages par impact...</li><li>Mauvaise utilisation, entretien...</li><li>Modifications ou réparations...</li><li>Variations naturelles...</li><li>Dommages transport non signalés...</li></ul>
+                        <p><strong>Comment faire valoir la garantie ?</strong></p> <p>Contactez notre service client :</p> <ul><li>Par email : <strong>service.client@...</strong></li><li>Par téléphone : <strong>+212 5...</strong></li></ul>
+                        <p>Nous évaluerons la situation...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produits similaires -->
+            <section style="margin-top: 60px;">
+                <h2 class="section-title">Vous pourriez aussi aimer</h2>
+                <div class="cards-grid">
+                    <div class="card"> <a href="#" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;"> <div class="card-image"><img src="/api/placeholder/280/200?text=Chaleur+Urbaine" alt="Chaleur Urbaine"></div> <div class="card-content"> <h3 class="card-title">Chaleur Urbaine</h3> <div class="card-meta"> <span>Mélaminé bois & noir mat</span> <div class="rating">4.7 ★★★★★</div> </div> <p class="card-description">Meuble bas...</p> <div class="card-price">9 100 DH</div> </div> </a> </div>
+                    <div class="card"> <a href="#" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;"> <div class="card-image"><img src="/api/placeholder/280/200?text=Elegance+Grise" alt="Élégance Grise"></div> <div class="card-content"> <h3 class="card-title">Élégance Grise</h3> <div class="card-meta"> <span>Façades gris anthracite mat</span> <div class="rating">4.9 ★★★★★</div> </div> <p class="card-description">Meuble bas...</p> <div class="card-price">8 950 DH</div> </div> </a> </div>
+                    <div class="card"> <a href="#" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;"> <div class="card-image"><img src="/api/placeholder/280/200?text=Meubles+Hauts+LED" alt="Meubles Hauts Lumineux"></div> <div class="card-content"> <h3 class="card-title">Haut Vitré Lumineux</h3> <div class="card-meta"> <span>Verre fumé & LED</span> <div class="rating">4.8 ★★★★★</div> </div> <p class="card-description">Meuble haut...</p> <div class="card-price">7 900 DH</div> </div> </a> </div>
+                    <div class="card"> <a href="#" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;"> <div class="card-image"><img src="/api/placeholder/280/200?text=Colonne+Minimaliste" alt="Colonne Minimaliste"></div> <div class="card-content"> <h3 class="card-title">Colonne Minimaliste Blanche</h3> <div class="card-meta"> <span>Laqué blanc brillant</span> <div class="rating">4.7 ★★★★★</div> </div> <p class="card-description">Colonne de rangement...</p> <div class="card-price">12 300 DH</div> </div> </a> </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column"> <h3>MeubleCuisine</h3> <p>Solutions sur mesure pour la cuisine de vos rêves. Qualité, design et fonctionnalité.</p> <div class="footer-social"></div> </div>
+                <div class="footer-column"> <h3>Navigation</h3> <ul class="footer-links"> <li><a href="index.html">Accueil</a></li> <li><a href="collections.html">Collections</a></li> <li><a href="a-propos.html">À propos</a></li> <li><a href="contact.html">Contact</a></li> <li><a href="#">Blog / Conseils</a></li> </ul> </div>
+                <div class="footer-column"> <h3>Informations</h3> <ul class="footer-links"> <li><a href="#">FAQ</a></li> <li><a href="#">Livraison & Installation</a></li> <li><a href="#">Politique de confidentialité</a></li> <li><a href="#">Conditions Générales de Vente</a></li> <li><a href="#">Notre Garantie</a></li> </ul> </div>
+                <div class="footer-column"> <h3>Contactez-nous</h3> <p>Showroom: 123 Boulevard Anfa,<br>Casablanca, Maroc</p> <p>Email: contact@meublecuisine.ma<br>Téléphone: +212 5 00 00 00 00</p> <p>Lun - Sam : 9h00 - 19h00</p> </div>
+            </div>
+            <div class="footer-bottom"> © <span id="current-year"></span> MeubleCuisine. Tous droits réservés. </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="login-modal"> <div class="modal"> <div class="modal-header"> <h3>Connexion</h3> <button class="modal-close" aria-label="Fermer">×</button> </div> <div class="modal-body"> <form id="login-form-modal"> <div class="form-group"> <label for="login-email-modal">Email</label> <input type="email" class="form-control" id="login-email-modal" required> </div> <div class="form-group"> <label for="login-password-modal">Mot de passe</label> <input type="password" class="form-control" id="login-password-modal" required> </div> <div class="form-check"> <input type="checkbox" id="login-remember-modal"> <label for="login-remember-modal">Se souvenir de moi</label> </div> <a href="#" style="display: block; margin-top: 10px; text-align: right; font-size: 0.9rem; color: var(--primary-color);">Mot de passe oublié ?</a> </form> </div> <div class="modal-footer"> <button type="button" class="btn btn-outline modal-close">Annuler</button> <button type="submit" form="login-form-modal" class="btn btn-primary">Se connecter</button> </div> </div> </div>
+    <div class="modal-overlay" id="register-modal"> <div class="modal"> <div class="modal-header"> <h3>Créer un compte</h3> <button class="modal-close" aria-label="Fermer">×</button> </div> <div class="modal-body"> <form id="register-form-modal"> <div class="form-group"> <label for="register-name-modal">Nom complet</label> <input type="text" class="form-control" id="register-name-modal" required> </div> <div class="form-group"> <label for="register-email-modal">Email</label> <input type="email" class="form-control" id="register-email-modal" required> </div> <div class="form-group"> <label for="register-password-modal">Mot de passe</label> <input type="password" class="form-control" id="register-password-modal" required> </div> <div class="form-group"> <label for="register-password-confirm-modal">Confirmer</label> <input type="password" class="form-control" id="register-password-confirm-modal" required> </div> <div class="form-group"> <label for="register-phone-modal">Téléphone</label> <input type="tel" class="form-control" id="register-phone-modal"> </div> <div class="form-group"> <label for="register-city-modal">Ville</label> <input type="text" class="form-control" id="register-city-modal"> </div> <div class="form-check"> <input type="checkbox" id="register-newsletter-modal"> <label for="register-newsletter-modal">Recevoir les offres</label> </div> <div class="form-check"> <input type="checkbox" id="register-terms-modal" required> <label for="register-terms-modal">J'accepte les <a href="#" target="_blank" style="color: var(--primary-color);">CGU</a> et la <a href="#" target="_blank" style="color: var(--primary-color);">confidentialité</a>.</label> </div> </form> </div> <div class="modal-footer"> <button type="button" class="btn btn-outline modal-close">Annuler</button> <button type="submit" form="register-form-modal" class="btn btn-primary">S'inscrire</button> </div> </div> </div>
+
+    <!-- Script pour les interactions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Modal Functionality ---
+            const loginBtn = document.getElementById('login-btn');
+            const registerBtn = document.getElementById('register-btn');
+            const loginModal = document.getElementById('login-modal');
+            const registerModal = document.getElementById('register-modal');
+            const closeButtons = document.querySelectorAll('.modal-close');
+            const modalOverlays = document.querySelectorAll('.modal-overlay');
+            function openModal(modal) { if (modal) modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+            function closeModal(modal) { if (modal) modal.classList.remove('active'); if (!document.querySelector('.modal-overlay.active')) { document.body.style.overflow = ''; } }
+            loginBtn?.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
+            registerBtn?.addEventListener('click', (e) => { e.preventDefault(); openModal(registerModal); });
+            closeButtons.forEach(button => { button.addEventListener('click', () => { closeModal(button.closest('.modal-overlay')); }); });
+            modalOverlays.forEach(overlay => { overlay.addEventListener('click', (event) => { if (event.target === overlay) { closeModal(overlay); } }); });
+            document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { const activeModal = document.querySelector('.modal-overlay.active'); if (activeModal) { closeModal(activeModal); } } });
+
+            // --- Footer Year ---
+            const currentYearSpan = document.getElementById('current-year');
+            if(currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
+
+             // --- Product Page Specific JS ---
+             // Image Thumbnail Gallery
+            const mainImage = document.getElementById('mainProductImage');
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', () => {
+                    const newImageSrc = thumbnail.dataset.image;
+                    if (mainImage && newImageSrc) { mainImage.src = newImageSrc; mainImage.alt = thumbnail.alt.replace('Vue', 'Pureté Blanche -'); }
+                    thumbnails.forEach(t => t.classList.remove('active'));
+                    thumbnail.classList.add('active');
+                });
+                 thumbnail.addEventListener('mouseover', () => { const imgPreload = new Image(); imgPreload.src = thumbnail.dataset.image; });
+            });
+
+            // Quantity Selector Logic (needed to update the link)
+            const quantityInput = document.getElementById('quantity-input');
+            const minusBtn = document.getElementById('quantity-minus');
+            const plusBtn = document.getElementById('quantity-plus');
+            const stockCountElement = document.getElementById('stock-count');
+            let maxQuantity = 1; // Default
+            if (stockCountElement && quantityInput) {
+                 maxQuantity = parseInt(quantityInput.getAttribute('max') || '1', 10); // Use max attribute from input
+            }
+
+             if(quantityInput){
+                 minusBtn?.addEventListener('click', () => { let v = parseInt(quantityInput.value); if (v > 1) { quantityInput.value = v - 1; updateReservationLinkQuantity(); } }); // Update link on change
+                 plusBtn?.addEventListener('click', () => { let v = parseInt(quantityInput.value); if (v < maxQuantity) { quantityInput.value = v + 1; updateReservationLinkQuantity(); } }); // Update link on change
+                 quantityInput.addEventListener('change', () => { // Handle direct input
+                     let v = parseInt(quantityInput.value);
+                     if (isNaN(v) || v < 1) { quantityInput.value = 1; }
+                     else if (v > maxQuantity) { quantityInput.value = maxQuantity; }
+                     updateReservationLinkQuantity(); // Update link on change
+                 });
+             }
+
+
+            // Tabs Functionality
+            const tabHeaders = document.querySelectorAll('.tab-header');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const targetTabId = 'tab-' + header.dataset.tab;
+                    tabHeaders.forEach(h => h.classList.remove('active'));
+                    header.classList.add('active');
+                    tabContents.forEach(content => { content.style.display = content.id === targetTabId ? 'block' : 'none'; content.classList.toggle('active', content.id === targetTabId); });
+                });
+            });
+
+            // --- Liaison Quantité et Lien Réserver (MODIFIÉ/FINAL) ---
+            const reserveLink = document.getElementById('reserve-link'); // Cible le lien
+
+            function updateReservationLinkQuantity() {
+                if (quantityInput && reserveLink) {
+                    const quantity = quantityInput.value || 1;
+                    let baseHref = reserveLink.href;
+                    // Supprime l'ancien paramètre qte s'il existe
+                    baseHref = baseHref.replace(/([&?])qte=[^&]*&?/, '$1');
+                    // Nettoie le séparateur final si qte était le dernier paramètre
+                    baseHref = baseHref.replace(/[?&]$/, '');
+
+                    const separator = baseHref.includes('?') ? '&' : '?';
+                    reserveLink.href = `${baseHref}${separator}qte=${quantity}`;
+                   // console.log("Lien màj:", reserveLink.href); // Débogage
+                }
+            }
+            updateReservationLinkQuantity(); // Appel initial pour mettre le lien à jour
+
+            // --- Wishlist Button Placeholder Logic ---
+            const wishlistBtn = document.getElementById('wishlist-btn');
+            wishlistBtn?.addEventListener('click', (e) => {
+                  e.target.classList.toggle('active'); // Simple toggle visual state
+                  if(e.target.classList.contains('active')){
+                      e.target.innerHTML = '<span style="color: var(--success); margin-right: 5px;">✓</span> Ajouté';
+                       // alert(`"Pureté Blanche" ajouté à votre liste de favoris (simulation).`);
+                  } else {
+                       e.target.textContent = 'Ajouter aux favoris';
+                       // alert(`"Pureté Blanche" retiré de votre liste de favoris (simulation).`);
+                  }
+                 // Add actual wishlist logic here
+            });
+
+        }); // Fin DOMContentLoaded
+    </script>
+</body>
+</html>

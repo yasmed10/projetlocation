@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer une annonce | MeubleCuisine</title>
+    <!-- Lien vers votre fichier CSS externe principal -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        /* Styles SPÉCIFIQUES pour la page de création de produit */
+        .create-product-wrapper {
+            max-width: 900px; /* Plus large pour contenir tous les champs */
+            margin: 30px auto;
+            padding: 30px 40px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        .create-product-wrapper h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 1.8rem; /* Taille titre ajustée */
+        }
+        .create-product-wrapper .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* --- CORRECTION SOUS-NAVIGATION DASHBOARD --- */
+        .dashboard-nav {
+            background-color: white; /* Fond blanc comme demandé */
+            padding: 0; /* Padding géré par container/liens */
+            border-bottom: 1px solid #eee;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Ombre légère */
+        }
+        .dashboard-nav .container {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        .dashboard-nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 15px 5px; /* Ajustement padding vertical */
+            /* border-bottom: 3px solid transparent; /* ENLEVÉ */
+            transition: color 0.3s; /* Transition seulement sur couleur */
+            position: relative; /* REQUIS pour ::after */
+        }
+        /* AJOUT ::after pour le soulignement */
+        .dashboard-nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px; /* Épaisseur soulignement */
+            bottom: -1px; /* Position juste sous le texte (ajuster si besoin) */
+            left: 50%;
+            background-color: var(--primary-color);
+            transition: all 0.3s ease-in-out;
+        }
+        /* AJOUT règle hover/active pour ::after */
+        .dashboard-nav a:hover::after,
+        .dashboard-nav a.active::after {
+            width: 100%;
+            left: 0;
+        }
+        /* S'assurer que la couleur change aussi */
+        .dashboard-nav a:hover,
+        .dashboard-nav a.active {
+            color: var(--primary-color);
+        }
+        /* --- FIN CORRECTION SOUS-NAVIGATION --- */
+
+
+        /* Section Adresse */
+        .address-section fieldset { border: 1px solid #ddd; padding: 15px 20px 20px 20px; border-radius: var(--border-radius); margin-bottom: 20px; }
+        .address-section legend { padding: 0 10px; font-weight: 500; color: var(--secondary-color); }
+        .address-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+
+        /* Section Prix */
+        .price-section .form-group { display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; }
+        .price-section label[for="product-price"] { flex-basis: 100%; }
+        .price-section input[type="number"] { flex-grow: 1; max-width: 200px; }
+        .price-unit { font-weight: 500; }
+        .price-calculation { flex-basis: 100%; font-size: 0.9rem; color: #555; background-color: var(--light-bg); padding: 10px 15px; border-radius: var(--border-radius); margin-top: 10px; border: 1px solid #eee; }
+        .price-calculation strong { color: var(--primary-color); }
+        .price-calculation .commission { color: var(--accent-color); }
+
+        /* Upload Images */
+        .image-upload-section h4 { margin-bottom: 15px; color: var(--secondary-color); }
+        .image-upload-section .form-group { border: 1px dashed #ccc; padding: 15px; border-radius: var(--border-radius); background-color: #fafafa; }
+        .image-upload-section input[type="file"] { border: none; padding: 5px 0; }
+        .file-input-guide { font-size: 0.8rem; color: #777; margin-top: 5px; display: block; }
+        #image-preview-main, #image-preview-additional { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        #image-preview-main img, #image-preview-additional img { width: 80px; height: 80px; object-fit: cover; border-radius: var(--border-radius); border: 1px solid #ddd; }
+
+        /* Option Premium */
+        .premium-option { margin-top: 20px; padding: 15px; background-color: var(--light-bg); border: 1px solid #eee; border-radius: var(--border-radius); }
+        .premium-option .form-check label { font-weight: 500; }
+        .premium-option .form-check input[disabled] + label { color: #999; cursor: not-allowed; }
+        .premium-option small { display: block; margin-left: 25px; font-size: 0.85rem; color: #777; }
+
+        /* Boutons d'action */
+        .action-buttons-create { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; flex-wrap: wrap; gap: 15px; }
+        .action-buttons-create .btn { padding: 10px 25px; }
+        .action-buttons-create .btn-primary { padding: 12px 35px; font-size: 1.1rem; }
+        @media (max-width: 500px) { .action-buttons-create { justify-content: center; } .action-buttons-create .btn { width: 100%; text-align: center; } }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">MeubleCuisine</a>
+                <div class="nav-links">
+                    <!-- Liens du header quand connecté -->
+                    <a href="dashboard.html">Tableau de bord</a>
+                    <a href="creer-produit.html" class="active">Créer</a>
+                    <a href="manage.html">Gérer</a>
+                    <a href="analyse.html">Analyser</a>
+                    <a href="logout.php">Déconnexion</a>
+                </div>
+                 <!-- Pas de boutons auth ici -->
+            </nav>
+        </div>
+    </header>
+
+     <!-- Sous-Navigation Dashboard (Utilise les styles corrigés) -->
+     <div class="dashboard-nav">
+        <div class="container">
+            <a href="dashboard.html">Tableau de bord</a>
+            <a href="create.html" class="active">Créer</a>
+            <a href="manage.html">Gérer</a>
+            <a href="analyse.html">Analyser</a>
+        </div>
+    </div>
+
+    <main>
+        <div class="container">
+            <div class="create-product-wrapper">
+                <h1>Ajouter une nouvelle annonce</h1>
+
+                <form id="create-product-form" action="traitement_creation_produit.php" method="POST" enctype="multipart/form-data">
+
+                    <div class="form-group">
+                        <label for="product-name">Nom de l'annonce *</label>
+                        <input type="text" id="product-name" name="name" class="form-control" required placeholder="Ex: Table basse en bois massif, Îlot central moderne...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="product-description">Description *</label>
+                        <textarea id="product-description" name="description" class="form-control" rows="5" required placeholder="Décrivez votre meuble en détail : dimensions, matériaux, style, particularités..."></textarea>
+                    </div>
+
+                     <div class="form-group address-section">
+                        <fieldset>
+                            <legend>Adresse de l'article *</legend>
+                            <div class="address-grid">
+                                <div class="form-group"> <label for="product-street">Rue et numéro</label> <input type="text" id="product-street" name="street_address" class="form-control" required placeholder="Ex: 123 Boulevard Anfa"> </div>
+                                <div class="form-group"> <label for="product-address2">Complément (Optionnel)</label> <input type="text" id="product-address2" name="address_complement" class="form-control" placeholder="Ex: Appartement 5"> </div>
+                                <div class="form-group"> <label for="product-zip">Code Postal</label> <input type="text" id="product-zip" name="zip_code" class="form-control" required pattern="[0-9]{5}" placeholder="Ex: 20250"> </div>
+                                <div class="form-group"> <label for="product-city">Ville</label> <input type="text" id="product-city" name="city" class="form-control" required placeholder="Ex: Casablanca"> </div>
+                                <div class="form-group"> <label for="product-country">Pays</label> <input type="text" id="product-country" name="country" class="form-control" value="Maroc" required readonly> </div>
+                            </div>
+                         </fieldset>
+                     </div>
+
+                    <div class="form-group price-section">
+                        <label for="product-price">Votre Prix de Vente *</label>
+                        <input type="number" id="product-price" name="price" class="form-control" required step="1" min="50" placeholder="Ex: 1500">
+                        <span class="price-unit">DH</span>
+                        <div class="price-calculation"> Notre commission (15%) : <span class="commission" id="commission-amount">0.00 DH</span><br> Vous recevrez : <strong id="net-amount">0.00 DH</strong> <small style="display: block; margin-top: 5px;">Nous prélevons une commission de 15% sur chaque vente.</small> </div>
+                    </div>
+
+                    <div class="form-group">
+                         <label for="product-condition">État de l'article *</label>
+                         <select id="product-condition" name="condition" class="form-control" required> <option value="" disabled selected>-- Sélectionnez l'état --</option> <option value="neuf">Neuf</option> <option value="excellent">Excellent état</option> <option value="bon">Bon état</option> <option value="correct">État correct</option> </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="product-category">Catégorie *</label>
+                        <select id="product-category" name="category" class="form-control" required> <option value="" disabled selected>-- Sélectionnez une catégorie --</option> <option value="meubles_bas">Meubles bas</option> <option value="meubles_hauts">Meubles hauts</option> <option value="ilots_centraux">Îlots centraux</option> <option value="colonnes_rangement">Colonnes de rangement</option> <option value="tables_chaises">Tables & Chaises</option> <option value="accessoires">Accessoires</option> <option value="autre">Autre</option> </select>
+                    </div>
+
+                    <div class="image-upload-section">
+                        <h4>Images de l'annonce *</h4>
+                        <div class="form-group">
+                            <label for="main-image">Image Principale *</label>
+                            <input type="file" id="main-image" name="main_image" class="form-control" accept="image/jpeg, image/png, image/webp" required>
+                            <small class="file-input-guide">JPG, PNG, WEBP (max 5Mo).</small>
+                            <div id="image-preview-main"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="additional-images">Images Additionnelles (4 max)</label>
+                            <input type="file" id="additional-images" name="additional_images[]" class="form-control" accept="image/jpeg, image/png, image/webp" multiple>
+                            <small class="file-input-guide">Montrez différents angles ou détails.</small>
+                            <div id="image-preview-additional"></div>
+                            <small class="error-message" id="additional-images-error"></small>
+                        </div>
+                    </div>
+
+                     <div class="premium-option">
+                         <div class="form-check">
+                             <input type="checkbox" id="premium-listing" name="is_premium" value="1" >
+                             <label for="premium-listing">Mettre en avant cette annonce (Option Premium)</label>
+                         </div>
+                         <small>Option actuellement non disponible.</small>
+                     </div>
+
+                    <div class="action-buttons-create">
+                         <button type="button" id="archive-button" class="btn btn-outline">Archiver (Brouillon)</button>
+                         <button type="submit" name="publish" value="1" class="btn btn-primary">Publier l'annonce</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column"> <h3>MeubleCuisine</h3> <p>Solutions sur mesure...</p> </div>
+                <div class="footer-column"> <h3>Navigation</h3> <ul class="footer-links"> <li><a href="index.html">Accueil</a></li> ... </ul> </div>
+                <div class="footer-column"> <h3>Aide & Support</h3> <ul class="footer-links"> <li><a href="#">FAQ Propriétaire</a></li> ... </ul> </div>
+                <div class="footer-column"> <h3>Contactez-nous</h3> <p>Showroom...</p> </div>
+            </div>
+            <div class="footer-bottom"> © <span id="current-year"></span> MeubleCuisine. Tous droits réservés. </div>
+        </div>
+    </footer>
+
+    <!-- Modals (Masqués ou inutiles ici si l'utilisateur est connecté) -->
+    <!-- <div class="modal-overlay" id="login-modal"> ... </div> -->
+    <!-- <div class="modal-overlay" id="register-modal"> ... </div> -->
+
+    <!-- Script standard + spécifique -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Footer Year ---
+            const currentYearSpan = document.getElementById('current-year');
+            if(currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
+
+            // --- Create Product Page Specific JS ---
+            // 1. Calcul Prix Net
+            const priceInput = document.getElementById('product-price');
+            const commissionAmountSpan = document.getElementById('commission-amount');
+            const netAmountSpan = document.getElementById('net-amount');
+            const commissionRate = 0.15;
+            function updatePriceCalculation() {
+                const price = parseFloat(priceInput.value);
+                if (!isNaN(price) && price > 0) {
+                    const commission = price * commissionRate;
+                    const net = price - commission;
+                    const formatMAD = (value) => value.toLocaleString('fr-MA', { style: 'currency', currency: 'MAD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    commissionAmountSpan.textContent = formatMAD(commission);
+                    netAmountSpan.textContent = formatMAD(net);
+                } else {
+                    commissionAmountSpan.textContent = '0.00 DH';
+                    netAmountSpan.textContent = '0.00 DH';
+                }
+            }
+            if (priceInput) { priceInput.addEventListener('input', updatePriceCalculation); updatePriceCalculation(); }
+
+            // 2. Prévisualisation Images
+            const mainImageInput = document.getElementById('main-image');
+            const additionalImagesInput = document.getElementById('additional-images');
+            const mainPreviewContainer = document.getElementById('image-preview-main');
+            const additionalPreviewContainer = document.getElementById('image-preview-additional');
+            const additionalImagesError = document.getElementById('additional-images-error');
+            const maxAdditionalImages = 4;
+            function displayImagePreview(file, container) { if (file && file.type.startsWith('image/')){const reader = new FileReader(); reader.onload = function(e) {const img = document.createElement('img'); img.src = e.target.result; container.appendChild(img);} 
+            reader.readAsDataURL(file);}}
+            mainImageInput?.addEventListener('change', (event) => { mainPreviewContainer.innerHTML = ''; const file = event.target.files[0]; displayImagePreview(file, mainPreviewContainer); });
+            additionalImagesInput?.addEventListener('change', (event) => { additionalPreviewContainer.innerHTML = ''; additionalImagesError.textContent = ''; additionalImagesError.style.display = 'none'; const files = event.target.files; if (files.length > maxAdditionalImages) { additionalImagesError.textContent = `Maximum ${maxAdditionalImages} images additionnelles.`; additionalImagesError.style.display = 'block'; additionalImagesInput.value = ""; return; } for (let i = 0; i < files.length; i++) { displayImagePreview(files[i], additionalPreviewContainer); } });
+
+            // 3. Logique bouton Archiver
+            const archiveButton = document.getElementById('archive-button');
+            const form = document.getElementById('create-product-form');
+            archiveButton?.addEventListener('click', () => { let statusInput = form.querySelector('input[name="status"]'); if (!statusInput) { statusInput = document.createElement('input'); statusInput.type = 'hidden'; statusInput.name = 'status'; form.appendChild(statusInput); } statusInput.value = 'draft'; console.log("Archivage demandé (simulation)..."); alert("Annonce sauvegardée comme brouillon (simulation)."); /* form.submit(); */ });
+            const publishButton = form.querySelector('button[type="submit"][name="publish"]');
+            publishButton?.addEventListener('click', () => { let statusInput = form.querySelector('input[name="status"]'); if (statusInput) { statusInput.remove(); } });
+        });
+    </script>
+</body>
+</html>

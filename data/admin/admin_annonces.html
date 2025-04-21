@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion Annonces | Admin MeubleCuisine</title>
+    <link rel="stylesheet" href="../../css/style.css"> <!-- Style principal -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
+    <style>
+        /* Styles ADMIN (partiellement copiés des autres pages admin) */
+        body { background-color: #f8f9fa; }
+        .admin-header { background-color: var(--dark-bg); color: white; }
+        .admin-header nav { padding: 10px 0; }
+        .admin-header .logo { color: white; }
+        .admin-header .nav-links a { color: #eee; padding: 10px 15px; border-bottom: none; }
+        .admin-header .nav-links a::after { content: none; }
+        .admin-header .nav-links a:hover, .admin-header .nav-links a.active { color: white; background-color: rgba(255,255,255,0.1); border-radius: var(--border-radius); }
+        .admin-header .notification-link { position: relative; }
+        .notification-badge { position: absolute; top: 5px; right: 5px; background-color: var(--danger); color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .admin-subnav { background-color: white; padding: 0; border-bottom: 1px solid #eee; margin-bottom: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .admin-subnav .container { display: flex; gap: 25px; align-items: center; }
+        .admin-subnav a { text-decoration: none; color: var(--text-color); font-weight: 500; padding: 15px 10px; transition: color 0.3s; position: relative; border-bottom: 3px solid transparent; }
+        .admin-subnav a:hover, .admin-subnav a.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+        .admin-content-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .admin-section { background-color: white; padding: 25px; border-radius: var(--border-radius); box-shadow: var(--box-shadow); margin-bottom: 30px; }
+        .admin-section h1, .admin-section h2 { color: var(--primary-color); margin-top: 0; margin-bottom: 20px; font-size: 1.5rem; border-bottom: 1px solid #eee; padding-bottom: 10px;}
+
+        /* Styles spécifiques Gestion Annonces */
+        .filter-bar { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        .filter-bar .form-group { margin-bottom: 0; }
+        .filter-bar select.form-control, .filter-bar input[type="search"].form-control { padding: 8px 12px; min-width: 150px; height: 38px; }
+        .filter-bar .search-group { display: flex; margin-left: auto; }
+        .filter-bar .search-group input { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+        .filter-bar .search-group button { border-top-left-radius: 0; border-bottom-left-radius: 0; padding: 8px 15px; }
+        .pagination-info { text-align: right; font-size: 0.9rem; color: #777; margin-bottom: 15px; }
+
+        /* Tableau annonces */
+        .admin-annonces-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .admin-annonces-table th, .admin-annonces-table td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .admin-annonces-table thead th { color: #555; font-weight: 600; background-color: var(--light-bg); white-space: nowrap; }
+        .admin-annonces-table tbody tr:hover { background-color: #f9f9f9; }
+        .admin-annonces-table td.annonce-thumb img { width: 50px; height: 50px; object-fit: cover; border-radius: var(--border-radius); border: 1px solid #eee; }
+        .admin-annonces-table td.annonce-title { font-weight: 500; }
+        .admin-annonces-table td.annonce-title a { color: var(--primary-color); text-decoration: none;}
+        .admin-annonces-table td.annonce-title a:hover { text-decoration: underline;}
+        .admin-annonces-table td.annonce-seller a { color: var(--text-color); text-decoration: none; font-size: 0.85rem;}
+        .admin-annonces-table td.annonce-seller a:hover { color: var(--primary-color); }
+
+        /* Statuts Annonce */
+        .status-annonce { padding: 4px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: 500; white-space: nowrap; display: inline-block; text-align: center; min-width: 80px; }
+        .status-annonce.active { background-color: #e7f7ef; color: #0d6b3f; border: 1px solid #a7e0c2; }
+        .status-annonce.pending { background-color: #fef3e2; color: #a0670d; border: 1px solid #f7dcb0; }
+        .status-annonce.rejected { background-color: #fdecea; color: #a61d24; border: 1px solid #f8b4b8; }
+        .status-annonce.draft { background-color: #e9ecef; color: #495057; border: 1px solid #ced4da; }
+        .status-annonce.archived { background-color: #f8f9fa; color: #6c757d; border: 1px solid #dee2e6; }
+
+        /* Actions Annonce */
+        .actions-cell { white-space: nowrap; text-align: right; }
+        .actions-cell .btn { padding: 4px 8px; font-size: 0.8rem; margin-left: 5px; }
+        .actions-cell .btn-success { background-color: var(--success); border-color: var(--success); color: white; }
+        .actions-cell .btn-danger { background-color: var(--danger); border-color: var(--danger); color: white; }
+        .actions-cell .btn-secondary { background-color: #6c757d; border-color: #6c757d; color: white; }
+        .actions-cell .btn-warning { background-color: var(--warning); border-color: var(--warning); color: white; } /* Pour Editer */
+         .actions-cell .btn i { margin-right: 3px; } /* Si icônes */
+
+          /* Responsive Table */
+         @media (max-width: 1100px) { /* Ajuster breakpoint si nécessaire */
+            .admin-annonces-table { display: block; overflow-x: auto; }
+         }
+    </style>
+</head>
+<body>
+    <!-- Header Admin -->
+    <header class="admin-header">
+        <div class="container">
+            <nav>
+                <a href="admin_dashboard.html" class="logo">MeubleCuisine - Admin</a>
+                <div class="nav-links">
+                    <a href="admin_dashboard.html">Dashboard</a>
+                    <a href="admin_users.html">Utilisateurs</a>
+                    <a href="admin_stats.html">Statistiques</a>
+                    <a href="#notifications" class="notification-link" title="Notifications">  <span class="notification-badge">3</span> </a>
+                    <a href="index.html" target="_blank" title="Voir le site public">↗ Site Public</a>
+                    <a href="logout.php">Déconnexion</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sous-Navigation Admin -->
+     <div class="admin-subnav">
+        <div class="container">
+            <a href="admin_dashboard.html">Vue d'ensemble</a>
+            <a href="admin_users.html">Gestion Utilisateurs</a>
+            <a href="admin_stats.html">Rapports & Stats</a>
+            <a href="admin_annonces.html" class="active">Gestion Annonces</a>
+            <a href="admin_parametres.html">Paramètres</a>
+        </div>
+    </div>
+
+    <main>
+        <div class="admin-content-wrapper">
+             <section class="admin-section">
+                <h1>Gestion des Annonces</h1>
+
+                <!-- Barre de filtres -->
+                <div class="filter-bar">
+                     <div class="form-group">
+                        <select id="filter-annonce-status" class="form-control">
+                             <option value="all">Statut Annonce : Tous</option>
+                             <option value="pending">En attente</option>
+                             <option value="active">En ligne</option>
+                             <option value="rejected">Rejetée</option>
+                             <option value="draft">Brouillon</option>
+                              <option value="archived">Archivée</option>
+                        </select>
+                    </div>
+                     <div class="form-group">
+                        <select id="filter-annonce-category" class="form-control">
+                             <option value="all">Catégorie : Toutes</option>
+                             <option value="meubles_bas">Meubles bas</option>
+                             <!-- ... autres catégories ... -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                         <input type="search" id="filter-annonce-seller" class="form-control" placeholder="Filtrer par vendeur...">
+                    </div>
+                    <!-- Recherche -->
+                    <div class="search-group">
+                        <input type="search" id="search-annonce" class="form-control" placeholder="Rechercher par titre...">
+                        <button class="btn btn-primary">  </button>
+                    </div>
+                </div>
+
+                 <!-- Info Pagination -->
+                <div class="pagination-info"> 1 - 50 sur 88 annonces </div>
+
+                 <!-- Tableau des Annonces -->
+                 <table class="admin-annonces-table">
+                     <thead>
+                         <tr>
+                             <th>Image</th>
+                             <th>Titre</th>
+                             <th>Vendeur</th>
+                             <th>Catégorie</th>
+                             <th>Prix (DH)</th>
+                             <th>Statut</th>
+                             <th>Date Création</th>
+                             <th>Actions</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <!-- Exemple Annonce En Ligne -->
+                         <tr>
+                             <td class="annonce-thumb"><img src="/api/placeholder/50/50?text=P1" alt=""></td>
+                             <td class="annonce-title"><a href="#">Îlot Central Chêne Massif</a></td>
+                             <td class="annonce-seller"><a href="#">Atelier Bois & Design</a></td>
+                             <td>Îlots centraux</td>
+                             <td>14500.00</td>
+                             <td><span class="status-annonce active">En ligne</span></td>
+                             <td>10/07/2024</td>
+                             <td class="actions-cell">
+                                <button class="btn btn-warning btn-sm" title="Modifier">Modifier</button>
+                                <button class="btn btn-secondary btn-sm" title="Archiver">Archiver</button>
+                                <button class="btn btn-danger btn-sm" title="Supprimer">Suppr.</button>
+                             </td>
+                         </tr>
+                         <!-- Exemple Annonce En Attente -->
+                         <tr>
+                             <td class="annonce-thumb"><img src="/api/placeholder/50/50?text=P3" alt=""></td>
+                             <td class="annonce-title"><a href="#">Tabouret de Bar Industriel</a></td>
+                              <td class="annonce-seller"><a href="#">MetalArt Créations</a></td>
+                             <td>Tables & Chaises</td>
+                             <td>1100.00</td>
+                             <td><span class="status-annonce pending">En attente</span></td>
+                             <td>19/07/2024</td>
+                             <td class="actions-cell">
+                                 <button class="btn btn-success btn-sm" title="Approuver">Approuver</button>
+                                 <button class="btn btn-danger btn-sm" title="Rejeter">Rejeter</button>
+                                 <button class="btn btn-warning btn-sm" title="Modifier">Modifier</button>
+                             </td>
+                         </tr>
+                         <!-- Exemple Annonce Rejetée -->
+                          <tr>
+                             <td class="annonce-thumb"><img src="/api/placeholder/50/50?text=P4" alt=""></td>
+                             <td class="annonce-title"><a href="#">Crédence Verre Trempé Motif Géo</a></td>
+                             <td class="annonce-seller"><a href="#">DecoGlass SARL</a></td>
+                             <td>Accessoires</td>
+                             <td>4200.00</td>
+                             <td><span class="status-annonce rejected">Rejetée</span></td>
+                             <td>15/07/2024</td>
+                             <td class="actions-cell">
+                                 <button class="btn btn-outline-secondary btn-sm" title="Voir Détails Rejet">Détails</button>
+                                 <button class="btn btn-danger btn-sm" title="Supprimer">Suppr.</button>
+                             </td>
+                         </tr>
+                          <!-- Exemple Annonce Brouillon -->
+                           <tr>
+                             <td class="annonce-thumb"><img src="/api/placeholder/50/50?text=P5" alt=""></td>
+                             <td class="annonce-title"><a href="#">Table Cuisine Ronde Scandinave</a></td>
+                             <td class="annonce-seller"><a href="#">Nordik Design</a></td>
+                             <td>Tables & Chaises</td>
+                             <td>3200.00</td>
+                             <td><span class="status-annonce draft">Brouillon</span></td>
+                             <td>20/07/2024</td>
+                             <td class="actions-cell">
+                                 <button class="btn btn-warning btn-sm" title="Modifier">Modifier</button>
+                                 <button class="btn btn-danger btn-sm" title="Supprimer">Suppr.</button>
+                             </td>
+                         </tr>
+                         <!-- Ajouter d'autres lignes -->
+                     </tbody>
+                 </table>
+                   <!-- Pagination -->
+                  <!-- <div class="pagination"> ... </div> -->
+
+             </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+             <div class="footer-bottom" style="color: #aaa;"> © <span id="current-year"></span> MeubleCuisine Admin Panel. </div>
+        </div>
+    </footer>
+
+    <!-- Script standard -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentYearSpan = document.getElementById('current-year');
+            if(currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
+
+            // Logique pour les boutons d'action (simulation)
+            const actionButtons = document.querySelectorAll('.actions-cell button');
+            actionButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const action = e.target.title;
+                    const annonceTitle = e.target.closest('tr').querySelector('.annonce-title a').textContent;
+                    if (confirm(`Action "${action}" sur l'annonce "${annonceTitle}" ?`)) {
+                        console.log(`Action "${action}" demandée pour "${annonceTitle}"`);
+                        // Appel AJAX ici
+                        alert(`Action "${action}" effectuée (simulation).`);
+                        // Mettre à jour l'UI si nécessaire
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | MeubleCuisine</title>
+    <link rel="stylesheet" href="../../css/style.css"> <!-- Style principal -->
+   
+    <style>
+        /* Styles SPÉCIFIQUES pour l'ADMINISTRATION */
+        body { background-color: #f8f9fa; /* Fond légèrement différent pour l'admin */ }
+
+        .admin-header { background-color: var(--dark-bg); color: white; }
+        .admin-header nav { padding: 10px 0; }
+        .admin-header .logo { color: white; }
+        .admin-header .nav-links a { color: #eee; padding: 10px 15px; border-bottom: none; }
+        .admin-header .nav-links a::after { content: none; } /* Pas de soulignement */
+        .admin-header .nav-links a:hover,
+        .admin-header .nav-links a.active { color: white; background-color: rgba(255,255,255,0.1); border-radius: var(--border-radius); }
+        .admin-header .notification-link { position: relative; }
+        .notification-badge { position: absolute; top: 5px; right: 5px; background-color: var(--danger); color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+
+        /* Sous-nav Admin */
+        .admin-subnav { background-color: white; padding: 0; border-bottom: 1px solid #eee; margin-bottom: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .admin-subnav .container { display: flex; gap: 25px; align-items: center; }
+        .admin-subnav a { text-decoration: none; color: var(--text-color); font-weight: 500; padding: 15px 10px; transition: color 0.3s; position: relative; border-bottom: 3px solid transparent; }
+        .admin-subnav a:hover, .admin-subnav a.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+
+        .admin-content-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .admin-section { background-color: white; padding: 25px; border-radius: var(--border-radius); box-shadow: var(--box-shadow); margin-bottom: 30px; }
+        .admin-section h2 { color: var(--primary-color); margin-top: 0; margin-bottom: 20px; font-size: 1.5rem; border-bottom: 1px solid #eee; padding-bottom: 10px;}
+
+        /* Summary Boxes */
+        .dashboard-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .stat-box { background-color: var(--light-bg); padding: 20px; border-radius: var(--border-radius); text-align: center; border: 1px solid #eee; }
+        .stat-box .value { font-size: 2rem; font-weight: bold; color: var(--primary-color); display: block; margin-bottom: 5px; }
+        .stat-box .label { font-size: 0.9rem; color: #555; }
+        .stat-box a { display: block; margin-top: 15px; font-size: 0.85rem; color: var(--primary-color); text-decoration: none; font-weight: 500; }
+        .stat-box a:hover { text-decoration: underline; }
+
+    </style>
+</head>
+<body>
+    <!-- Header Admin -->
+    <header class="admin-header">
+        <div class="container">
+            <nav>
+                <a href="admin_dashboard.html" class="logo">MeubleCuisine - Admin</a>
+                <div class="nav-links">
+                    <a href="admin_dashboard.html" class="active">Dashboard</a>
+                    <a href="admin_users.html">Utilisateurs</a>
+                    <a href="admin_stats.html">Statistiques</a>
+                    <a href="#notifications" class="notification-link" title="Notifications">
+                         <!-- Bell Emoji -->
+                        <!-- <i class="fas fa-bell"></i> --> <!-- Si Font Awesome -->
+                        <span class="notification-badge">3</span> <!-- Exemple: 3 notifs -->
+                    </a>
+                    <a href="index.html" target="_blank" title="Voir le site public">↗ Site Public</a> <!-- Lien pour voir le site -->
+                    <a href="logout.php">Déconnexion</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sous-Navigation Admin -->
+    <div class="admin-subnav">
+        <div class="container">
+            <a href="admin_dashboard.html" class="active">Vue d'ensemble</a>
+            <a href="admin_users.html">Gestion Utilisateurs</a>
+            <a href="admin_stats.html">Rapports & Stats</a>
+            <a href="admin_annonces.html">Gestion Annonces</a> <!-- Placeholder -->
+            <a href="admin_parametres.html">Paramètres</a> <!-- Placeholder -->
+        </div>
+    </div>
+
+    <main>
+        <div class="admin-content-wrapper">
+             <h1>Tableau de Bord Administrateur</h1>
+
+             <section class="admin-section">
+                 <h2>Aperçu rapide</h2>
+                 <div class="dashboard-stats-grid">
+                     <div class="stat-box">
+                         <span class="value">152</span>
+                         <span class="label">Utilisateurs Total</span>
+                         <a href="admin_users.html">Gérer</a>
+                     </div>
+                      <div class="stat-box">
+                         <span class="value" style="color: var(--warning);">5</span> <!-- Couleur différente pour pending -->
+                         <span class="label">Utilisateurs en attente</span>
+                         <a href="admin_users.html?status=pending">Vérifier</a>
+                     </div>
+                     <div class="stat-box">
+                         <span class="value">65</span>
+                         <span class="label">Annonces Actives</span>
+                         <a href="#">Gérer les annonces</a>
+                     </div>
+                      <div class="stat-box">
+                         <span class="value">12</span>
+                         <span class="label">Ventes (7 derniers jours)</span>
+                         <a href="admin_stats.html">Voir stats</a>
+                     </div>
+                 </div>
+             </section>
+
+             <section class="admin-section">
+                <h2>Activité Récente</h2>
+                <!-- Placeholder pour un flux d'activité -->
+                <ul>
+                    <li>Nouvel utilisateur enregistré : Ahmed K. (Aujourd'hui)</li>
+                    <li>Nouvelle annonce ajoutée : "Table de cuisine extensible" par Fatima Z. (Hier)</li>
+                    <li>Utilisateur confirmé : Youssef B. (Hier)</li>
+                    <li>Annonce signalée : "Chaise haute bébé" (ID: 456)</li>
+                </ul>
+             </section>
+
+             <!-- D'autres sections pourraient être ajoutées ici -->
+
+        </div>
+    </main>
+
+    <!-- Footer standard -->
+    <footer>
+        <div class="container">
+            <!-- Contenu Footer -->
+             <div class="footer-bottom" style="color: #aaa;"> © <span id="current-year"></span> MeubleCuisine Admin Panel. </div>
+        </div>
+    </footer>
+
+    <!-- Script standard -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentYearSpan = document.getElementById('current-year');
+            if(currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
+            // Pas de JS spécifique complexe pour ce dashboard simple
+        });
+    </script>
+</body>
+</html>

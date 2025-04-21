@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection Moderne - MeubleCuisine</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">MeubleCuisine</a>
+                <div class="nav-links">
+                    <a href="index.html">Accueil</a>
+                    <a href="collections.html" class="active">Collections</a>
+                    <a href="a-propos.html">À propos</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" id="login-btn">Connexion</button>
+                    <button class="btn btn-primary" id="register-btn">Créer un compte</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <div class="container">
+                <h1 class="page-title">Collection Moderne</h1>
+                <p class="text-center mb-20" style="max-width: 800px; margin: -20px auto 40px;">
+                    Des lignes épurées, des finitions premium et des fonctionnalités innovantes pour une cuisine contemporaine résolument tendance.
+                </p>
+
+                <!-- Filtres de produits -->
+                <div style="display: flex; justify-content: center; margin-bottom: 40px;">
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                        <button class="btn btn-outline active">Tous</button>
+                        <button class="btn btn-outline">Meubles bas</button>
+                        <button class="btn btn-outline">Meubles hauts</button>
+                        <button class="btn btn-outline">Îlots</button>
+                        <button class="btn btn-outline">Colonnes</button>
+                    </div>
+                </div>
+
+                <!-- Produits de la collection -->
+                <div class="cards-grid">
+                    <!-- Produit 1 -->
+                    <div class="card">
+                        <a href="../Objet/Pureté Blanche.html" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Purete+Blanche" alt="Pureté Blanche"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Pureté Blanche</h3>
+                                <div class="card-meta"><span>Façades laquées brillantes</span><div class="rating">4.8 ★★★★★</div></div>
+                                <p class="card-description">Meuble bas avec façades laquées blanc brillant et ouverture push-pull sans poignées.</p>
+                                <div class="card-price">8 700 DH</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Produit 2 -->
+                    <div class="card">
+                        <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Chaleur+Urbaine" alt="Chaleur Urbaine"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Chaleur Urbaine</h3>
+                                <div class="card-meta"><span>Mélaminé bois & noir mat</span><div class="rating">4.7 ★★★★★</div></div>
+                                <p class="card-description">Meuble bas avec façades en mélaminé effet bois et détails en noir mat.</p>
+                                <div class="card-price">9 100 DH</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Produit 3 -->
+                    <div class="card">
+                        <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Elegance+Grise" alt="Élégance Grise"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Élégance Grise</h3>
+                                <div class="card-meta"><span>Façades gris anthracite mat</span><div class="rating">4.9 ★★★★★</div></div>
+                                <p class="card-description">Meuble bas avec façades en gris anthracite mat et poignées intégrées.</p>
+                                <div class="card-price">8 950 DH</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Produit 4 -->
+                    <div class="card">
+                        <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Ilot+Central" alt="Îlot Central Moderne"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Îlot Central Urbain</h3>
+                                <div class="card-meta"><span>Structure épurée avec rangements</span><div class="rating">4.9 ★★★★★</div></div>
+                                <p class="card-description">Îlot central avec façades lisses, plan de travail fin et rangements intégrés.</p>
+                                <div class="card-price">15 500 DH</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Produit 5 -->
+                    <div class="card">
+                        <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Meubles+Hauts+LED" alt="Meubles Hauts avec LED"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Meubles Hauts Lumineux</h3>
+                                <div class="card-meta"><span>Éclairage LED intégré</span><div class="rating">4.8 ★★★★★</div></div>
+                                <p class="card-description">Meubles hauts avec éclairage LED intégré et façades avec ouverture assistée.</p>
+                                <div class="card-price">7 900 DH</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Produit 6 -->
+                    <div class="card">
+                        <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Colonne+Rangement" alt="Colonne de Rangement"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Colonne Minimaliste</h3>
+                                <div class="card-meta"><span>Rangement optimisé</span><div class="rating">4.7 ★★★★★</div></div>
+                                <p class="card-description">Colonne de rangement avec tiroirs coulissants et compartiments modulables.</p>
+                                <div class="card-price">12 300 DH</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Produit 7 -->
+                    <div class="card">
+                        <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Systeme+Tiroirs" alt="Système de Tiroirs"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Système de Tiroirs Soft-Close</h3>
+                                <div class="card-meta"><span>Fermeture amortie</span><div class="rating">4.8 ★★★★★</div></div>
+                                <p class="card-description">Système de tiroirs sans poignées avec fermeture amortie et rangements intérieurs.</p>
+                                <div class="card-price">6 500 DH</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Produit 8 -->
+                    <div class="card">
+                        <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Credence+Verre" alt="Crédence en Verre"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Crédence Verre Décorative</h3>
+                                <div class="card-meta"><span>Finition élégante</span><div class="rating">4.6 ★★★★☆</div></div>
+                                <p class="card-description">Crédence en verre trempé coloré ou imprimé, facile d'entretien et résistante.</p>
+                                <div class="card-price">4 200 DH</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div style="display: flex; justify-content: center; margin-top: 40px;">
+                    <div style="display: flex; gap: 5px;">
+                        <a href="#" class="btn btn-outline">1</a>
+                        <a href="#" class="btn btn-outline">2</a>
+                        <a href="#" class="btn btn-outline">3</a>
+                        <span>...</span>
+                        <a href="#" class="btn btn-outline">Suivant →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section conseils design -->
+        <section style="background-color: #f9f9f9; padding: 60px 0;">
+            <div class="container">
+                <h2 class="section-title">Conseils pour votre cuisine moderne</h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
+                    <div style="flex: 1; min-width: 300px; max-width: 400px;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 15px;">Optimisez l'espace</h3>
+                        <p>Dans une cuisine moderne, chaque centimètre compte. Privilégiez les rangements intelligents et les solutions gain de place comme les tiroirs à compartiments ou les colonnes coulissantes.</p>
+                    </div>
+                    <div style="flex: 1; min-width: 300px; max-width: 400px;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 15px;">Jouez avec les matériaux</h3>
+                        <p>Associez différentes textures pour créer du contraste : laque brillante, surfaces mates, touches de bois ou de métal pour un look contemporain équilibré.</p>
+                    </div>
+                    <div style="flex: 1; min-width: 300px; max-width: 400px;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 15px;">Misez sur l'éclairage</h3>
+                        <p>Un bon éclairage est essentiel: combinez lumière générale au plafond, éclairage de travail sous les meubles hauts et accents lumineux pour créer une ambiance moderne.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>MeubleCuisine</h3>
+                    <p>Solutions sur mesure pour la cuisine de vos rêves.</p>
+                    <div class="footer-social">
+                        <!-- Add social icons here if needed -->
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Navigation</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="collections.html">Collections</a></li>
+                        <li><a href="a-propos.html">À propos</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Informations</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Livraison & Installation</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                        <li><a href="#">Conditions d'utilisation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contactez-nous</h3>
+                    <p>123 Rue Exemple,<br>Casablanca, Maroc</p>
+                    <p>Email: contact@meublecuisine.ma<br>Téléphone: +212 5 00 00 00 00</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="current-year"></span> MeubleCuisine. Tous droits réservés.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="login-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Connexion</h3>
+                <button class="modal-close" aria-label="Fermer">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" class="form-control" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Mot de passe</label>
+                        <input type="password" class="form-control" id="login-password" required>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="login-remember">
+                        <label for="login-remember">Se souvenir de moi</label>
+                    </div>
+                    <a href="#" style="display: block; margin-top: 10px; text-align: right;">Mot de passe oublié ?</a>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline modal-close">Annuler</button>
+                <button type="submit" form="login-form" class="btn btn-primary" id="login-submit">Se connecter</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="register-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Créer un compte</h3>
+                <button class="modal-close" aria-label="Fermer">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-name">Nom complet</label>
+                        <input type="text" class="form-control" id="register-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" class="form-control" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Mot de passe</label>
+                        <input type="password" class="form-control" id="register-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password-confirm">Confirmer le mot de passe</label>
+                        <input type="password" class="form-control" id="register-password-confirm" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-phone">Téléphone</label>
+                        <input type="tel" class="form-control" id="register-phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-city">Ville</label>
+                        <input type="text" class="form-control" id="register-city">
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="register-newsletter">
+                        <label for="register-newsletter">Je souhaite recevoir les offres et nouveautés</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="register-terms" required>
+                        <label for="register-terms">J'accepte les <a href="#">conditions d'utilisation</a></label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline modal-close">Annuler</button>
+                <button type="submit" form="register-form" class="btn btn-primary" id="register-submit">S'inscrire</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Basic Modal Functionality
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+        const closeButtons = document.querySelectorAll('.modal-close');
+        const modalOverlays = document.querySelectorAll('.modal-overlay');
+
+        function openModal(modal) {
+            if (modal) modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modal) {
+            if (modal) modal.classList.remove('active');
+            if (!document.querySelector('.modal-overlay.active')) {
+                document.body.style.overflow = '';
+            }
+        }
+
+        loginBtn?.addEventListener('click', () => openModal(loginModal));
+        registerBtn?.addEventListener('click', () => openModal(registerModal));
+
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = button.closest('.modal-overlay');
+                closeModal(modal);
+            });
+        });
+
+        modalOverlays.forEach(overlay => {
+            overlay.addEventListener('click', (event) => {
+                if (event.target === overlay) {
+                    closeModal(overlay);
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                const activeModal = document.querySelector('.modal-overlay.active');
+                if (activeModal) {
+                    closeModal(activeModal);
+                }
+            }
+        });
+
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

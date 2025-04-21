@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Collections - MeubleCuisine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header (Copy from _header.html) -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">MeubleCuisine</a>
+                <div class="nav-links">
+                    <a href="index.html">Accueil</a>
+                    <a href="collections.html" class="active">Collections</a>
+                    <a href="a-propos.html">À propos</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" id="login-btn">Connexion</button>
+                    <button class="btn btn-primary" id="register-btn">Créer un compte</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <div class="container">
+                <h1 class="page-title">Nos Collections de Cuisines</h1>
+                <p class="text-center mb-20" style="max-width: 800px; margin: -20px auto 40px;">Découvrez nos différentes gammes de cuisines, conçues pour s'adapter à tous les styles et budgets.</p>
+
+                <!-- Section Moderne -->
+                <h2 class="section-title" id="moderne" style="margin-top: 40px;">Collection Moderne</h2>
+                <div class="cards-grid">
+                    <!-- Card 1 -->
+                    <div class="card">
+                         <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Moderne+Blanc" alt="Moderne Blanc"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Pureté Blanche</h3>
+                                <div class="card-meta"><span>Façades laquées brillantes</span><div class="rating">4.8 ★★★★★</div></div>
+                                <p class="card-description">Un design minimaliste avec des lignes épurées et une finition blanche éclatante.</p>
+                                <div class="card-price">À partir de 8700 DH</div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="card">
+                         <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Moderne+Bois" alt="Moderne Bois"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Chaleur Urbaine</h3>
+                                <div class="card-meta"><span>Mélaminé bois & noir mat</span><div class="rating">4.7 ★★★★★</div></div>
+                                <p class="card-description">Combinaison élégante de textures boisées et de noir mat pour un look sophistiqué.</p>
+                                <div class="card-price">À partir de 9100 DH</div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="card">
+                         <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Moderne+Gris" alt="Moderne Gris"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Élégance Grise</h3>
+                                <div class="card-meta"><span>Façades gris anthracite mat</span><div class="rating">4.9 ★★★★★</div></div>
+                                <p class="card-description">Un style contemporain affirmé avec des façades mates et des poignées intégrées.</p>
+                                <div class="card-price">À partir de 8950 DH</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Section Classique -->
+                <h2 class="section-title" id="classique" style="margin-top: 60px;">Collection Classique</h2>
+                 <div class="cards-grid">
+                     <!-- Card 1 -->
+                    <div class="card">
+                         <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Classique+Chêne" alt="Classique Chêne"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Charme Authentique</h3>
+                                <div class="card-meta"><span>Bois massif chêne</span><div class="rating">4.7 ★★★★★</div></div>
+                                <p class="card-description">La noblesse du bois massif pour une cuisine intemporelle et chaleureuse.</p>
+                                <div class="card-price">À partir de 10500 DH</div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="card">
+                         <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Classique+Campagne" alt="Classique Campagne"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Esprit Campagne Chic</h3>
+                                <div class="card-meta"><span>Façades à cadre, couleur crème</span><div class="rating">4.6 ★★★★☆</div></div>
+                                <p class="card-description">Une ambiance douce et accueillante avec des détails raffinés.</p>
+                                <div class="card-price">À partir de 9500 DH</div>
+                            </div>
+                        </a>
+                    </div>
+                 </div>
+
+                <!-- Section Scandinave -->
+                 <h2 class="section-title" id="scandinave" style="margin-top: 60px;">Collection Scandinave</h2>
+                 <div class="cards-grid">
+                     <!-- Card 1 -->
+                    <div class="card">
+                         <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Scandinave+BlancBois" alt="Scandinave Blanc et Bois"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Lumière Nordique</h3>
+                                <div class="card-meta"><span>Blanc mat & bois clair</span><div class="rating">4.9 ★★★★★</div></div>
+                                <p class="card-description">Alliance parfaite de la luminosité du blanc et de la chaleur du bois clair.</p>
+                                <div class="card-price">À partir de 7800 DH</div>
+                            </div>
+                        </a>
+                    </div>
+                     <!-- Card 2 -->
+                    <div class="card">
+                         <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Scandinave+Pastel" alt="Scandinave Pastel"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Douceur Pastel</h3>
+                                <div class="card-meta"><span>Façades colorées (bleu, vert)</span><div class="rating">4.8 ★★★★★</div></div>
+                                <p class="card-description">Touches de couleurs pastel pour une cuisine douce et fonctionnelle.</p>
+                                <div class="card-price">À partir de 8200 DH</div>
+                            </div>
+                        </a>
+                    </div>
+                 </div>
+
+                 <!-- Section Industrielle -->
+                 <h2 class="section-title" id="industrielle" style="margin-top: 60px;">Collection Industrielle</h2>
+                 <div class="cards-grid">
+                    <!-- Card 1 -->
+                    <div class="card">
+                         <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Industriel+MetalBois" alt="Industriel Métal et Bois"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Atelier Urbain</h3>
+                                <div class="card-meta"><span>Métal noir & bois brut</span><div class="rating">4.6 ★★★★☆</div></div>
+                                <p class="card-description">Un style loft affirmé avec des matériaux bruts et des lignes franches.</p>
+                                <div class="card-price">À partir de 8900 DH</div>
+                            </div>
+                        </a>
+                    </div>
+                     <!-- Card 2 -->
+                    <div class="card">
+                         <a href="#" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image"><img src="/api/placeholder/280/200?text=Industriel+Beton" alt="Industriel Béton"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Force Minérale</h3>
+                                <div class="card-meta"><span>Effet béton & inox</span><div class="rating">4.5 ★★★★☆</div></div>
+                                <p class="card-description">Caractère fort avec des finitions imitation béton et des touches d'inox.</p>
+                                <div class="card-price">À partir de 9300 DH</div>
+                            </div>
+                        </a>
+                    </div>
+                 </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (Copy from _footer.html) -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>MeubleCuisine</h3>
+                    <p>Solutions sur mesure pour la cuisine de vos rêves.</p>
+                     <div class="footer-social">
+                        <!-- Add social icons here if needed -->
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Navigation</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="collections.html">Collections</a></li>
+                        <li><a href="a-propos.html">À propos</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Informations</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Livraison & Installation</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                        <li><a href="#">Conditions d'utilisation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contactez-nous</h3>
+                    <p>123 Rue Exemple,<br>Casablanca, Maroc</p>
+                    <p>Email: contact@meublecuisine.ma<br>Téléphone: +212 5 00 00 00 00</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="current-year"></span> MeubleCuisine. Tous droits réservés.
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+
+    <!-- Modals (Copy from _modals.html) -->
+    <!-- Start of Modals -->
+    <!-- Modal d'inscription -->
+    <div class="modal-overlay" id="register-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Créer un compte</h3>
+                <button class="modal-close" aria-label="Fermer">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-name">Nom complet</label>
+                        <input type="text" class="form-control" id="register-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" class="form-control" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Mot de passe</label>
+                        <input type="password" class="form-control" id="register-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password-confirm">Confirmer le mot de passe</label>
+                        <input type="password" class="form-control" id="register-password-confirm" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-phone">Téléphone</label>
+                        <input type="tel" class="form-control" id="register-phone"> <!-- Optional -->
+                    </div>
+                    <div class="form-group">
+                        <label for="register-city">Ville</label>
+                        <input type="text" class="form-control" id="register-city"> <!-- Optional -->
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="register-newsletter">
+                        <label for="register-newsletter">Je souhaite recevoir les offres et nouveautés</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="register-terms" required>
+                        <label for="register-terms">J'accepte les <a href="#">conditions d'utilisation</a></label> <!-- Add link -->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline modal-close">Annuler</button>
+                <button type="submit" form="register-form" class="btn btn-primary" id="register-submit">S'inscrire</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de connexion -->
+    <div class="modal-overlay" id="login-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Connexion</h3>
+                <button class="modal-close" aria-label="Fermer">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" class="form-control" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Mot de passe</label>
+                        <input type="password" class="form-control" id="login-password" required>
+                    </div>
+                     <div class="form-check">
+                        <input type="checkbox" id="login-remember">
+                        <label for="login-remember">Se souvenir de moi</label>
+                    </div>
+                    <a href="#" style="display: block; margin-top: 10px; text-align: right;">Mot de passe oublié ?</a>
+                </form>
+            </div>
+            <div class="modal-footer">
+                 <button type="button" class="btn btn-outline modal-close">Annuler</button>
+                <button type="submit" form="login-form" class="btn btn-primary" id="login-submit">Se connecter</button>
+            </div>
+        </div>
+    </div>
+    <!-- End of Modals -->
+
+    <!-- Basic Modal & Footer JS -->
+    <script>
+        // Basic Modal Functionality (Same as index.html)
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+        const closeButtons = document.querySelectorAll('.modal-close');
+        const modalOverlays = document.querySelectorAll('.modal-overlay');
+
+        function openModal(modal) {
+            if (modal) modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modal) {
+            if (modal) modal.classList.remove('active');
+            if (!document.querySelector('.modal-overlay.active')) {
+                document.body.style.overflow = '';
+            }
+        }
+
+        loginBtn?.addEventListener('click', () => openModal(loginModal));
+        registerBtn?.addEventListener('click', () => openModal(registerModal));
+
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = button.closest('.modal-overlay');
+                closeModal(modal);
+            });
+        });
+
+        modalOverlays.forEach(overlay => {
+            overlay.addEventListener('click', (event) => {
+                if (event.target === overlay) {
+                    closeModal(overlay);
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                const activeModal = document.querySelector('.modal-overlay.active');
+                if (activeModal) {
+                    closeModal(activeModal);
+                }
+            }
+        });
+
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Active Nav Link Highlighting (Specific for collections.html)
+         const navLinks = document.querySelectorAll('.nav-links a');
+         navLinks.forEach(link => {
+             if (link.getAttribute('href') === 'collections.html') {
+                 link.classList.add('active');
+             } else {
+                 link.classList.remove('active');
+             }
+         });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeubleCuisine - Solutions pour votre cuisine</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Add link to FontAwesome if you use icons -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">MeubleCuisine</a>
+                <div class="nav-links">
+                    <a href="index.html" class="active">Accueil</a>
+                    <a href="collections.html">Collections</a>
+                    <a href="a-propos.html">À propos</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" id="login-btn">Devenir un Partenaire</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1>Créez la cuisine de vos rêves</h1>
+                <p>Des meubles de cuisine sur mesure, élégants et fonctionnels pour transformer votre espace.</p>
+                <div class="search-bar">
+                    <input type="text" placeholder="Que recherchez-vous ? (Ex: îlot central, style moderne...)">
+                    <button class="btn btn-primary">Rechercher</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section des collections populaires -->
+        <section>
+            <div class="container">
+                <h2 class="section-title">Nos collections populaires</h2>
+                <div class="cards-grid">
+                    <!-- Card 1 -->
+                    <div class="card">
+                         <a href="Colletion/collectionModerne.html" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image">
+                                <img src="/api/placeholder/280/200?text=Moderne" alt="Cuisine moderne">
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">Collection Moderne</h3>
+                                <div class="card-meta">
+                                    <span>Design épuré</span>
+                                    <div class="rating">4.8 ★★★★★</div>
+                                </div>
+                                <p class="card-description">Lignes épurées et finitions premium pour une cuisine contemporaine.</p>
+                                <div class="card-price">À partir de 8500 DH</div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="card">
+                         <a href="Colletion/CollectionClassique.html" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image">
+                                <img src="/api/placeholder/280/200?text=Classique" alt="Cuisine classique">
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">Collection Classique</h3>
+                                <div class="card-meta">
+                                    <span>Élégance intemporelle</span>
+                                    <div class="rating">4.7 ★★★★★</div>
+                                </div>
+                                <p class="card-description">Le charme traditionnel avec des finitions en bois noble.</p>
+                                <div class="card-price">À partir de 9200 DH</div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="card">
+                        <a href="Colletion/CollectionScandinave.html" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image">
+                                <img src="/api/placeholder/280/200?text=Scandinave" alt="Cuisine scandinave">
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">Collection Scandinave</h3>
+                                <div class="card-meta">
+                                    <span>Minimalisme fonctionnel</span>
+                                    <div class="rating">4.9 ★★★★★</div>
+                                </div>
+                                <p class="card-description">Design nordique alliant simplicité, fonctionnalité et chaleur.</p>
+                                <div class="card-price">À partir de 7800 DH</div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Card 4 -->
+                     <div class="card">
+                        <a href="Colletion/CollectionIndustrielle.html" class="card-link-wrapper" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-image">
+                                <img src="/api/placeholder/280/200?text=Industrielle" alt="Cuisine industrielle">
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">Collection Industrielle</h3>
+                                <div class="card-meta">
+                                    <span>Esprit loft</span>
+                                    <div class="rating">4.6 ★★★★☆</div>
+                                </div>
+                                <p class="card-description">Mélange de métal, bois et béton pour un style urbain affirmé.</p>
+                                <div class="card-price">À partir de 8900 DH</div>
+                            </div>
+                         </a>
+                    </div>
+                </div>
+                 <div class="text-center mt-40">
+                    <a href="collections.html" class="btn btn-primary">Voir toutes les collections</a>
+                </div>
+            </div>
+        </section>
+
+       
+
+        
+
+        <!-- Section Comment ça marche -->
+        <section style="background-color: white;">
+            <div class="container">
+                <h2 class="section-title">Notre démarche en 4 étapes</h2>
+                <div style="display: flex; gap: 30px; text-align: center; flex-wrap: wrap; justify-content: center;">
+                    <!-- Step 1 -->
+                    <div style="flex: 1; min-width: 200px;">
+                        <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 10px;">1</div>
+                        <h3>Consultation</h3>
+                        <p>Échange sur vos besoins, envies et prise de mesures.</p>
+                    </div>
+                     <!-- Step 2 -->
+                    <div style="flex: 1; min-width: 200px;">
+                        <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 10px;">2</div>
+                        <h3>Conception 3D</h3>
+                        <p>Visualisation de votre projet et choix des finitions.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div style="flex: 1; min-width: 200px;">
+                        <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 10px;">3</div>
+                        <h3>Fabrication</h3>
+                        <p>Production sur mesure dans nos ateliers.</p>
+                    </div>
+                     <!-- Step 4 -->
+                    <div style="flex: 1; min-width: 200px;">
+                        <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 10px;">4</div>
+                        <h3>Installation</h3>
+                        <p>Pose soignée par nos équipes qualifiées.</p>
+                    </div>
+                </div>
+            
+            </div>
+        </section>
+
+        <!-- Section Témoignages -->
+        <section class="testimonials">
+            <div class="container">
+                <h2 class="section-title">Ce que disent nos clients</h2>
+                <div class="testimonial-slider">
+                    <div class="testimonial-slide">
+                        <div class="testimonial-image">
+                            <img src="/api/placeholder/80/80?text=Client" alt="Client 1">
+                        </div>
+                        <blockquote class="testimonial-text">
+                            "Notre nouvelle cuisine est exactement comme nous l'avions imaginée. L'équipe a été professionnelle du début à la fin, et le résultat dépasse nos attentes. La qualité des matériaux est exceptionnelle et l'installation a été parfaite."
+                        </blockquote>
+                        <div class="testimonial-author">
+                            Fatima B. - Casablanca
+                        </div>
+                    </div>
+                    <!-- Add more slides here if implementing a slider -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>MeubleCuisine</h3>
+                    <p>Solutions sur mesure pour la cuisine de vos rêves.</p>
+                     <div class="footer-social">
+                        <!-- Add social icons here if needed -->
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Navigation</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="collections.html">Collections</a></li>
+                        <li><a href="a-propos.html">À propos</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Informations</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Livraison & Installation</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                        <li><a href="#">Conditions d'utilisation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contactez-nous</h3>
+                    <p>123 Rue Exemple,<br>Casablanca, Maroc</p>
+                    <p>Email: contact@meublecuisine.ma<br>Téléphone: +212 5 00 00 00 00</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="current-year"></span> MeubleCuisine. Tous droits réservés.
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+
+    <!-- Modals -->
+    <!-- (Copy the content of _modals.html here) -->
+    <!-- Start of Modals -->
+    <!-- Modal d'inscription -->
+    <div class="modal-overlay" id="register-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Créer un compte</h3>
+                <button class="modal-close" aria-label="Fermer">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-name">Nom complet</label>
+                        <input type="text" class="form-control" id="register-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" class="form-control" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Mot de passe</label>
+                        <input type="password" class="form-control" id="register-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password-confirm">Confirmer le mot de passe</label>
+                        <input type="password" class="form-control" id="register-password-confirm" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-phone">Téléphone</label>
+                        <input type="tel" class="form-control" id="register-phone"> <!-- Optional -->
+                    </div>
+                    <div class="form-group">
+                        <label for="register-city">Ville</label>
+                        <input type="text" class="form-control" id="register-city"> <!-- Optional -->
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="register-newsletter">
+                        <label for="register-newsletter">Je souhaite recevoir les offres et nouveautés</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="register-terms" required>
+                        <label for="register-terms">J'accepte les <a href="#">conditions d'utilisation</a></label> <!-- Add link -->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline modal-close">Annuler</button>
+                <button type="submit" form="register-form" class="btn btn-primary" id="register-submit">S'inscrire</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de connexion -->
+    <div class="modal-overlay" id="login-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Connexion</h3>
+                <button class="modal-close" aria-label="Fermer">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" class="form-control" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Mot de passe</label>
+                        <input type="password" class="form-control" id="login-password" required>
+                    </div>
+                     <div class="form-check">
+                        <input type="checkbox" id="login-remember">
+                        <label for="login-remember">Se souvenir de moi</label>
+                    </div>
+                    <a href="#" style="display: block; margin-top: 10px; text-align: right;">Mot de passe oublié ?</a>
+                </form>
+            </div>
+            <div class="modal-footer">
+                 <button type="button" class="btn btn-outline modal-close">Annuler</button>
+                <button type="submit" form="login-form" class="btn btn-primary" id="login-submit">Se connecter</button>
+            </div>
+        </div>
+    </div>
+    <!-- End of Modals -->
+
+    <!-- Basic Modal & Footer JS -->
+    <script>
+        // Basic Modal Functionality
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+        const closeButtons = document.querySelectorAll('.modal-close');
+        const modalOverlays = document.querySelectorAll('.modal-overlay');
+
+        function openModal(modal) {
+            if (modal) modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
+        }
+
+        function closeModal(modal) {
+            if (modal) modal.classList.remove('active');
+            // Check if any other modal is active before restoring scroll
+            if (!document.querySelector('.modal-overlay.active')) {
+                document.body.style.overflow = '';
+            }
+        }
+
+        loginBtn?.addEventListener('click', () => openModal(loginModal));
+        registerBtn?.addEventListener('click', () => openModal(registerModal));
+
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = button.closest('.modal-overlay');
+                closeModal(modal);
+            });
+        });
+
+        // Close modal if clicking on the overlay background
+        modalOverlays.forEach(overlay => {
+            overlay.addEventListener('click', (event) => {
+                if (event.target === overlay) {
+                    closeModal(overlay);
+                }
+            });
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                const activeModal = document.querySelector('.modal-overlay.active');
+                if (activeModal) {
+                    closeModal(activeModal);
+                }
+            }
+        });
+
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Active Nav Link Highlighting (Specific for index.html, simple version)
+         const navLinks = document.querySelectorAll('.nav-links a');
+         navLinks.forEach(link => {
+             // Check href against 'index.html' or being the root path (for deployment)
+             if (link.getAttribute('href') === 'index.html' || link.getAttribute('href') === './') {
+                 link.classList.add('active');
+             } else {
+                 link.classList.remove('active');
+             }
+         });
+
+    </script>
+    <!-- FontAwesome Script (Example - Add your kit or download) -->
+    <!-- <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script> -->
+
+
+</body>
+</html>

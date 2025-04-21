@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord Propriétaire | MeubleCuisine</title>
+    <!-- Lien vers votre fichier CSS externe principal -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        /* Styles SPÉCIFIQUES pour la page Tableau de Bord Propriétaire */
+
+        /* Sous-navigation spécifique au dashboard */
+        .dashboard-nav {
+            background-color: white;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .dashboard-nav .container {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        .dashboard-nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 10px 5px;
+            border-bottom: 3px solid transparent;
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .dashboard-nav a:hover {
+            color: var(--primary-color);
+        }
+        .dashboard-nav a.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        /* Section Statut du Compte & Stats */
+        .account-status-section {
+            background-color: white;
+            padding: 20px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap; /* Pour mobile */
+            gap: 15px;
+        }
+        .status-header h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+        .status-header .tier {
+             font-weight: bold;
+             color: var(--primary-color);
+        }
+        .status-header .create-link a { /* Style du lien "Créer une annonce" */
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+         .status-header .create-link a:hover {
+             text-decoration: underline;
+         }
+
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .stat-item {
+             padding: 15px;
+             border: 1px solid #eee;
+             border-radius: var(--border-radius);
+             background-color: #fcfcfc; /* Très léger fond */
+        }
+        .stat-item label {
+            display: block;
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .progress-bar-container {
+            background-color: #e9ecef;
+            border-radius: var(--border-radius);
+            height: 10px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        .progress-bar-fill {
+            background-color: var(--primary-color); /* Utilise la couleur primaire */
+            height: 100%;
+            border-radius: var(--border-radius);
+            transition: width 0.5s ease-out;
+        }
+         .stat-item .progress-bar-fill.high-usage { /* Ex: Couleur différente si proche de la limite */
+             background-color: var(--accent-color);
+         }
+        .stat-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #777;
+        }
+         .stat-details .value {
+             font-weight: 500;
+             color: var(--text-color);
+         }
+
+        /* Section Ventes Récentes (Adaptée) */
+        .recent-sales-section {
+            margin-bottom: 30px;
+        }
+        .sales-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .sales-header h2 {
+            margin: 0;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+        }
+         .sales-header .date-range {
+             font-size: 0.9rem;
+             color: #555;
+         }
+         .sales-header .analyze-link a {
+             color: var(--primary-color);
+             text-decoration: none;
+             font-size: 0.9rem;
+         }
+         .sales-header .analyze-link a:hover {
+              text-decoration: underline;
+          }
+
+        .sales-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* 4 boîtes */
+            gap: 20px;
+        }
+        .sales-summary-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+        .sales-summary-box .currency { /* Titre (ex: Ventes DH) */
+             font-size: 0.9rem;
+             color: #777;
+             margin-bottom: 10px;
+             display: block;
+             text-transform: uppercase;
+         }
+        .sales-summary-box .value { /* Nb ventes ou montant */
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 5px;
+        }
+        .sales-summary-box .label { /* "Produits vendus" ou "Gains Estimés" */
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        /* Section Contenu Principal (Produits et Messages côte à côte) */
+        .dashboard-main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* 2/3 pour produits, 1/3 pour messages */
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Section Produits Récents */
+        .recent-products-section,
+        .messages-section {
+            background-color: white;
+            padding: 20px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+        }
+         .section-header .action-link a {
+             color: var(--primary-color);
+             text-decoration: none;
+             font-size: 0.9rem;
+         }
+         .section-header .action-link a:hover {
+              text-decoration: underline;
+          }
+
+        .product-status-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .product-status-table th,
+        .product-status-table td {
+            padding: 10px 5px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .product-status-table th {
+            color: #777;
+            font-weight: 500;
+        }
+        .product-status-table td.product-thumb img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 3px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        .product-status-table td.product-title {
+            max-width: 250px; /* Limite largeur titre */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+         .product-status-table td.product-title a {
+              color: var(--text-color);
+              text-decoration: none;
+              font-weight: 500;
+         }
+        .product-status-table td.product-title a:hover {
+             color: var(--primary-color);
+        }
+        .product-status-table td.product-status span {
+            padding: 3px 8px;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+         .product-status-table td.product-status span.live {
+            background-color: var(--success);
+            color: white;
+         }
+        .product-status-table td.product-status span.pending {
+            background-color: var(--warning);
+            color: white;
+         }
+         .product-status-table td.product-status span.rejected {
+             background-color: var(--danger);
+             color: white;
+          }
+
+        /* Section Messages */
+        .message-list {
+            list-style: none;
+            padding: 0;
+        }
+        .message-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .message-item:last-child {
+            border-bottom: none;
+        }
+        .message-date {
+            font-size: 0.8rem;
+            color: #777;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .message-content {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+         .message-content a { /* Style des liens dans les messages */
+             color: var(--primary-color);
+         }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .dashboard-main-content {
+                grid-template-columns: 1fr; /* Stack columns */
+            }
+        }
+        @media (max-width: 768px) {
+             .dashboard-nav a {
+                 font-size: 0.9rem;
+                 padding: 8px 3px;
+                 gap: 15px;
+             }
+             .stats-grid {
+                 grid-template-columns: 1fr; /* Stack stats */
+             }
+             .sales-summary-grid {
+                 grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Allow 2 per row */
+             }
+             .account-status-section, .recent-products-section, .messages-section {
+                 padding: 15px;
+             }
+             .status-header h2, .section-header h2 {
+                  font-size: 1.1rem;
+             }
+             .product-status-table td.product-title {
+                  max-width: 150px;
+              }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">MeubleCuisine</a>
+                <div class="nav-links">
+                    <!-- Liens standard ou liens spécifiques si connecté en tant que propriétaire -->
+                    <a href="index.html">Accueil</a>
+                    <a href="collections.html">Collections</a>
+                    <a href="#">Mon Compte</a> <!-- Lien vers profil standard ou owner -->
+                    <a href="logout.php">Déconnexion</a> <!-- Lien de déconnexion -->
+                </div>
+                <!-- On peut cacher les boutons connexion/inscription ici si l'utilisateur est connecté -->
+                <!-- <div class="auth-buttons"> ... </div> -->
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sous-Navigation Dashboard -->
+    <div class="dashboard-nav">
+        <div class="container">
+            <a href="dashboard.html" class="active">Tableau de bord</a>
+            <a href="create.html">Créer</a> <!-- Lien vers page de création -->
+            <a href="manage.html">Gérer</a> <!-- Lien vers page de gestion -->
+            <a href="analyse.html">Analyser</a> <!-- Lien vers page d'analyse -->
+        </div>
+    </div>
+
+    <main>
+        <div class="container">
+
+            <!-- Statut du Compte et Stats -->
+            <section class="account-status-section">
+                <div class="status-header">
+                    <h2>Statut du compte : <span class="tier">Propriétaire Vérifié</span></h2> <!-- Ex: Statut vendeur -->
+                    <div class="create-link">
+                        <a href="create.html">Créer une nouvelle annonce</a>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <label>Annonces en attente</label>
+                        <div class="progress-bar-container">
+                            <!-- Width à calculer dynamiquement -->
+                            <div class="progress-bar-fill" style="width: 20%;"></div>
+                        </div>
+                        <div class="stat-details">
+                            <span class="value">2</span>
+                            <span>sur 10 max.</span>
+                            <span class="percentage">20%</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <label>Annonces publiées</label>
+                        <div class="progress-bar-container">
+                             <!-- Width à calculer dynamiquement -->
+                            <div class="progress-bar-fill" style="width: 65%;"></div>
+                        </div>
+                        <div class="stat-details">
+                             <span class="value">65</span>
+                             <span>sur 100 max.</span>
+                             <span class="percentage">65%</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                         <label>Limite d'annonces totales</label>
+                         <div class="progress-bar-container">
+                              <!-- Width à calculer dynamiquement -->
+                             <div class="progress-bar-fill high-usage" style="width: 88%;"></div>
+                         </div>
+                         <div class="stat-details">
+                              <span class="value">88</span>
+                              <span>sur 100 autorisées</span>
+                              <span class="percentage">88%</span>
+                         </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Ventes Récentes -->
+            <section class="recent-sales-section">
+                 <div class="sales-header">
+                    <h2>Ventes récentes</h2>
+                     <span class="date-range">Période : <strong>7 DERNIERS JOURS</strong></span>
+                    <div class="analyze-link">
+                         <a href="analyser-ventes.html">Analyser les ventes</a>
+                    </div>
+                 </div>
+                 <div class="sales-summary-grid">
+                     <div class="sales-summary-box">
+                         <span class="currency">Ventes (DH)</span>
+                         <span class="value">8</span>
+                         <span class="label">Produits vendus</span>
+                     </div>
+                      <div class="sales-summary-box">
+                         <span class="currency">Revenus (DH)</span>
+                         <span class="value">2506.00</span> <!-- Formaté avec . -->
+                         <span class="label">Gains estimés</span>
+                      </div>
+                     <div class="sales-summary-box">
+                          <span class="currency">Visites Annonces</span>
+                          <span class="value">1,254</span>
+                          <span class="label">Derniers 7 jours</span>
+                     </div>
+                     <div class="sales-summary-box">
+                          <span class="currency">Note Moyenne</span>
+                          <span class="value">4.8 ★</span>
+                          <span class="label">Sur vos produits</span>
+                     </div>
+                 </div>
+             </section>
+
+             <!-- Contenu Principal: Produits Récents & Messages -->
+            <section class="dashboard-main-content">
+                <!-- Produits Récents -->
+                <div class="recent-products-section">
+                    <div class="section-header">
+                         <h2>Statut récent des produits</h2>
+                         <div class="action-link"><a href="gerer-produits.html">Gérer les produits</a></div>
+                    </div>
+                    <table class="product-status-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Produit</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Lignes générées dynamiquement en PHP normalement -->
+                            <tr>
+                                <td class="product-thumb"><img src="/api/placeholder/40/40?text=P1" alt="Produit 1"></td>
+                                <td class="product-title"><a href="#">Îlot Central Chêne Massif</a></td>
+                                <td class="product-status"><span class="live">En ligne</span></td>
+                            </tr>
+                            <tr>
+                                <td class="product-thumb"><img src="/api/placeholder/40/40?text=P2" alt="Produit 2"></td>
+                                <td class="product-title"><a href="#">Étagère Murale Noyer Rustique</a></td>
+                                <td class="product-status"><span class="live">En ligne</span></td>
+                            </tr>
+                             <tr>
+                                 <td class="product-thumb"><img src="/api/placeholder/40/40?text=P3" alt="Produit 3"></td>
+                                 <td class="product-title"><a href="#">Tabouret de Bar Industriel Métal et Bois</a></td>
+                                 <td class="product-status"><span class="pending">En attente</span></td>
+                             </tr>
+                             <tr>
+                                 <td class="product-thumb"><img src="/api/placeholder/40/40?text=P4" alt="Produit 4"></td>
+                                 <td class="product-title"><a href="#">Crédence Verre Trempé Motif Géométrique</a></td>
+                                 <td class="product-status"><span class="rejected">Rejeté</span></td>
+                             </tr>
+                             <tr>
+                                 <td class="product-thumb"><img src="/api/placeholder/40/40?text=P5" alt="Produit 5"></td>
+                                 <td class="product-title"><a href="#">Meuble Haut Vitré LED Intégré</a></td>
+                                 <td class="product-status"><span class="live">En ligne</span></td>
+                             </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Messages -->
+                <div class="messages-section">
+                     <div class="section-header">
+                         <h2>Messages importants</h2>
+                         <!-- Pas de lien "Gérer" ici, juste une liste -->
+                     </div>
+                     <ul class="message-list">
+                         <li class="message-item">
+                            <span class="message-date">15/07/2024</span>
+                            <p class="message-content">Nouveau : Vous pouvez désormais proposer des options de personnalisation pour vos meubles. <a href="#">En savoir plus</a>.</p>
+                         </li>
+                          <li class="message-item">
+                            <span class="message-date">01/07/2024</span>
+                            <p class="message-content">Rappel : Mettez à jour vos informations de paiement avant le 10 Juillet pour recevoir vos gains.</p>
+                         </li>
+                         <li class="message-item">
+                             <span class="message-date">15/06/2024</span>
+                             <p class="message-content">Amélioration des outils d'analyse : découvrez les nouvelles métriques disponibles dans la section "Analyser".</p>
+                          </li>
+                     </ul>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column"> <h3>MeubleCuisine</h3> <p>Solutions sur mesure pour la cuisine de vos rêves. Qualité, design et fonctionnalité.</p> <div class="footer-social"></div> </div>
+                <div class="footer-column"> <h3>Navigation</h3> <ul class="footer-links"> <li><a href="index.html">Accueil</a></li> <li><a href="collections.html">Collections</a></li> <li><a href="#">Mon Compte</a></li> <li><a href="#">Mes Annonces</a></li> <li><a href="#">Mes Ventes</a></li> </ul> </div>
+                <div class="footer-column"> <h3>Aide & Support</h3> <ul class="footer-links"> <li><a href="#">FAQ Propriétaire</a></li> <li><a href="#">Règles de publication</a></li> <li><a href="#">Contacter le support</a></li> <li><a href="#">Conditions Propriétaire</a></li> </ul> </div>
+                <div class="footer-column"> <h3>Contactez-nous</h3> <p>Showroom: 123 Boulevard Anfa,<br>Casablanca, Maroc</p> <p>Email: contact@meublecuisine.ma<br>Téléphone: +212 5 00 00 00 00</p> </div>
+            </div>
+            <div class="footer-bottom"> © <span id="current-year"></span> MeubleCuisine. Tous droits réservés. </div>
+        </div>
+    </footer>
+
+    <!-- Modals (Peuvent être masqués ou adaptés si l'utilisateur est connecté) -->
+    <div class="modal-overlay" id="login-modal"> ... </div>
+    <div class="modal-overlay" id="register-modal"> ... </div>
+
+    <!-- Script standard -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Modal Functionality (si conservé) ---
+            const loginBtnHeader = document.getElementById('login-btn-header');
+            const registerBtnHeader = document.getElementById('register-btn-header');
+            const loginModal = document.getElementById('login-modal');
+            const registerModal = document.getElementById('register-modal');
+            const closeButtons = document.querySelectorAll('.modal-close');
+            const modalOverlays = document.querySelectorAll('.modal-overlay');
+            function openModal(modal) { if (modal) modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+            function closeModal(modal) { if (modal) modal.classList.remove('active'); if (!document.querySelector('.modal-overlay.active')) { document.body.style.overflow = ''; } }
+            loginBtnHeader?.addEventListener('click', (e) => { e.preventDefault(); openModal(loginModal); });
+            registerBtnHeader?.addEventListener('click', (e) => { e.preventDefault(); openModal(registerModal); });
+            closeButtons.forEach(button => { button.addEventListener('click', () => { closeModal(button.closest('.modal-overlay')); }); });
+            modalOverlays.forEach(overlay => { overlay.addEventListener('click', (event) => { if (event.target === overlay) { closeModal(overlay); } }); });
+            document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { const activeModal = document.querySelector('.modal-overlay.active'); if (activeModal) { closeModal(activeModal); } } });
+
+            // --- Footer Year ---
+            const currentYearSpan = document.getElementById('current-year');
+            if(currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
+
+            // --- Logique spécifique au dashboard (Ex: animation barres, etc.) peut être ajoutée ici ---
+
+        });
+    </script>
+</body>
+</html>
