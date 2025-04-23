@@ -5,22 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Log; // Ajouter pour logging éventuel
-use Illuminate\Support\Facades\Storage; // Pour suppression CIN
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage; // Reste utile pour supprimer CIN
 
 class AdminUserController extends Controller
 {
     /**
-     * Affiche la liste des utilisateurs avec filtres et pagination.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\View\View
+     * Affiche la liste des utilisateurs.
      */
     public function index(Request $request)
     {
         $query = User::query();
 
-        // Recherche par nom, prénom ou email
+        // Filtre Recherche
         if ($request->filled('search')) {
             $searchTerm = $request->input('search');
             $query->where(function ($q) use ($searchTerm) {
@@ -30,170 +27,110 @@ class AdminUserController extends Controller
             });
         }
 
-        // Ordonner
+        // TODO: Ajouter filtres RÃ´le, Statut CIN (basÃ© sur role/fichiers)
+
         $query->latest('created_at');
-
-        // Paginer
         $users = $query->paginate(15)->withQueryString();
-
-        // NOTE: Les filtres 'status' et 'cin_status' ont été retirés de la vue
-        // car les colonnes correspondantes n'existent pas.
 
         return view('admin.users.index', compact('users'));
     }
 
     /**
-     * Approuve un utilisateur (PLACEHOLDER LOGIC).
-     * La vraie logique dépendra de ce que "approuvé" signifie (email vérifié, rôle, etc.).
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\RedirectResponse
+     * Approuve un utilisateur (Action Symbolique ou LiÃ©e Ã  Autre Logique).
      */
     public function approve(User $user)
     {
-        // TODO: Implémenter la vraie logique d'approbation.
-        // Exemple Placeholder: Si l'utilisateur a un rôle spécifique 'pending_approval', le changer.
-        // if($user->role === 'pending_approval') {
-        //    $user->role = 'client'; // Ou 'proprietaire' selon le cas
-        //    $user->save();
-        //    return redirect()->back()->with('success', "Utilisateur {$user->nom} approuvé.");
-        // }
-        // Autre exemple: Marquer email comme vérifié (si MustVerifyEmail est utilisé)
-        // if (!$user->hasVerifiedEmail()) {
-        //     $user->markEmailAsVerified();
-        //     return redirect()->back()->with('success', "Email de {$user->nom} marqué comme vérifié.");
-        // }
+        // Sans colonne dÃ©diÃ©e, cette action est limitÃ©e.
+        // Option 1: Juste un log et un message.
+        Log::info("Action 'Approuver' cliquÃ©e pour l'utilisateur ID: {$user->id} (pas de changement de statut direct).");
+        // Option 2: Si vous rÃ©activez email_verified_at dans la migration utilisateurs:
+        // if (!$user->hasVerifiedEmail()) { $user->markEmailAsVerified(); }
+        // Option 3: Si vous avez un rÃ´le 'pending_approval'
+        // if ($user->role === 'pending_approval') { $user->update(['role' => 'client']); }
 
-        Log::info("Tentative d'approbation (logique placeholder) pour l'utilisateur ID: {$user->id}");
-        return redirect()->back()->with('info', "Action 'Approuver' pour {$user->nom} : Logique à définir.");
+        return redirect()->back()->with('info', "Action 'Approuver' enregistrÃ©e pour {$user->nom}. Aucune colonne de statut direct Ã  mettre Ã  jour.");
     }
 
     /**
-     * Rejette un utilisateur (PLACEHOLDER LOGIC).
-     * La vraie logique dépendra de ce que "rejeté" signifie (suppression, rôle, etc.).
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\RedirectResponse
+     * Rejette un utilisateur (Suppression - Attention!).
      */
     public function reject(User $user)
     {
-        // TODO: Implémenter la vraie logique de rejet.
-        // Exemple Placeholder: Assigner un rôle 'rejected' (à ajouter aux rôles possibles).
-        // $user->role = 'rejected';
-        // $user->save();
-        // return redirect()->back()->with('success', "Utilisateur {$user->nom} marqué comme rejeté.");
-        // Autre exemple: Supprimer l'utilisateur (ATTENTION: irréversible)
-        // $user->delete();
-        // return redirect()->back()->with('success', "Utilisateur {$user->nom} supprimé.");
-
-        Log::info("Tentative de rejet (logique placeholder) pour l'utilisateur ID: {$user->id}");
-        return redirect()->back()->with('info', "Action 'Rejeter' pour {$user->nom} : Logique à définir.");
+        // ATTENTION: Ceci supprime l'utilisateur et potentiellement ses donnÃ©es liÃ©es.
+        // Envisagez Soft Deletes sur le modÃ¨le User si vous voulez pouvoir restaurer.
+        $userName = $user->full_name;
+        try {
+            $user->delete();
+            Log::info("Utilisateur ID: {$user->id} ($userName) rejetÃ© (supprimÃ©).");
+            return redirect()->route('admin.users.index')->with('success', "Utilisateur {$userName} rejetÃ© et supprimÃ©.");
+        } catch (\Exception $e) {
+            Log::error("Erreur lors de la suppression de l'utilisateur ID: {$user->id} - " . $e->getMessage());
+            return redirect()->back()->with('error', "Impossible de rejeter/supprimer l'utilisateur. VÃ©rifier les dÃ©pendances.");
+        }
     }
 
-    /**
-     * Bloque un utilisateur (PLACEHOLDER LOGIC).
-     * La vraie logique nécessitera probablement une colonne 'blocked_at'.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function block(User $user)
-    {
-        // TODO: Implémenter la vraie logique de blocage (ex: ajout colonne 'blocked_at').
-        // Exemple: $user->update(['blocked_at' => now()]); -> nécessite migration
-        // return redirect()->back()->with('success', "Utilisateur {$user->nom} bloqué.");
-
-        // Placeholder: Changer le rôle (si un rôle 'blocked' existe)
-        // $user->role = 'blocked';
-        // $user->save();
-        // return redirect()->back()->with('success', "Utilisateur {$user->nom} marqué comme bloqué (via rôle).");
-
-        Log::info("Tentative de blocage (logique placeholder) pour l'utilisateur ID: {$user->id}");
-        return redirect()->back()->with('info', "Action 'Bloquer' pour {$user->nom} : Logique à définir.");
-    }
+    // !! MÃ‰THODES block() ET unblock() RETIRÃ‰ES !!
 
     /**
-     * Débloque un utilisateur (PLACEHOLDER LOGIC).
-     * La vraie logique nécessitera probablement une colonne 'blocked_at'.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function unblock(User $user)
-    {
-        // TODO: Implémenter la vraie logique de déblocage (ex: mettre 'blocked_at' à null).
-        // Exemple: $user->update(['blocked_at' => null]); -> nécessite migration
-        // return redirect()->back()->with('success', "Utilisateur {$user->nom} débloqué.");
-
-        // Placeholder: Remettre un rôle actif si l'utilisateur était bloqué via rôle
-        // if($user->role === 'blocked') {
-        //    $user->role = 'client'; // Ou 'proprietaire'
-        //    $user->save();
-        //    return redirect()->back()->with('success', "Utilisateur {$user->nom} débloqué (via rôle).");
-        // }
-
-        Log::info("Tentative de déblocage (logique placeholder) pour l'utilisateur ID: {$user->id}");
-        return redirect()->back()->with('info', "Action 'Débloquer' pour {$user->nom} : Logique à définir.");
-    }
-
-    /**
-     * Affiche la page/interface de vérification de la CIN.
-     * (La logique de base pour vérifier si les fichiers existent est OK)
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     * Affiche la page/interface de vÃ©rification de la CIN.
      */
     public function showVerifyCinForm(User $user)
     {
-        if (!$user->cin_recto || !$user->cin_verso) {
-             return redirect()->route('admin.users.index')->with('error', "Les images CIN recto et verso doivent être présentes pour la vérification.");
+        if (empty($user->cin_recto) || empty($user->cin_verso)) {
+             return redirect()->route('admin.users.index')->with('error', "Les images CIN recto et verso doivent Ãªtre prÃ©sentes pour la vÃ©rification.");
         }
-
-        // TODO: Créer la vue 'admin.users.verify_cin'
-        // Cette vue devrait afficher $user->nom, $user->prenom, $user->email
-        // et les images $user->cin_recto, $user->cin_verso (via Storage::url())
-        // et contenir deux boutons/formulaires postant vers admin.users.approve_cin et admin.users.reject_cin
-
-        // return view('admin.users.verify_cin', compact('user'));
-
-        // Placeholder actuel
-         Log::info("Affichage formulaire vérification CIN (page non implémentée) pour user ID: {$user->id}");
-         return redirect()->route('admin.users.index')->with('info', "La page de vérification CIN pour {$user->nom} n'est pas encore implémentée.");
+        // Si l'utilisateur est dÃ©jÃ  propriÃ©taire, on considÃ¨re vÃ©rifiÃ©
+         if ($user->isCinConsideredVerified()) {
+             return redirect()->route('admin.users.index')->with('info', "La CIN de {$user->nom} est dÃ©jÃ  considÃ©rÃ©e comme vÃ©rifiÃ©e (rÃ´le PropriÃ©taire).");
+         }
+        // CrÃ©er la vue: resources/views/admin/users/verify_cin.blade.php
+        return view('admin.users.verify_cin', compact('user'));
     }
 
     /**
-     * Approuve la CIN d'un utilisateur (PLACEHOLDER LOGIC).
-     * Nécessite probablement une colonne 'cin_verified_at'.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\RedirectResponse
+     * Approuve la CIN d'un utilisateur (Change le rÃ´le en 'proprietaire').
      */
     public function approveCin(User $user) {
-        // TODO: Implémenter la vraie logique (ex: ajout colonne 'cin_verified_at').
-        // Exemple: $user->update(['cin_verified_at' => now()]); -> nécessite migration
-        // return redirect()->route('admin.users.index')->with('success', "CIN de {$user->nom} approuvée.");
-
-        Log::info("Tentative d'approbation CIN (logique placeholder) pour user ID: {$user->id}");
-        return redirect()->route('admin.users.index')->with('info', "Action 'Approuver CIN' pour {$user->nom} : Logique à définir.");
+        if ($user->role !== 'proprietaire') {
+            // Mettre Ã  jour le rÃ´le pour indiquer que la CIN est approuvÃ©e
+            $user->update(['role' => 'proprietaire']);
+            Log::info("CIN pour Utilisateur ID: {$user->id} approuvÃ©e (rÃ´le mis Ã  'proprietaire').");
+            // TODO: Notifier l'utilisateur
+            return redirect()->route('admin.users.index')->with('success', "CIN de {$user->nom} approuvÃ©e (rÃ´le mis Ã  jour).");
+        }
+        return redirect()->route('admin.users.index')->with('info', "L'utilisateur {$user->nom} a dÃ©jÃ  le rÃ´le PropriÃ©taire.");
     }
 
     /**
-     * Rejette la CIN d'un utilisateur (PLACEHOLDER LOGIC).
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\RedirectResponse
+     * Rejette la CIN d'un utilisateur (Supprime les fichiers CIN).
+     * Pas de stockage de raison.
      */
-    public function rejectCin(User $user) {
-         // TODO: Implémenter la vraie logique.
-         // Mettre à jour un statut? Supprimer les images? Mettre cin_verified_at à null?
-         // Exemple: $user->update(['cin_verified_at' => null, 'cin_rejection_reason' => 'Motif...']); -> nécessite migrations
-         // Optionnel: Supprimer les fichiers
-         // if ($user->cin_recto) Storage::disk('public')->delete($user->cin_recto);
-         // if ($user->cin_verso) Storage::disk('public')->delete($user->cin_verso);
-         // $user->update(['cin_recto' => null, 'cin_verso' => null]);
-         // return redirect()->route('admin.users.index')->with('success', "CIN de {$user->nom} rejetée.");
+    public function rejectCin(Request $request, User $user) { // Request n'est plus vraiment utile ici
+         // On ne peut pas stocker la raison.
+         // L'action la plus logique est de supprimer les fichiers pour que l'utilisateur doive les re-uploader.
+         $deleted = false;
+         if ($user->cin_recto) {
+             Storage::disk('public')->delete($user->cin_recto);
+             $deleted = true;
+         }
+         if ($user->cin_verso) {
+             Storage::disk('public')->delete($user->cin_verso);
+             $deleted = true;
+         }
 
-        Log::info("Tentative de rejet CIN (logique placeholder) pour user ID: {$user->id}");
-        return redirect()->route('admin.users.index')->with('info', "Action 'Rejeter CIN' pour {$user->nom} : Logique à définir.");
+         if ($deleted) {
+             $user->update([
+                 'cin_recto' => null,
+                 'cin_verso' => null,
+                 // S'assurer que le rÃ´le n'est pas proprietaire si on rejette
+                 'role' => $user->role === 'proprietaire' ? 'client' : $user->role
+             ]);
+             Log::info("CIN pour Utilisateur ID: {$user->id} rejetÃ©e (fichiers supprimÃ©s, rÃ´le vÃ©rifiÃ©).");
+            // TODO: Notifier l'utilisateur qu'il doit re-soumettre ses documents
+             return redirect()->route('admin.users.index')->with('success', "CIN de {$user->nom} rejetÃ©e (fichiers supprimÃ©s). L'utilisateur devra les soumettre Ã  nouveau.");
+         } else {
+              Log::warning("Tentative de rejet CIN pour Utilisateur ID: {$user->id} mais aucun fichier Ã  supprimer.");
+              return redirect()->route('admin.users.index')->with('info', "Aucun fichier CIN Ã  rejeter pour {$user->nom}.");
+         }
     }
 }

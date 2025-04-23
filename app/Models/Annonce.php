@@ -11,11 +11,12 @@ class Annonce extends Model
 
     protected $table = 'annonces';
 
+    // !! $fillable ne contient PAS rejection_reason !!
     protected $fillable = [
         'date_publication',
         'date_debut',
         'date_fin',
-        'statut',
+        'statut', // Assurez-vous que 'archived' est une valeur possible
         'premium',
         'adresse',
         'objet_id',
@@ -29,71 +30,30 @@ class Annonce extends Model
         'date_fin' => 'date',
     ];
 
-    // --- Relations ---
+    // --- Relations (inchangÃ©es) ---
+    public function objet() { return $this->belongsTo(Objet::class); }
+    public function proprietaire() { return $this->belongsTo(User::class, 'proprietaire_id'); }
+    public function user() { return $this->belongsTo(User::class, 'proprietaire_id'); } // Alias
+    public function reservations() { return $this->hasMany(Reservation::class); }
+    public function notifications() { return $this->hasMany(AppNotification::class); }
 
-    public function objet()
-    {
-        return $this->belongsTo(Objet::class);
+    // --- Accessors (inchangÃ©s, sauf thumbnail adaptÃ© si besoin) ---
+    public function getThumbnailAttribute() {
+        // Assurez-vous que la relation et l'accessor public_url existent dans Image.php
+        return $this->objet?->images?->first()?->public_url ?? asset('images/placeholder.jpg');
+    }
+    public function getTitleAttribute() { return $this->objet->nom ?? 'Titre non disponible'; }
+    public function getPriceAttribute() { return $this->objet->prix_journalier ?? 0; }
+    public function getCategoryAttribute() { return $this->objet?->categorie; } // AccÃ©der Ã  l'objet Categorie
+
+    // Helper pour le statut lisible (inchangÃ©)
+    public function getStatutLabelAttribute(): string {
+        $labels = [ 'pending' => 'En attente', 'active' => 'En ligne', 'rejected' => 'RejetÃ©e', 'draft' => 'Brouillon', 'archived' => 'ArchivÃ©e'];
+        return $labels[$this->statut] ?? ucfirst($this->statut ?? 'Inconnu');
     }
 
-    // Correction: Relation vers le modèle User (qui gère la table utilisateurs)
-    public function proprietaire()
-    {
-        return $this->belongsTo(User::class, 'proprietaire_id'); // ÉTAIT: Utilisateur
+     // Helper pour la classe CSS du statut (inchangÃ©)
+    public function getStatutClassAttribute(): string {
+        return \Illuminate\Support\Str::slug($this->statut ?? 'unknown');
     }
-
-    public function reservations()
-    {
-        return $this->hasMany(Reservation::class);
-    }
-
-    // Correction: Relation vers le modèle de notification renommé (si renommé)
-    public function notifications()
-    {
-        // Utiliser AppNotification si vous renommez le modèle Notification
-        return $this->hasMany(AppNotification::class); // OU AppNotification::class
-    }
-
-    // Ajout: Accessor pour une miniature (si nécessaire pour la vue admin/annonces)
-    // Suppose que l'objet lié a des images. Prend la première image.
-    public function getThumbnailAttribute()
-    {
-        // Vérifie si l'objet et la relation images existent et ne sont pas vides
-        if ($this->objet && $this->objet->images()->exists()) {
-            // Prend l'URL de la première image ou null si aucune image
-            return $this->objet->images->first()->url ?? null;
-        }
-        return null; // Pas d'objet ou pas d'images
-    }
-
-    // Ajout: Accessor pour le titre (si le titre est sur l'objet)
-    public function getTitleAttribute() {
-        return $this->objet->nom ?? 'Titre non disponible';
-    }
-
-    // Ajout: Accessor pour le prix (si le prix est sur l'objet)
-     public function getPriceAttribute() {
-        return $this->objet->prix_journalier ?? 0;
-    }
-
-     // Ajout: Relation pour la catégorie via l'objet
-     public function category() {
-         // Utilise la relation 'objet' puis la relation 'categorie' de l'objet
-         // Requires the 'objet' relationship to be defined correctly
-         // with `belongsTo(Objet::class)` and Objet model having `belongsTo(Categorie::class)`
-         // Use `with('objet.categorie')` for eager loading to avoid N+1 issues.
-         // Note: This doesn't work directly as a simple relationship for filtering/sorting easily.
-         // It's mainly for accessing the category name from an Annonce instance: $annonce->category->nom
-         // For querying/filtering, joins are usually better (as done in AdminStatsController).
-         // A more direct way if needed often is to query through the Objet model.
-         // However, accessing it directly can be convenient:
-         return $this->objet->categorie(); // Returns the BelongsTo relationship instance
-     }
-
-     // Relation vers l'utilisateur (alternative à 'proprietaire' pour correspondre à la vue)
-      public function user()
-     {
-         return $this->belongsTo(User::class, 'proprietaire_id');
-     }
-
 }
