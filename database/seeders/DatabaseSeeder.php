@@ -7,6 +7,7 @@ use App\Models\Admin; // Ajouter pour seeder Admin
 use App\Models\Categorie; // Ajouter pour seeder Catégories
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash; // Importer Hash
+use Database\Seeders\UserSeeder; // Ajouter pour seeder User
 
 class DatabaseSeeder extends Seeder
 {
@@ -46,6 +47,10 @@ class DatabaseSeeder extends Seeder
         // 4. Optionnel: Créer des utilisateurs factices via la factory
         // User::factory(10)->create();
 
+        // Ajout du UserSeeder dans le DatabaseSeeder
+        $this->call([
+            UserSeeder::class,
+        ]);
 
         // Vous pouvez appeler d'autres seeders spécifiques ici si vous en créez
         // $this->call([

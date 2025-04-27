@@ -103,6 +103,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(functi
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
     Route::patch('/users/{user}/approve', [AdminUserController::class, 'approve'])->name('users.approve'); // Action symbolique ou logique spécifique
     Route::patch('/users/{user}/reject', [AdminUserController::class, 'reject'])->name('users.reject'); // Supprime l'utilisateur
+    Route::patch('/users/{user}/archive', [AdminUserController::class, 'archive'])->name('users.archive');
+    Route::patch('/users/{user}/restore', [AdminUserController::class, 'restore'])->name('users.restore');
     Route::get('/users/{user}/verify-cin', [AdminUserController::class, 'showVerifyCinForm'])->name('users.verify_cin');
     Route::patch('/users/{user}/approve-cin', [AdminUserController::class, 'approveCin'])->name('users.approve_cin'); // Change rôle en 'proprietaire'
     Route::patch('/users/{user}/reject-cin', [AdminUserController::class, 'rejectCin'])->name('users.reject_cin'); // Supprime les fichiers CIN

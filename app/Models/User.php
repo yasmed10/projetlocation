@@ -23,6 +23,7 @@ class User extends Authenticatable
         'image_profile',
         'cin_recto',
         'cin_verso',
+        'archived_at'
     ];
 
     protected $hidden = [
@@ -32,6 +33,7 @@ class User extends Authenticatable
     // !! $casts ne contient PAS les dates correspondantes !!
     protected $casts = [
         'mot_de_passe' => 'hashed',
+        'archived_at' => 'datetime'
     ];
 
     // --- Relations (inchangÃ©es) ---
