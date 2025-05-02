@@ -1,0 +1,531 @@
+<!--
+rappel_evaluation.html
+
+Contenu: Formulaire d'évaluation pour le client
+Variables: nom du client, nom de l'objet, dates de location, lien vers le formulaire
+Envoyé: Par l'agent après la fin de la location
+
+
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Évaluez votre expérience de location</title>
+    <style>
+        /* Variables de couleurs et styles */
+        :root {
+            --primary-color: #7E57C2;
+            --primary-light: #F6F2FF;
+            --primary-dark: #4D2C91;
+            --accent-color: #FF9800;
+            --accent-light: #FFE0B2;
+            --gray-light: #F5F7FA;
+            --gray-medium: #E4E9F0;
+            --text-dark: #374151;
+            --text-medium: #6B7280;
+            --text-light: #FFFFFF;
+            --success-color: #10B981;
+            --error-color: #EF4444;
+            --border-radius: 12px;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        /* Reset et styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #F3F4F6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #FFFFFF;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* En-tête avec design moderne */
+        .header {
+            background-color: var(--primary-color);
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            max-width: 150px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-light);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header p {
+            margin: 10px 0 0;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 24px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%23ffffff'/%3E%3C/svg%3E");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        
+        /* Contenu principal */
+        .content {
+            padding: 35px;
+        }
+        
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 25px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        
+        .intro-message {
+            margin-bottom: 30px;
+            font-size: 16px;
+            color: var(--text-medium);
+        }
+        
+        /* Carte d'objet */
+        .item-card {
+            background-color: var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--gray-medium);
+        }
+        
+        .item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .item-details {
+            flex: 1;
+        }
+        
+        .item-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+        
+        .item-dates {
+            font-size: 14px;
+            color: var(--text-medium);
+        }
+        
+        /* Section d'évaluation */
+        .rating-section {
+            background-color: #FFFFFF;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-medium);
+            text-align: center;
+        }
+        
+        .rating-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+        
+        .rating-description {
+            color: var(--text-medium);
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+        
+        .stars-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .star {
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 14px 30px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 16px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .cta-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Points clés */
+        .benefits {
+            margin: 40px 0;
+        }
+        
+        .benefits-title {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .benefit-row {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .benefit-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .benefit-content {
+            flex: 1;
+        }
+        
+        .benefit-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+        
+        .benefit-description {
+            color: var(--text-medium);
+            font-size: 14px;
+        }
+        
+        /* Section bonus d'évaluation */
+        .reward-section {
+            background-color: var(--accent-light);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin: 40px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .reward-section::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 80px;
+            height: 80px;
+            background-color: var(--accent-color);
+            opacity: 0.2;
+            border-radius: 50%;
+        }
+        
+        .reward-section::after {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            width: 120px;
+            height: 120px;
+            background-color: var(--accent-color);
+            opacity: 0.1;
+            border-radius: 50%;
+        }
+        
+        .reward-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .reward-description {
+            position: relative;
+            z-index: 1;
+            color: var(--text-dark);
+        }
+        
+        /* Section rappel avec délai */
+        .reminder {
+            background-color: #FFFFFF;
+            border: 1px solid var(--gray-medium);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .reminder-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+        
+        .countdown {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 15px 0;
+            letter-spacing: 1px;
+        }
+        
+        /* Pied de page */
+        .footer {
+            background-color: var(--gray-light);
+            padding: 30px;
+            text-align: center;
+            color: var(--text-medium);
+            font-size: 14px;
+            border-top: 1px solid var(--gray-medium);
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-link {
+            display: inline-block;
+            margin: 0 8px;
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 16px;
+        }
+        
+        .social-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .footer p {
+            margin: 8px 0;
+        }
+        
+        .footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        
+        /* Styles Responsive */
+        @media screen and (max-width: 600px) {
+            .email-container {
+                width: 100%;
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .item-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .item-image {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .star {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+            
+            .benefit-row {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+            
+            .benefit-icon {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <img src="https://via.placeholder.com/150x50" alt="Logo" class="logo">
+            <h1>Partagez votre expérience !</h1>
+            <p>Votre avis compte pour notre communauté</p>
+            <div class="wave"></div>
+        </div>
+        
+        <div class="content">
+            <p class="greeting">Bonjour {{ nom_client }},</p>
+            
+            <p class="intro-message">Nous espérons que votre expérience de location s'est bien déroulée. Votre avis est précieux pour nous et aide d'autres utilisateurs à faire des choix éclairés. Pourriez-vous prendre quelques instants pour évaluer votre expérience ?</p>
+            
+            <div class="item-card">
+                <img src="{{ image_objet }}" alt="{{ nom_objet }}" class="item-image">
+                <div class="item-details">
+                    <div class="item-name">{{ nom_objet }}</div>
+                    <div class="item-dates">Location du {{ date_debut }} au {{ date_fin }}</div>
+                </div>
+            </div>
+            
+            <div class="rating-section">
+                <h2 class="rating-title">Comment s'est passée votre location ?</h2>
+                <p class="rating-description">Évaluez votre expérience globale avec ce partenaire et cet objet</p>
+                
+                <div class="stars-container">
+                    <div class="star">★</div>
+                    <div class="star">★</div>
+                    <div class="star">★</div>
+                    <div class="star">★</div>
+                    <div class="star">★</div>
+                </div>
+                
+                <a href="{{ lien_formulaire }}" class="cta-button">Donner mon avis complet</a>
+            </div>
+            
+            <div class="benefits">
+                <h3 class="benefits-title">Pourquoi votre avis est important</h3>
+                
+                <div class="benefit-row">
+                    <div class="benefit-icon">👥</div>
+                    <div class="benefit-content">
+                        <div class="benefit-title">Aidez la communauté</div>
+                        <p class="benefit-description">Votre avis permet à d'autres utilisateurs de faire des choix éclairés pour leurs prochaines locations.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-row">
+                    <div class="benefit-icon">💬</div>
+                    <div class="benefit-content">
+                        <div class="benefit-title">Retour constructif</div>
+                        <p class="benefit-description">Votre feedback aide les partenaires à améliorer leurs services et la qualité des objets proposés.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-row">
+                    <div class="benefit-icon">⭐</div>
+                    <div class="benefit-content">
+                        <div class="benefit-title">Reconnaissance</div>
+                        <p class="benefit-description">Valorisez les bonnes pratiques et encouragez les partenaires qui offrent un service de qualité.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="reward-section">
+                <h3 class="reward-title">Un petit bonus pour vous remercier !</h3>
+                <p class="reward-description">En remplissant votre évaluation, vous obtiendrez <strong>5% de réduction</strong> sur votre prochaine location !</p>
+            </div>
+            
+            <div class="reminder">
+                <div class="reminder-title">N'attendez pas trop longtemps !</div>
+                <p>Votre évaluation est disponible pendant:</p>
+                <div class="countdown">7 jours</div>
+                <p>après la fin de votre location.</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="social-links">
+                <a href="#" class="social-link">f</a>
+                <a href="#" class="social-link">t</a>
+                <a href="#" class="social-link">in</a>
+                <a href="#" class="social-link">i</a>
+            </div>
+            <p>© 2025 Service de Location. Tous droits réservés.</p>
+            <p>Pour toute question, contactez-nous à <a href="mailto:support@location.com">support@location.com</a></p>
+            <p><a href="#">Gérer mes préférences</a> | <a href="#">Conditions générales</a> | <a href="#">Politique de confidentialité</a></p>
+        </div>
+    </div>
+</body>
+</html>

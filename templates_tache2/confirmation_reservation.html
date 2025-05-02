@@ -1,0 +1,329 @@
+<!--
+Contenu: Confirmation de la réservation avec détails de l'objet, dates de location, prix total
+Variables: nom du client, nom de l'objet, dates de location, prix, coordonnées du partenaire
+Envoyé: Après la confirmation de la réservation par l'agent -->
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de votre réservation</title>
+    <style>
+        /* Styles généraux */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* En-tête */
+        .header {
+            background-color: #4A6FA5;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .logo {
+            max-width: 150px;
+            margin-bottom: 10px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        /* Contenu */
+        .content {
+            padding: 30px;
+        }
+        
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .confirmation-message {
+            background-color: #E8F4FE;
+            border-left: 4px solid #4A6FA5;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .reservation-details {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .reservation-details h2 {
+            color: #4A6FA5;
+            margin-top: 0;
+            font-size: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .detail-row {
+            display: flex;
+            margin-bottom: 12px;
+        }
+        
+        .detail-label {
+            width: 40%;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .detail-value {
+            width: 60%;
+        }
+        
+        .price-total {
+            background-color: #F0F7FF;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            text-align: right;
+        }
+        
+        .price-label {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .price-value {
+            font-weight: 700;
+            font-size: 20px;
+            color: #4A6FA5;
+            margin-left: 10px;
+        }
+        
+        .partner-info {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .partner-info h2 {
+            color: #4A6FA5;
+            margin-top: 0;
+            font-size: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .cta-button {
+            display: block;
+            background-color: #4A6FA5;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 30px auto;
+            width: 80%;
+            transition: background-color 0.3s;
+        }
+        
+        .cta-button:hover {
+            background-color: #3d5d8a;
+        }
+        
+        .additional-info {
+            border-top: 1px solid #e0e0e0;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        
+        .additional-info h3 {
+            color: #4A6FA5;
+            font-size: 18px;
+        }
+        
+        /* Pied de page */
+        .footer {
+            background-color: #f3f3f3;
+            padding: 20px;
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .social-links {
+            margin: 15px 0;
+        }
+        
+        .social-link {
+            display: inline-block;
+            margin: 0 8px;
+            width: 32px;
+            height: 32px;
+            background-color: #4A6FA5;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer p {
+            margin: 5px 0;
+        }
+
+        /* Image de l'objet */
+        .item-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+        
+        /* Styles Responsive */
+        @media screen and (max-width: 600px) {
+            .email-container {
+                width: 100%;
+                border-radius: 0;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .detail-row {
+                flex-direction: column;
+            }
+            
+            .detail-label, .detail-value {
+                width: 100%;
+            }
+            
+            .detail-label {
+                margin-bottom: 4px;
+            }
+            
+            .cta-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <img src="https://via.placeholder.com/150x50" alt="Logo" class="logo">
+            <h1>Confirmation de réservation</h1>
+        </div>
+        
+        <div class="content">
+            <p class="greeting">Bonjour {{ nom_client }},</p>
+            
+            <div class="confirmation-message">
+                <p>Nous avons le plaisir de vous confirmer que votre réservation a été acceptée et est maintenant enregistrée dans notre système.</p>
+            </div>
+            
+            <div class="reservation-details">
+                <h2>Détails de votre réservation</h2>
+                
+                <img src="{{ image_objet }}" alt="{{ nom_objet }}" class="item-image">
+                
+                <div class="detail-row">
+                    <div class="detail-label">Objet réservé:</div>
+                    <div class="detail-value">{{ nom_objet }}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Date de début:</div>
+                    <div class="detail-value">{{ date_debut }}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Date de fin:</div>
+                    <div class="detail-value">{{ date_fin }}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Durée:</div>
+                    <div class="detail-value">{{ duree_location }} jours</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Prix par jour:</div>
+                    <div class="detail-value">{{ prix_jour }} €</div>
+                </div>
+                
+                <div class="price-total">
+                    <span class="price-label">Prix total:</span>
+                    <span class="price-value">{{ prix_total }} €</span>
+                </div>
+            </div>
+            
+            <div class="partner-info">
+                <h2>Coordonnées du partenaire</h2>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Nom:</div>
+                    <div class="detail-value">{{ nom_partenaire }}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Téléphone:</div>
+                    <div class="detail-value">{{ telephone_partenaire }}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Email:</div>
+                    <div class="detail-value">{{ email_partenaire }}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Adresse:</div>
+                    <div class="detail-value">{{ adresse_partenaire }}</div>
+                </div>
+            </div>
+            
+            <a href="{{ lien_reservation }}" class="cta-button">Voir ma réservation</a>
+            
+            <div class="additional-info">
+                <h3>Informations importantes</h3>
+                <p>Pour toute question concernant votre réservation, n'hésitez pas à contacter directement le partenaire ou notre service client à <a href="mailto:support@location.com">support@location.com</a>.</p>
+                <p>Veuillez noter que l'annulation d'une réservation est possible jusqu'à 48 heures avant la date de début de la location.</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="social-links">
+                <a href="#" class="social-link">F</a>
+                <a href="#" class="social-link">T</a>
+                <a href="#" class="social-link">I</a>
+            </div>
+            <p>© 2025 Service de Location. Tous droits réservés.</p>
+            <p>Vous recevez cet email car vous avez effectué une réservation sur notre plateforme.</p>
+            <p><a href="#">Gérer mes préférences de notification</a> | <a href="#">Politique de confidentialité</a></p>
+        </div>
+    </div>
+</body>
+</html>

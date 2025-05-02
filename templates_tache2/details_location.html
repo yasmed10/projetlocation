@@ -1,0 +1,685 @@
+<!--
+details_location.html
+Contenu: Informations complètes sur la location après confirmation
+Variables: détails personnels du client, détails du partenaire, modalités de la location
+Envoyé: Par l'agent après confirmation de la réservation
+-->
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de votre location</title>
+    <style>
+        /* Styles généraux */
+        :root {
+            --primary-color: #34495e;
+            --secondary-color: #3498db;
+            --accent-color: #2ecc71;
+            --light-bg: #f5f7fa;
+            --dark-text: #2c3e50;
+            --light-text: #ecf0f1;
+            --border-radius: 10px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        body {
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .email-container {
+            max-width: 650px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+        
+        /* En-tête avec gradient */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--light-text);
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-color), var(--secondary-color), var(--primary-color));
+        }
+        
+        .logo {
+            max-width: 160px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header p {
+            margin: 10px 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        /* Contenu */
+        .content {
+            padding: 35px;
+        }
+        
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .intro-message {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            font-size: 16px;
+        }
+        
+        .section {
+            background-color: #ffffff;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .section-title {
+            position: relative;
+            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 22px;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+        
+        .section-icon {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .detail-row {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .detail-label {
+            width: 40%;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .detail-value {
+            width: 60%;
+        }
+        
+        /* Section objet réservé */
+        .item-container {
+            display: flex;
+            margin-bottom: 20px;
+            background-color: var(--light-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        
+        .item-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .item-details {
+            padding: 15px;
+            flex: 1;
+        }
+        
+        .item-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .item-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .item-category {
+            display: inline-block;
+            background-color: rgba(52, 152, 219, 0.2);
+            color: var(--secondary-color);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        /* Modalités */
+        .modality-card {
+            background-color: var(--light-bg);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .modality-icon {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            width: 24px;
+            height: 24px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            color: white;
+            text-align: center;
+            line-height: 24px;
+            font-size: 14px;
+        }
+        
+        .modality-title {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: var(--primary-color);
+        }
+        
+        /* Prix */
+        .price-container {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: right;
+            margin-top: 20px;
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .price-row:last-child {
+            margin-bottom: 0;
+            padding-top: 10px;
+            border-top: 1px dashed #ccc;
+        }
+        
+        .price-label {
+            font-weight: 500;
+        }
+        
+        .price-total {
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--primary-color);
+        }
+        
+        /* Map section */
+        .map-container {
+            height: 200px;
+            background-color: #e9ecef;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .map-pin {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            background-color: var(--secondary-color);
+            border-radius: 50% 50% 50% 0;
+            transform: translate(-50%, -100%) rotate(-45deg);
+        }
+        
+        .map-pin::after {
+            content: "";
+            width: 14px;
+            height: 14px;
+            background-color: white;
+            position: absolute;
+            border-radius: 50%;
+            top: 8px;
+            left: 8px;
+        }
+        
+        .address {
+            background-color: #ffffff;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* Boutons */
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            text-align: center;
+            padding: 14px 30px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+            box-shadow: 0 4px 6px rgba(46, 204, 113, 0.3);
+        }
+        
+        .cta-button:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(46, 204, 113, 0.4);
+        }
+        
+        .secondary-button {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+            text-align: center;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+        
+        .secondary-button:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        /* Notes et informations supplémentaires */
+        .info-box {
+            background-color: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .info-box h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+            font-size: 18px;
+        }
+        
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Pied de page */
+        .footer {
+            background-color: var(--primary-color);
+            padding: 25px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-link {
+            display: inline-block;
+            margin: 0 10px;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-link:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .footer p {
+            margin: 8px 0;
+        }
+        
+        .footer a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(255, 255, 255, 0.5);
+            transition: all 0.3s;
+        }
+        
+        .footer a:hover {
+            color: white;
+            border-bottom-color: white;
+        }
+        
+        /* Notification block */
+        .notification {
+            background-color: #fffbed;
+            border: 1px solid #f8e3ac;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #ffc107;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-content p {
+            margin: 0;
+        }
+        
+        /* Styles Responsive */
+        @media screen and (max-width: 650px) {
+            .email-container {
+                width: 100%;
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .detail-row {
+                flex-direction: column;
+            }
+            
+            .detail-label, .detail-value {
+                width: 100%;
+            }
+            
+            .detail-label {
+                margin-bottom: 5px;
+            }
+            
+            .button-container {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .cta-button, .secondary-button {
+                display: block;
+                margin: 0 0 15px 0;
+            }
+            
+            .item-container {
+                flex-direction: column;
+            }
+            
+            .item-image {
+                width: 100%;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <img src="https://via.placeholder.com/160x60" alt="Logo" class="logo">
+            <h1>Détails de votre location</h1>
+            <p>Informations complètes sur votre réservation #{{ numero_reservation }}</p>
+        </div>
+        
+        <div class="content">
+            <p class="greeting">Bonjour {{ nom_client }},</p>
+            
+            <div class="intro-message">
+                <p>Nous sommes ravis de vous confirmer les détails de votre location. Voici toutes les informations dont vous aurez besoin pour assurer une expérience sans souci.</p>
+            </div>
+            
+            <!-- Section Objet -->
+            <div class="section">
+                <h2 class="section-title"><span class="section-icon">📦</span>Objet réservé</h2>
+                
+                <div class="item-container">
+                    <img src="{{ image_objet }}" alt="{{ nom_objet }}" class="item-image">
+                    <div class="item-details">
+                        <h3 class="item-name">{{ nom_objet }}</h3>
+                        <p class="item-description">{{ description_objet }}</p>
+                        <span class="item-category">{{ categorie_objet }}</span>
+                    </div>
+                </div>
+                
+                <div class="price-container">
+                    <div class="price-row">
+                        <span class="price-label">Prix par jour:</span>
+                        <span>{{ prix_jour }} €</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-label">Durée de location:</span>
+                        <span>{{ duree_location }} jours</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-label">Prix total:</span>
+                        <span class="price-total">{{ prix_total }} €</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section Dates & Modalités -->
+            <div class="section">
+                <h2 class="section-title"><span class="section-icon">📅</span>Dates & Modalités</h2>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Date de début:</div>
+                    <div class="detail-value">{{ date_debut }}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Date de fin:</div>
+                    <div class="detail-value">{{ date_fin }}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">État de l'objet:</div>
+                    <div class="detail-value">{{ etat_objet }}</div>
+                </div>
+                
+                <h3 style="margin-top: 25px; color: var(--primary-color);">Modalités importantes</h3>
+                
+                <div class="modality-card">
+                    <div class="modality-icon">1</div>
+                    <h4 class="modality-title">Prise en charge de l'objet</h4>
+                    <p>{{ modalite_prise_en_charge }}</p>
+                </div>
+                
+                <div class="modality-card">
+                    <div class="modality-icon">2</div>
+                    <h4 class="modality-title">Utilisation</h4>
+                    <p>{{ modalite_utilisation }}</p>
+                </div>
+                
+                <div class="modality-card">
+                    <div class="modality-icon">3</div>
+                    <h4 class="modality-title">Retour</h4>
+                    <p>{{ modalite_retour }}</p>
+                </div>
+            </div>
+            
+            <!-- Section Partenaire -->
+            <div class="section">
+                <h2 class="section-title"><span class="section-icon">👤</span>Coordonnées du partenaire</h2>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Nom:</div>
+                    <div class="detail-value">{{ nom_partenaire }}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Téléphone:</div>
+                    <div class="detail-value">{{ telephone_partenaire }}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Email:</div>
+                    <div class="detail-value">{{ email_partenaire }}</div>
+                </div>
+                
+                <h3 style="margin-top: 25px; color: var(--primary-color);">Lieu de rencontre</h3>
+                
+                <div class="map-container">
+                    <img src="https://via.placeholder.com/600x200" alt="Carte" class="map-placeholder">
+                    <div class="map-pin"></div>
+                </div>
+                
+                <div class="address">
+                    {{ adresse_complete_partenaire }}
+                </div>
+            </div>
+            
+            <!-- Section Client -->
+            <div class="section">
+                <h2 class="section-title"><span class="section-icon">🧑</span>Vos informations</h2>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Nom:</div>
+                    <div class="detail-value">{{ nom_client }}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Téléphone:</div>
+                    <div class="detail-value">{{ telephone_client }}</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Email:</div>
+                    <div class="detail-value">{{ email_client }}</div>
+                </div>
+            </div>
+            
+            <div class="notification">
+                <div class="notification-icon">!</div>
+                <div class="notification-content">
+                    <p>Pour toute modification de votre réservation, veuillez contacter notre service client au moins 48h à l'avance.</p>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <h3>Bon à savoir</h3>
+                <p>Pensez à vérifier l'état de l'objet au moment de la prise en charge et de signaler immédiatement tout problème au partenaire.</p>
+                <p>À la fin de la location, vous recevrez une invitation à évaluer votre expérience et le partenaire.</p>
+            </div>
+            
+            <div class="button-container">
+                <a href="{{ lien_reservation }}" class="cta-button">Voir ma réservation</a>
+                <a href="{{ lien_contact }}" class="secondary-button">Contacter le support</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="social-links">
+                <a href="#" class="social-link">F</a>
+                <a href="#" class="social-link">T</a>
+                <a href="#" class="social-link">I</a>
+                <a href="#" class="social-link">Y</a>
+            </div>
+            <p>© 2025 Service de Location. Tous droits réservés.</p>
+            <p>Pour toute question, contactez-nous à <a href="mailto:support@location.com">support@location.com</a></p>
+            <p><a href="#">Gérer mes préférences</a> | <a href="#">Conditions générales</a> | <a href="#">Politique de confidentialité</a></p>
+        </div>
+    </div>
+</body>
+</html>

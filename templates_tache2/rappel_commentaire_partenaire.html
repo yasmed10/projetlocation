@@ -1,0 +1,710 @@
+<!--rappel_commentaire_partenaire.html
+
+Contenu: Demande de commentaire sur le client et la location
+Variables: nom du partenaire, nom du client, détails de l'objet loué, lien vers le formulaire
+Envoyé: Par l'agent après la fin de la location
+
+
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demande de commentaire | RentEasy</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3a36e0;
+            --primary-light: #6e6aff;
+            --primary-dark: #2a26b0;
+            --secondary: #ff7043;
+            --secondary-light: #ffa270;
+            --accent: #00c2cb;
+            --light-bg: #f8f9fd;
+            --white: #ffffff;
+            --dark: #2d3748;
+            --gray-text: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --box-shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .app-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 25px 0;
+            position: relative;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 12px;
+            font-size: 32px;
+            background: rgba(255, 255, 255, 0.2);
+            height: 50px;
+            width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+        
+        .card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--dark);
+            text-align: center;
+            position: relative;
+            padding-bottom: 12px;
+        }
+        
+        .page-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        .card-body {
+            padding: 30px;
+        }
+        
+        .info-section {
+            margin-bottom: 28px;
+        }
+        
+        .info-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+        }
+        
+        .info-title i {
+            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-light);
+            color: white;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .info-content {
+            background-color: var(--light-bg);
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary);
+            box-shadow: var(--box-shadow-sm);
+        }
+        
+        .location-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            font-size: 14px;
+            color: var(--gray-text);
+            margin-bottom: 4px;
+        }
+        
+        .detail-value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        @media (max-width: 600px) {
+            .location-details {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+            box-shadow: 0 4px 6px rgba(255, 112, 67, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(255, 112, 67, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn-large {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .rating {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 25px;
+        }
+        
+        .stars {
+            display: flex;
+            margin: 15px 0;
+            justify-content: center;
+        }
+        
+        .stars i {
+            color: #d1d5db;
+            font-size: 36px;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .stars i:hover {
+            transform: scale(1.1);
+        }
+        
+        .stars i.active {
+            color: var(--warning);
+        }
+        
+        textarea, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            resize: vertical;
+            min-height: 150px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: var(--white);
+        }
+        
+        select {
+            min-height: auto;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2364748b' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+        }
+        
+        textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(106, 106, 255, 0.2);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--gray-text);
+            font-size: 14px;
+        }
+        
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            border-left: 4px solid;
+            background-color: rgba(0, 194, 203, 0.1);
+            border-color: var(--accent);
+            color: var(--dark);
+        }
+        
+        .alert i {
+            font-size: 20px;
+            margin-right: 12px;
+            color: var(--accent);
+        }
+        
+        .deadline {
+            font-weight: 700;
+            color: var(--danger);
+        }
+        
+        /* Custom radio buttons for object state */
+        .radio-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .radio-option {
+            position: relative;
+        }
+        
+        .radio-option input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .radio-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .radio-option input:checked + label {
+            border-color: var(--primary);
+            background-color: rgba(106, 106, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(106, 106, 255, 0.2);
+        }
+        
+        .radio-option i {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .perfect-icon { color: var(--success); }
+        .good-icon { color: #22c55e; }
+        .acceptable-icon { color: var(--warning); }
+        .damaged-icon { color: #fb923c; }
+        .broken-icon { color: var(--danger); }
+        
+        /* Progress bar */
+        .progress-container {
+            margin-bottom: 30px;
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+        
+        .step:not(:last-child):after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            width: 100%;
+            height: 3px;
+            background-color: var(--gray-light);
+            z-index: 1;
+        }
+        
+        .step.active:not(:last-child):after {
+            background-color: var(--primary);
+        }
+        
+        .step-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: var(--gray-light);
+            color: var(--gray-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step.active .step-icon {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 14px;
+            color: var(--gray-text);
+            font-weight: 500;
+        }
+        
+        .step.active .step-label {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        /* Client avatar */
+        .client-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .client-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-weight: 600;
+            font-size: 24px;
+        }
+        
+        .client-details {
+            flex: 1;
+        }
+        
+        .client-name {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 3px;
+            color: var(--dark);
+        }
+        
+        .client-email {
+            color: var(--gray-text);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-box-open"></i>
+                    RentEasy
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1 class="page-title">Évaluation de location</h1>
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="progress-container">
+                    <div class="progress-steps">
+                        <div class="step active">
+                            <div class="step-icon">1</div>
+                            <div class="step-label">Location terminée</div>
+                        </div>
+                        <div class="step active">
+                            <div class="step-icon">2</div>
+                            <div class="step-label">Évaluation</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">3</div>
+                            <div class="step-label">Confirmation</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert">
+                    <i class="fas fa-info-circle"></i>
+                    <div>Votre avis est important ! Vous avez jusqu'au <span class="deadline">{{date_limite}}</span> pour partager votre expérience.</div>
+                </div>
+                
+                <div class="info-section">
+                    <div class="info-title">
+                        <i class="fas fa-user"></i> Informations client
+                    </div>
+                    <div class="info-content client-info">
+                        <div class="client-avatar">
+                            {{initiales_client}}
+                        </div>
+                        <div class="client-details">
+                            <div class="client-name">{{nom_client}}</div>
+                            <div class="client-email">{{email_client}}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <div class="info-title">
+                        <i class="fas fa-box"></i> Détails de la location
+                    </div>
+                    <div class="info-content">
+                        <div class="location-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Objet</span>
+                                <span class="detail-value">{{nom_objet}}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Catégorie</span>
+                                <span class="detail-value">{{categorie_objet}}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Début de location</span>
+                                <span class="detail-value">{{date_debut}}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Fin de location</span>
+                                <span class="detail-value">{{date_fin}}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Durée</span>
+                                <span class="detail-value">{{duree_location}}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Prix total</span>
+                                <span class="detail-value">{{prix_total}}€</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <form id="commentForm">
+                    <div class="rating">
+                        <div class="info-title" style="justify-content: center;">
+                            <i class="fas fa-star"></i> Comment évaluez-vous cette expérience ?
+                        </div>
+                        <div class="stars" id="ratingStars">
+                            <i class="far fa-star" data-value="1"></i>
+                            <i class="far fa-star" data-value="2"></i>
+                            <i class="far fa-star" data-value="3"></i>
+                            <i class="far fa-star" data-value="4"></i>
+                            <i class="far fa-star" data-value="5"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="info-title">
+                            <i class="fas fa-comment-alt"></i> Votre commentaire
+                        </div>
+                        <textarea placeholder="Partagez votre expérience avec ce client et cette location..." required></textarea>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="info-title">
+                            <i class="fas fa-tools"></i> État de l'objet après la location
+                        </div>
+                        <div class="radio-options">
+                            <div class="radio-option">
+                                <input type="radio" name="object_state" id="perfect" value="perfect">
+                                <label for="perfect">
+                                    <i class="fas fa-check-circle perfect-icon"></i>
+                                    Parfait état
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="object_state" id="good" value="good">
+                                <label for="good">
+                                    <i class="fas fa-thumbs-up good-icon"></i>
+                                    Bon état
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="object_state" id="acceptable" value="acceptable">
+                                <label for="acceptable">
+                                    <i class="fas fa-meh acceptable-icon"></i>
+                                    État acceptable
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="object_state" id="damaged" value="damaged">
+                                <label for="damaged">
+                                    <i class="fas fa-exclamation-triangle damaged-icon"></i>
+                                    Légèrement endommagé
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="object_state" id="broken" value="broken">
+                                <label for="broken">
+                                    <i class="fas fa-times-circle broken-icon"></i>
+                                    Endommagé
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-large">
+                        <i class="fas fa-paper-plane"></i> Soumettre mon évaluation
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 RentEasy - Tous droits réservés</p>
+            <p>Une question ? <a href="mailto:support@renteasy.fr">Contactez notre support</a></p>
+        </div>
+    </div>
+    
+    <script>
+        // Rating stars functionality
+        const stars = document.querySelectorAll('#ratingStars i');
+        
+        stars.forEach(star => {
+            star.addEventListener('mouseover', function() {
+                const value = this.getAttribute('data-value');
+                
+                stars.forEach(s => {
+                    const sValue = s.getAttribute('data-value');
+                    if (sValue <= value) {
+                        s.classList.remove('far');
+                        s.classList.add('fas', 'active');
+                    } else {
+                        s.classList.remove('fas', 'active');
+                        s.classList.add('far');
+                    }
+                });
+            });
+            
+            star.addEventListener('click', function() {
+                const value = this.getAttribute('data-value');
+                document.getElementById('ratingValue').value = value;
+                
+                stars.forEach(s => {
+                    const sValue = s.getAttribute('data-value');
+                    if (sValue <= value) {
+                        s.classList.remove('far');
+                        s.classList.add('fas', 'active');
+                    } else {
+                        s.classList.remove('fas', 'active');
+                        s.classList.add('far');
+                    }
+                });
+            });
+        });
+        
+        // Reset stars when mouse leaves the rating area
+        document.getElementById('ratingStars').addEventListener('mouseleave', function() {
+            const currentRating = document.getElementById('ratingValue')?.value || 0;
+            
+            stars.forEach(s => {
+                const sValue = s.getAttribute('data-value');
+                if (sValue <= currentRating) {
+                    s.classList.remove('far');
+                    s.classList.add('fas', 'active');
+                } else {
+                    s.classList.remove('fas', 'active');
+                    s.classList.add('far');
+                }
+            });
+        });
+        
+        // Add hidden input for rating value
+        const form = document.getElementById('commentForm');
+        const ratingInput = document.createElement('input');
+        ratingInput.type = 'hidden';
+        ratingInput.id = 'ratingValue';
+        ratingInput.name = 'rating';
+        form.appendChild(ratingInput);
+        
+        // Form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would handle the form submission with AJAX
+            alert('Merci pour votre évaluation ! Votre commentaire a été soumis avec succès.');
+            // Redirect or show success message
+        });
+    </script>
+</body>
+</html>
